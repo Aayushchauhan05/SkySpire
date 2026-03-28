@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { CaretLeft, CaretRight, User, Fire, Sparkle, Gear, BellRinging, Question, BookmarkSimple, TrendUp } from 'phosphor-react-native';
+import { useAppStore } from '../store/useAppStore';
 
 const Colors = {
   mainBg: '#110E1A',
@@ -11,12 +12,18 @@ const Colors = {
   secondaryAccent: '#9B8AF4', // Soft Purple
   amber: '#FFB800',
   error: '#FF5C7A',
+  cyan: '#00E5FF',
+  white: '#FFFFFF',
   primaryText: '#F0EEF8',
   secondaryText: '#8E88B0',
+  textMuted: '#8E88B0',
 };
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState('PROGRESS');
+  
+  const { name, targetLanguage, streakDays, xp } = useAppStore();
 
   const BADGES = [
     { id: 1, title: 'Early Bird', unlocked: true, icon: TrendUp },
@@ -47,81 +54,182 @@ export default function ProfileScreen() {
                <User size={40} color={Colors.primaryAccent} weight="duotone" />
             </View>
             <View style={styles.userInfo}>
-               <Text style={styles.userName}>Guest User</Text>
-               <Text style={styles.userLang}>Learning Spanish</Text>
+               <Text style={styles.userName}>{name}</Text>
+               <Text style={styles.userLang}>Learning {targetLanguage}</Text>
             </View>
           </View>
 
           <View style={styles.statsRow}>
              <View style={styles.statBox}>
                 <Fire size={24} color={Colors.amber} weight="fill" />
-                <Text style={styles.statNumber}>12</Text>
+                <Text style={styles.statNumber}>{streakDays}</Text>
                 <Text style={styles.statLabel}>Day Streak</Text>
              </View>
              <View style={styles.statDivider} />
              <View style={styles.statBox}>
                 <Sparkle size={24} color={Colors.primaryAccent} weight="fill" />
-                <Text style={styles.statNumber}>450</Text>
+                <Text style={styles.statNumber}>{xp}</Text>
                 <Text style={styles.statLabel}>Total XP</Text>
              </View>
           </View>
         </View>
 
-        {/* Badges Section */}
-        <View style={styles.sectionHeaderWrap}>
-           <Text style={styles.sectionTitle}>Your Badges</Text>
-           <Text style={styles.viewAllText}>View All</Text>
+        {/* Tabs */}
+        <View style={styles.tabsContainer}>
+          {['PROGRESS', 'COLLECTION', 'TOOLS', 'SETTINGS'].map((tab) => (
+             <TouchableOpacity 
+               key={tab} 
+               style={[styles.profileTab, activeTab === tab && styles.profileTabActive]}
+               onPress={() => setActiveTab(tab)}
+             >
+               <Text style={[styles.profileTabText, activeTab === tab && styles.profileTabTextActive]}>{tab}</Text>
+             </TouchableOpacity>
+          ))}
         </View>
-        
-        <View style={styles.badgesGrid}>
-           {BADGES.map(badge => {
-             const Icon = badge.icon;
-             return (
-               <View key={badge.id} style={[styles.badgeItem, !badge.unlocked && styles.badgeItemLocked]}>
-                 <View style={[styles.badgeIconWrap, { backgroundColor: badge.unlocked ? 'rgba(255, 138, 102, 0.15)' : Colors.elevatedSurface }]}>
-                    <Icon size={32} color={badge.unlocked ? Colors.primaryAccent : Colors.secondaryText} weight={badge.unlocked ? "duotone" : "regular"} />
+
+        {activeTab === 'PROGRESS' && (
+          <View>
+            <View style={styles.sectionHeaderWrap}>
+              <Text style={styles.sectionTitle}>Activity Heatmap</Text>
+            </View>
+            <View style={styles.heatmapCard}>
+               {/* 7 columns, 4 rows dummy heatmap */}
+               {Array.from({length: 4}).map((_, rowIndex) => (
+                 <View key={rowIndex} style={styles.heatmapRow}>
+                   {Array.from({length: 7}).map((_, colIndex) => {
+                     const intensity = Math.random();
+                     return (
+                       <View 
+                         key={colIndex} 
+                         style={[styles.heatmapSquare, intensity > 0.7 ? {backgroundColor: Colors.primaryAccent} : intensity > 0.3 ? {backgroundColor: 'rgba(255, 138, 102, 0.4)'} : null]} 
+                       />
+                     );
+                   })}
                  </View>
-                 <Text style={[styles.badgeTitle, !badge.unlocked && { color: Colors.secondaryText }]}>{badge.title}</Text>
-               </View>
-             )
-           })}
-        </View>
+               ))}
+               <Text style={{color: Colors.textMuted, fontSize: 13, marginTop: 12}}>{streakDays} Day Streak • {xp} XP Globally</Text>
+            </View>
 
-        {/* Settings Links */}
-        <View style={styles.settingsGroup}>
-           <TouchableOpacity style={styles.settingsRow}>
-              <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(155, 138, 244, 0.1)' }]}>
-                 <BookmarkSimple size={24} color={Colors.secondaryAccent} />
-              </View>
-              <Text style={styles.settingsLabel}>Saved Words</Text>
-              <CaretRight size={20} color={Colors.secondaryText} />
-           </TouchableOpacity>
+            <View style={styles.sectionHeaderWrap}>
+              <Text style={styles.sectionTitle}>Weekly Challenge</Text>
+            </View>
+            <TouchableOpacity style={styles.challengeCard}>
+                <View style={[styles.avatarBox, {width: 48, height: 48, backgroundColor: 'rgba(255,184,0,0.2)'}]}>
+                   <TrendUp size={24} color={Colors.amber} />
+                </View>
+                <View style={{flex: 1, marginLeft: 16}}>
+                   <Text style={[styles.sectionTitle, {color: Colors.white, marginBottom: 4}]}>Master 20 Verbs</Text>
+                   <Text style={{color: Colors.textMuted, fontSize: 13}}>Ends in 2 days. 15/20 completed.</Text>
+                </View>
+            </TouchableOpacity>
+          </View>
+        )}
 
-           <View style={styles.settingsDivider} />
+        {activeTab === 'COLLECTION' && (
+          <View>
+            <View style={styles.sectionHeaderWrap}>
+               <Text style={styles.sectionTitle}>Your Badges</Text>
+               <Text style={styles.viewAllText}>View All</Text>
+            </View>
+            
+            <View style={styles.badgesGrid}>
+               {BADGES.map(badge => {
+                 const Icon = badge.icon;
+                 return (
+                   <View key={badge.id} style={[styles.badgeItem, !badge.unlocked && styles.badgeItemLocked]}>
+                     <View style={[styles.badgeIconWrap, { backgroundColor: badge.unlocked ? 'rgba(255, 138, 102, 0.15)' : Colors.elevatedSurface }]}>
+                        <Icon size={32} color={badge.unlocked ? Colors.primaryAccent : Colors.secondaryText} weight={badge.unlocked ? "duotone" : "regular"} />
+                     </View>
+                     <Text style={[styles.badgeTitle, !badge.unlocked && { color: Colors.secondaryText }]}>{badge.title}</Text>
+                   </View>
+                 )
+               })}
+            </View>
 
-           <TouchableOpacity style={styles.settingsRow}>
-              <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(255, 184, 0, 0.1)' }]}>
-                 <BellRinging size={24} color={Colors.amber} />
-              </View>
-              <Text style={styles.settingsLabel}>Notifications</Text>
-              <CaretRight size={20} color={Colors.secondaryText} />
-           </TouchableOpacity>
+            <View style={styles.sectionHeaderWrap}>
+               <Text style={styles.sectionTitle}>Saved Content</Text>
+            </View>
+            <View style={styles.settingsGroup}>
+               <TouchableOpacity style={styles.settingsRow}>
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(155, 138, 244, 0.1)' }]}>
+                     <BookmarkSimple size={24} color={Colors.secondaryAccent} />
+                  </View>
+                  <Text style={styles.settingsLabel}>My Notes</Text>
+                  <CaretRight size={20} color={Colors.secondaryText} />
+               </TouchableOpacity>
+               <View style={styles.settingsDivider} />
+               <TouchableOpacity style={styles.settingsRow}>
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(0, 229, 255, 0.1)' }]}>
+                     <BookmarkSimple size={24} color={Colors.cyan} />
+                  </View>
+                  <Text style={styles.settingsLabel}>Saved Grammar Rules</Text>
+                  <CaretRight size={20} color={Colors.secondaryText} />
+               </TouchableOpacity>
+            </View>
+          </View>
+        )}
 
-           <View style={styles.settingsDivider} />
+        {activeTab === 'TOOLS' && (
+          <View>
+             <View style={styles.settingsGroup}>
+               <TouchableOpacity style={styles.settingsRow} onPress={() => router.push('/lexicon/index' as any)}>
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(255, 184, 0, 0.1)' }]}>
+                     <Sparkle size={24} color={Colors.amber} />
+                  </View>
+                  <Text style={styles.settingsLabel}>Flashcard Deck (Spaced Rep)</Text>
+                  <CaretRight size={20} color={Colors.secondaryText} />
+               </TouchableOpacity>
+               <View style={styles.settingsDivider} />
+               <TouchableOpacity style={styles.settingsRow}>
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(155, 138, 244, 0.1)' }]}>
+                     <Fire size={24} color={Colors.secondaryAccent} />
+                  </View>
+                  <Text style={styles.settingsLabel}>Grammar Reference Index</Text>
+                  <CaretRight size={20} color={Colors.secondaryText} />
+               </TouchableOpacity>
+            </View>
+          </View>
+        )}
 
-           <TouchableOpacity style={styles.settingsRow}>
-              <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(255, 92, 122, 0.1)' }]}>
-                 <Question size={24} color={Colors.error} />
-              </View>
-              <Text style={styles.settingsLabel}>Help & Support</Text>
-              <CaretRight size={20} color={Colors.secondaryText} />
-           </TouchableOpacity>
-        </View>
+        {activeTab === 'SETTINGS' && (
+          <View>
+            <View style={styles.settingsGroup}>
+               <TouchableOpacity style={styles.settingsRow}>
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(255, 184, 0, 0.1)' }]}>
+                     <BellRinging size={24} color={Colors.amber} />
+                  </View>
+                  <Text style={styles.settingsLabel}>Notifications</Text>
+                  <CaretRight size={20} color={Colors.secondaryText} />
+               </TouchableOpacity>
 
-        {/* Sign Out (Placeholder) */}
-        <TouchableOpacity style={styles.signOutBtn} onPress={() => router.push('/login')}>
-           <Text style={styles.signOutText}>Sign In to Save Progress</Text>
-        </TouchableOpacity>
+               <View style={styles.settingsDivider} />
+
+               <TouchableOpacity style={styles.settingsRow}>
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(255, 92, 122, 0.1)' }]}>
+                     <Question size={24} color={Colors.error} />
+                  </View>
+                  <Text style={styles.settingsLabel}>Help & Support</Text>
+                  <CaretRight size={20} color={Colors.secondaryText} />
+               </TouchableOpacity>
+               
+               <View style={styles.settingsDivider} />
+
+               <TouchableOpacity style={styles.settingsRow}>
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(0, 229, 255, 0.1)' }]}>
+                     <Sparkle size={24} color={Colors.cyan} />
+                  </View>
+                  <Text style={styles.settingsLabel}>Subscription & Billing</Text>
+                  <Text style={{color: Colors.cyan, fontSize: 13, fontWeight: '700', marginRight: 8}}>Pro</Text>
+                  <CaretRight size={20} color={Colors.secondaryText} />
+               </TouchableOpacity>
+            </View>
+
+            {/* Sign Out */}
+            <TouchableOpacity style={styles.signOutBtn} onPress={() => router.push('/login')}>
+               <Text style={styles.signOutText}>Sign In / Sign Out</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
       </ScrollView>
     </SafeAreaView>
@@ -323,5 +431,59 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: Colors.primaryText,
+  },
+  tabsContainer: {
+    flexDirection: 'row',
+    marginBottom: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.elevatedSurface,
+  },
+  profileTab: {
+    flex: 1,
+    paddingVertical: 12,
+    alignItems: 'center',
+    borderBottomWidth: 2,
+    borderBottomColor: 'transparent',
+  },
+  profileTabActive: {
+    borderBottomColor: Colors.primaryAccent,
+  },
+  profileTabText: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: 11,
+    fontWeight: '800',
+    color: Colors.secondaryText,
+    letterSpacing: 0.5,
+  },
+  profileTabTextActive: {
+    color: Colors.white,
+  },
+  heatmapCard: {
+    backgroundColor: Colors.cardBg,
+    borderRadius: 24,
+    padding: 24,
+    marginBottom: 32,
+    alignItems: 'center',
+  },
+  heatmapRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 8,
+  },
+  heatmapSquare: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+    backgroundColor: Colors.elevatedSurface,
+  },
+  challengeCard: {
+    backgroundColor: Colors.cardBg,
+    borderRadius: 24,
+    padding: 24,
+    marginBottom: 32,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.elevatedSurface,
   }
 });

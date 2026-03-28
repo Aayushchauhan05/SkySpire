@@ -3,6 +3,7 @@ import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimension
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '../../components/themed-text';
+import { useAppStore } from '../../store/useAppStore';
 
 const { width } = Dimensions.get('window');
 
@@ -38,6 +39,10 @@ const FLASHCARDS = [
 export default function LexiconDetailScreen() {
   const { type } = useLocalSearchParams<{type: string}>();
   const router = useRouter();
+  
+  const saveWordToVault = useAppStore(state => state.saveWordToVault);
+  const savedWords = useAppStore(state => state.savedWords);
+
   const [flipped, setFlipped] = useState(false);
   const [cardIdx, setCardIdx] = useState(0);
 
@@ -56,20 +61,54 @@ export default function LexiconDetailScreen() {
 
   const renderVocabulary = () => (
     <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-      {DUMMY_VOCAB.map((item, idx) => (
+      {DUMMY_VOCAB.map((item, idx) => {
+        const isSaved = savedWords.some(w => w.word === item.word);
+        return (
         <View key={idx} style={styles.vocabRow}>
           <View style={styles.vocabInfo}>
-            <ThemedText style={styles.vocabWord}>{item.word}</ThemedText>
+            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 6}}>
+               <ThemedText style={styles.vocabWord}>{item.word}</ThemedText>
+               <TouchableOpacity style={{marginLeft: 8, padding: 4}} activeOpacity={0.6}>
+                  <Ionicons name="volume-medium" size={18} color={themeColor} />
+               </TouchableOpacity>
+            </View>
             <ThemedText style={styles.vocabSub}>{item.category}</ThemedText>
           </View>
-          <View style={{alignItems: 'flex-end'}}>
-             <ThemedText style={[styles.vocabTranslation, { color: themeColor }]}>{item.translation}</ThemedText>
-             <View style={styles.levelBadgeMini}>
-                <ThemedText style={styles.levelBadgeText}>{item.level}</ThemedText>
+
+          <View style={{alignItems: 'flex-end', flexDirection: 'row', gap: 16}}>
+             <View style={{alignItems: 'flex-end'}}>
+                <ThemedText style={[styles.vocabTranslation, { color: themeColor }]}>{item.translation}</ThemedText>
+                <View style={styles.levelBadgeMini}>
+                   <ThemedText style={styles.levelBadgeText}>{item.level}</ThemedText>
+                </View>
              </View>
+             <TouchableOpacity 
+                style={[styles.addToListBtn, isSaved && {backgroundColor: Colors.secondaryAccent}]}
+                onPress={() => saveWordToVault(item)}
+                disabled={isSaved}
+             >
+                <Ionicons name={isSaved ? "checkmark" : "add"} size={20} color={Colors.white} />
+             </TouchableOpacity>
           </View>
         </View>
-      ))}
+        );
+      })}
+
+      {/* Mini Quiz CTA */}
+      <TouchableOpacity 
+        style={[styles.miniQuizCard, { borderColor: themeColor }]}
+        onPress={() => router.push(`/quiz/${type}` as any)}
+        activeOpacity={0.9}
+      >
+        <View style={[styles.quizIconWrap, { backgroundColor: themeColor + '20' }]}>
+           <Ionicons name="star" size={28} color={themeColor} />
+        </View>
+        <View style={{flex: 1, marginLeft: 16}}>
+           <ThemedText style={styles.quizTitle}>Category Mini-Quiz</ThemedText>
+           <ThemedText style={styles.quizSub}>Test your retention on {DUMMY_VOCAB.length} terms</ThemedText>
+        </View>
+        <Ionicons name="chevron-forward" size={24} color={Colors.textMuted} />
+      </TouchableOpacity>
     </ScrollView>
   );
 
@@ -134,7 +173,7 @@ export default function LexiconDetailScreen() {
         <View style={{ width: 56 }} />
       </View>
 
-      {type === 'VOCABULARY' && renderVocabulary()}
+      {type !== 'FLASHCARDS' && type !== 'IDIOMS' && type !== 'PHRASAL_VERBS' && renderVocabulary()}
       {type === 'FLASHCARDS' && renderFlashcards()}
       {type === 'IDIOMS' && renderGenericList('Idiom', 'chatbubbles', Colors.amber)}
       {type === 'PHRASAL_VERBS' && renderGenericList('Verb', 'book', Colors.cyan)}
@@ -293,4 +332,38 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: Colors.textMuted,
   },
+  addToListBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Colors.elevatedSurface,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  miniQuizCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.cardBg,
+    borderRadius: 24,
+    padding: 20,
+    marginTop: 16,
+    borderWidth: 1,
+  },
+  quizIconWrap: {
+    width: 56,
+    height: 56,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  quizTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: Colors.textHeader,
+    marginBottom: 4,
+  },
+  quizSub: {
+    fontSize: 13,
+    color: Colors.textMuted,
+  }
 });

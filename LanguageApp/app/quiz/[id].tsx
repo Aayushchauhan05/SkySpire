@@ -3,6 +3,7 @@ import { StyleSheet, View, SafeAreaView, TouchableOpacity, Dimensions } from 're
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '../../components/themed-text';
+import { useAppStore } from '../../store/useAppStore';
 
 const { width } = Dimensions.get('window');
 
@@ -24,41 +25,92 @@ const Colors = {
 const DUMMY_QUESTIONS = [
   {
     id: 1,
+    type: "MULTIPLE_CHOICE",
     question: "How do you say 'Good Morning' in Spanish?",
     options: ["Hola", "Buenos Días", "Buenas Noches", "Adiós"],
     correctAnswer: 1,
   },
   {
     id: 2,
-    question: "Which of these is informal?",
-    options: ["¿Cómo está usted?", "Hola, ¿qué tal?", "Mucho gusto", "Encantado"],
+    type: "TRUE_FALSE",
+    question: "'La mujer' means 'The man'.",
+    options: ["True", "False"],
     correctAnswer: 1,
   },
+  {
+    id: 3,
+    type: "SENTENCE_BUILDER",
+    question: "Translate: 'The tall boy'",
+    wordBank: ["El", "chico", "alto", "la", "chica", "alta"],
+    correctAnswerArr: ["El", "chico", "alto"],
+  },
+  {
+    id: 4,
+    type: "TRANSLATION",
+    question: "Translate into English: 'Tengo una manzana.'",
+    options: ["I have an apple.", "I am an apple.", "I eat an apple.", "I want an apple."],
+    correctAnswer: 0,
+  }
 ];
 
 export default function QuizScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  
+  // Gamification Hooks
+  const addXP = useAppStore(state => state.addXP);
+  const addStudyMinutes = useAppStore(state => state.addStudyMinutes);
+  const checkAndUpdateStreak = useAppStore(state => state.checkAndUpdateStreak);
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [selectedWords, setSelectedWords] = useState<string[]>([]);
+  const [isWordFinished, setIsWordFinished] = useState(false);
+  const [wordCorrect, setWordCorrect] = useState<boolean | null>(null);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+
+  const question = DUMMY_QUESTIONS[currentQuestion];
+
+  const proceedToNext = () => {
+    setTimeout(() => {
+      setSelectedOption(null);
+      setSelectedWords([]);
+      setIsWordFinished(false);
+      setWordCorrect(null);
+      if (currentQuestion < DUMMY_QUESTIONS.length - 1) {
+        setCurrentQuestion(prev => prev + 1);
+      } else {
+        setIsFinished(true);
+        // Reward global stats on completion
+        addXP(50);
+        addStudyMinutes(5); // Arbitrary 5 mins per quiz
+        checkAndUpdateStreak();
+      }
+    }, 1200);
+  };
 
   const handleOptionSelect = (index: number) => {
     if (selectedOption !== null) return;
     setSelectedOption(index);
-    if (index === DUMMY_QUESTIONS[currentQuestion].correctAnswer) {
+    if (index === question.correctAnswer) {
       setScore(prev => prev + 1);
     }
-    
-    setTimeout(() => {
-      if (currentQuestion < DUMMY_QUESTIONS.length - 1) {
-        setCurrentQuestion(prev => prev + 1);
-        setSelectedOption(null);
-      } else {
-        setIsFinished(true);
-      }
-    }, 1200);
+    proceedToNext();
+  };
+
+  const handleWordSelect = (word: string) => {
+    if (isWordFinished) return;
+    setSelectedWords(prev => [...prev, word]);
+  };
+
+  const checkSentence = () => {
+    if (isWordFinished) return;
+    setIsWordFinished(true);
+    const isCorrect = JSON.stringify(selectedWords) === JSON.stringify(question.correctAnswerArr);
+    if (isCorrect) setScore(prev => prev + 1);
+    setWordCorrect(isCorrect);
+    proceedToNext();
   };
 
   if (isFinished) {
@@ -82,8 +134,6 @@ export default function QuizScreen() {
     );
   }
 
-  const question = DUMMY_QUESTIONS[currentQuestion];
-
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -100,59 +150,96 @@ export default function QuizScreen() {
       </View>
 
       <View style={styles.content}>
+        <ThemedText style={styles.questionTitle}>{question.type.replace('_', ' ')}</ThemedText>
         <ThemedText style={styles.questionText}>{question.question}</ThemedText>
 
-        <View style={styles.optionsContainer}>
-          {question.options.map((option, idx) => {
-            const showFeedback = selectedOption !== null;
-            const isSelected = selectedOption === idx;
-            const isCorrect = idx === question.correctAnswer;
+        {question.type === 'SENTENCE_BUILDER' ? (
+          <View style={styles.builderContainer}>
+             <View style={[styles.sentenceDropZone, wordCorrect === true && {borderColor: Colors.secondaryAccent}, wordCorrect === false && {borderColor: Colors.error}]}>
+                {selectedWords.map((word, idx) => (
+                  <View key={idx} style={styles.wordPill}>
+                    <ThemedText style={styles.wordPillText}>{word}</ThemedText>
+                  </View>
+                ))}
+             </View>
+             
+             <View style={styles.wordBank}>
+                {question.wordBank?.map((word, idx) => {
+                   const isSelected = selectedWords.includes(word);
+                   return (
+                     <TouchableOpacity 
+                       key={idx} 
+                       style={[styles.wordPillBank, isSelected && {opacity: 0.3}]}
+                       disabled={isSelected || isWordFinished}
+                       onPress={() => handleWordSelect(word)}
+                     >
+                        <ThemedText style={styles.wordPillText}>{word}</ThemedText>
+                     </TouchableOpacity>
+                   );
+                })}
+             </View>
 
-            let cardStyle: any = [styles.optionCard];
-            let textColor = Colors.textHeader;
+             <TouchableOpacity 
+                style={[styles.checkBtn, selectedWords.length === 0 && {backgroundColor: Colors.elevatedSurface}]}
+                onPress={checkSentence}
+                disabled={selectedWords.length === 0 || isWordFinished}
+             >
+                <ThemedText style={styles.checkBtnText}>CHECK</ThemedText>
+             </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.optionsContainer}>
+            {question.options?.map((option, idx) => {
+              const showFeedback = selectedOption !== null;
+              const isSelected = selectedOption === idx;
+              const isCorrect = idx === question.correctAnswer;
 
-            if (showFeedback) {
-              if (isSelected && isCorrect) {
-                 cardStyle.push(styles.optionCardCorrect);
-                 textColor = Colors.textDark; // Invert text for light background
-              }
-              else if (isSelected && !isCorrect) {
-                 cardStyle.push(styles.optionCardError);
-              }
-              else if (isCorrect) {
-                 cardStyle.push(styles.optionCardCorrectBorder);
-              }
-            }
+              let cardStyle: any = [styles.optionCard];
+              let textColor = Colors.textHeader;
 
-            return (
-              <TouchableOpacity
-                key={idx}
-                style={cardStyle}
-                onPress={() => handleOptionSelect(idx)}
-                disabled={selectedOption !== null}
-                activeOpacity={0.8}
-              >
-                <ThemedText style={[styles.optionText, { color: textColor }]}>{option}</ThemedText>
-                
-                {showFeedback && isCorrect && isSelected && (
-                   <View style={styles.iconCircleDark}>
-                      <Ionicons name="checkmark" size={28} color={Colors.secondaryAccent} />
-                   </View>
-                )}
-                {showFeedback && isCorrect && !isSelected && (
-                   <View style={styles.iconCircleLight}>
-                      <Ionicons name="checkmark" size={28} color={Colors.secondaryAccent} />
-                   </View>
-                )}
-                {showFeedback && isSelected && !isCorrect && (
-                   <View style={styles.iconCircleError}>
-                      <Ionicons name="close" size={28} color={Colors.error} />
-                   </View>
-                )}
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+              if (showFeedback) {
+                if (isSelected && isCorrect) {
+                   cardStyle.push(styles.optionCardCorrect);
+                   textColor = Colors.textDark; // Invert text for light background
+                }
+                else if (isSelected && !isCorrect) {
+                   cardStyle.push(styles.optionCardError);
+                }
+                else if (isCorrect) {
+                   cardStyle.push(styles.optionCardCorrectBorder);
+                }
+              }
+
+              return (
+                <TouchableOpacity
+                  key={idx}
+                  style={cardStyle}
+                  onPress={() => handleOptionSelect(idx)}
+                  disabled={selectedOption !== null}
+                  activeOpacity={0.8}
+                >
+                  <ThemedText style={[styles.optionText, { color: textColor }]}>{option}</ThemedText>
+                  
+                  {showFeedback && isCorrect && isSelected && (
+                     <View style={styles.iconCircleDark}>
+                        <Ionicons name="checkmark" size={28} color={Colors.mainBg} />
+                     </View>
+                  )}
+                  {showFeedback && isCorrect && !isSelected && (
+                     <View style={styles.iconCircleLight}>
+                        <Ionicons name="checkmark" size={28} color={Colors.secondaryAccent} />
+                     </View>
+                  )}
+                  {showFeedback && isSelected && !isCorrect && (
+                     <View style={styles.iconCircleError}>
+                        <Ionicons name="close" size={28} color={Colors.error} />
+                     </View>
+                  )}
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -301,4 +388,69 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '900',
   },
+  questionTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: Colors.secondaryAccent,
+    textTransform: 'uppercase',
+    letterSpacing: 2,
+    marginBottom: 8,
+  },
+  builderContainer: {
+    marginTop: 20,
+    flex: 1,
+  },
+  sentenceDropZone: {
+    minHeight: 120,
+    borderWidth: 2,
+    borderColor: Colors.elevatedSurface,
+    borderStyle: 'dashed',
+    borderRadius: 24,
+    padding: 16,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 40,
+    backgroundColor: 'rgba(28, 24, 48, 0.5)',
+  },
+  wordBank: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+    justifyContent: 'center',
+    marginBottom: 40,
+  },
+  wordPill: {
+    backgroundColor: Colors.secondaryAccent,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+  wordPillBank: {
+    backgroundColor: Colors.cardBg,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: Colors.elevatedSurface,
+  },
+  wordPillText: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: Colors.white,
+  },
+  checkBtn: {
+    backgroundColor: Colors.primaryAccent,
+    paddingVertical: 20,
+    borderRadius: 30,
+    alignItems: 'center',
+    marginTop: 'auto',
+    marginBottom: 40,
+  },
+  checkBtnText: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: Colors.white,
+    letterSpacing: 1,
+  }
 });

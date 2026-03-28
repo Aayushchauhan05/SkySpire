@@ -102,6 +102,7 @@ export default function ModuleDetailScreen() {
               key={idx} 
               style={[styles.lessonCard, isLocked && styles.lessonCardLocked]}
               disabled={isLocked}
+              onPress={() => router.push(`/module-lesson/${idx}` as any)}
             >
               <View style={styles.lessonNumber}>
                 <Text style={styles.numberText}>{idx + 1}</Text>

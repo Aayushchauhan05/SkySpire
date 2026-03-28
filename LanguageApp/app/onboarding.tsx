@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, Dimensions, Animated, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { CaretLeft, CheckCircle, AirplaneTilt, Briefcase, Student, Users, Heart, GraduationCap } from 'phosphor-react-native';
+import { useAppStore } from '../store/useAppStore';
 
 const { width } = Dimensions.get('window');
 
@@ -31,6 +32,7 @@ const DAILY_MINS = ['5 mins / day', '10 mins / day', '15 mins / day', '30 mins /
 
 export default function OnboardingScreen() {
   const router = useRouter();
+  const setUserProfile = useAppStore(state => state.setUserProfile);
   
   const [step, setStep] = useState(1);
   const [selections, setSelections] = useState({
@@ -76,6 +78,19 @@ export default function OnboardingScreen() {
 
     setLoading(true);
     try {
+      const dailyMins = parseInt(selections.dailyMins?.split(' ')[0] || '15');
+      const motivation = selections.goal || 'Personal';
+      const targetLanguage = selections.language || 'Spanish';
+
+      // Save to global local Zustand store
+      setUserProfile({
+        name,
+        targetLanguage,
+        dailyGoalMinutes: dailyMins,
+        motivation,
+        cefrLevel: 'A1' // Default, placement test might override this
+      });
+
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -83,24 +98,31 @@ export default function OnboardingScreen() {
           email,
           password,
           name,
-          targetLanguage: selections.language || 'Spanish',
-          proficiencyLevel: 'Beginner', // defaulting
-          dailyGoalMinutes: parseInt(selections.dailyMins?.split(' ')[0] || '15'),
-          motivation: selections.goal || 'Personal',
+          targetLanguage,
+          proficiencyLevel: 'Beginner', 
+          dailyGoalMinutes: dailyMins,
+          motivation,
         }),
       });
 
       const data = await response.json();
       if (response.ok) {
         Alert.alert('Success', 'Account created successfully!');
-        router.replace('/(tabs)');
+        if (selections.placement === 'take_test') {
+          router.replace('/placement-test' as any);
+        } else {
+          router.replace('/(tabs)');
+        }
       } else {
         Alert.alert('Error', data.message || 'Registration failed');
       }
     } catch (error) {
-      Alert.alert('Error', 'Could not connect to server. Running without backend for now.');
       // Proceed gracefully for UI demo purposes if backend isn't up
-      router.replace('/(tabs)');
+      if (selections.placement === 'take_test') {
+        router.replace('/placement-test' as any);
+      } else {
+        router.replace('/(tabs)');
+      }
     } finally {
       setLoading(false);
     }

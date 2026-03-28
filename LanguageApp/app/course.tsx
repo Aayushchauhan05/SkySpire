@@ -75,7 +75,7 @@ export default function GrammarScreen() {
                     isLocked && styles.chapterCardLocked
                   ]}
                   disabled={isLocked}
-                  onPress={() => router.push(`/chapter/${chapter.id}` as any)}
+                  onPress={() => router.push(`/grammar/${chapter.id}` as any)}
                 >
                   <View style={styles.chapterLeft}>
                     <View style={[

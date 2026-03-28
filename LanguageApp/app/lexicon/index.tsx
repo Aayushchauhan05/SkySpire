@@ -11,14 +11,22 @@ const Colors = {
   secondaryAccent: '#9B8AF4', // Soft Purple (Used heavily here for memory/lexicon)
   amber: '#FFB800',
   error: '#FF5C7A',
+  cyan: '#00E5FF',
   primaryText: '#F0EEF8',
   secondaryText: '#8E88B0',
 };
 
-const LEXICON_MENU = [
-  { id: 'VOCABULARY', title: 'Vocabulary Dictionary', desc: 'Browse saved words and phrases.', icon: Books, color: Colors.secondaryAccent },
-  { id: 'FLASHCARDS', title: 'Spaced Repetition', desc: '24 cards due for review today.', icon: Cards, color: Colors.amber },
-  { id: 'IDIOMS', title: 'Native Idioms', desc: 'Sound like a local speaker.', icon: Quotes, color: Colors.primaryAccent },
+const LEXICON_CATEGORIES = [
+  { id: 'greetings', title: 'Greetings & Basics', desc: 'Introductions, polite phrases', icon: Books, color: Colors.primaryAccent, progress: 100 },
+  { id: 'numbers_time', title: 'Numbers & Time', desc: 'Counting, telling time, days', icon: Books, color: Colors.secondaryAccent, progress: 80 },
+  { id: 'food_dining', title: 'Food & Dining', desc: 'Ordering, ingredients, diets', icon: BookBookmark, color: Colors.amber, progress: 45 },
+  { id: 'travel_directions', title: 'Travel & Directions', desc: 'Transportation, navigation', icon: Books, color: Colors.cyan, progress: 20 },
+  { id: 'family_people', title: 'Family & People', desc: 'Relationships, descriptions', icon: Books, color: Colors.primaryAccent, progress: 0 },
+  { id: 'home_daily', title: 'Home & Daily Life', desc: 'Furniture, daily routines', icon: Cards, color: Colors.secondaryAccent, progress: 0 },
+  { id: 'work_school', title: 'Work & School', desc: 'Professions, office vocab', icon: Books, color: Colors.amber, progress: 0 },
+  { id: 'health_body', title: 'Health & Body', desc: 'Body parts, medical terms', icon: Books, color: Colors.error, progress: 0 },
+  { id: 'shopping_clothes', title: 'Shopping & Clothes', desc: 'Apparel, store vocab', icon: BookBookmark, color: Colors.cyan, progress: 0 },
+  { id: 'nature_weather', title: 'Nature & Environment', desc: 'Weather, animals, landscapes', icon: Quotes, color: Colors.primaryAccent, progress: 0 },
 ];
 
 export default function LexiconIndexScreen() {
@@ -38,15 +46,15 @@ export default function LexiconIndexScreen() {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.libraryBanner}>
           <BookBookmark size={48} color={Colors.secondaryAccent} weight="duotone" />
-          <Text style={styles.libraryTitle}>Your Memory Vault</Text>
+          <Text style={styles.libraryTitle}>Topic Dictionary</Text>
           <Text style={styles.libraryDesc}>
-            Master vocabulary efficiently. Review your flashcards daily to ensure long-term retention.
+            Master vocabulary efficiently across 10 core categories.
           </Text>
         </View>
 
-        <Text style={styles.sectionHeader}>Study Hub</Text>
+        <Text style={styles.sectionHeader}>10 Required Topics</Text>
 
-        {LEXICON_MENU.map((item) => {
+        {LEXICON_CATEGORIES.map((item) => {
           const Icon = item.icon;
           return (
             <TouchableOpacity 
@@ -60,7 +68,12 @@ export default function LexiconIndexScreen() {
               <View style={styles.menuInfo}>
                 <Text style={styles.menuTitle}>{item.title}</Text>
                 <Text style={styles.menuDesc}>{item.desc}</Text>
+                {/* Visual Progress Bar */}
+                <View style={styles.progressTrack}>
+                   <View style={[styles.progressFill, { width: `${item.progress}%`, backgroundColor: item.color }]} />
+                </View>
               </View>
+              <Text style={{color: Colors.primaryText, fontWeight: '700', fontSize: 13}}>{item.progress}%</Text>
             </TouchableOpacity>
           );
         })}
@@ -163,5 +176,17 @@ const styles = StyleSheet.create({
     fontFamily: 'Plus Jakarta Sans',
     fontSize: 13,
     color: Colors.secondaryText,
+    marginBottom: 8,
   },
+  progressTrack: {
+    height: 6,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 3,
+    overflow: 'hidden',
+    width: '100%',
+  },
+  progressFill: {
+    height: '100%',
+    borderRadius: 3,
+  }
 });
