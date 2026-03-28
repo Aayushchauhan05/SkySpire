@@ -3,19 +3,22 @@ import { StyleSheet, View, SafeAreaView, TouchableOpacity, Dimensions } from 're
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '../../components/themed-text';
-import { Colors as ThemeColors } from '../../constants/theme';
 
 const { width } = Dimensions.get('window');
 
+// Restored Premium Matte Colors
 const Colors = {
-  mainBg: ThemeColors.dark.background,
-  cardBg: ThemeColors.dark.card,
-  elevatedSurface: ThemeColors.dark.elevated,
-  primaryAccent: ThemeColors.dark.primary,
-  secondaryAccent: ThemeColors.dark.secondary,
-  amber: ThemeColors.dark.accent,
-  primaryText: ThemeColors.dark.text,
-  secondaryText: ThemeColors.dark.secondaryText,
+  mainBg: '#110E1A',
+  cardBg: '#1C1830',
+  elevatedSurface: '#252040',
+  primaryAccent: '#FF8A66',     
+  secondaryAccent: '#9B8AF4', 
+  amber: '#FFB800',
+  error: '#FF5C7A',
+  white: '#FFFFFF',
+  textHeader: '#FFFFFF',
+  textDark: '#110E1A',
+  textMuted: '#8E88B0',
 };
 
 const DUMMY_QUESTIONS = [
@@ -55,21 +58,24 @@ export default function QuizScreen() {
       } else {
         setIsFinished(true);
       }
-    }, 1000);
+    }, 1200);
   };
 
   if (isFinished) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.resultContainer}>
-          <Ionicons name="trophy" size={80} color={Colors.amber} />
+          <View style={styles.trophyWrapper}>
+             <Ionicons name="trophy" size={100} color={Colors.amber} />
+          </View>
           <ThemedText style={styles.resultTitle}>Quiz Completed!</ThemedText>
           <ThemedText style={styles.resultScore}>You scored {score}/{DUMMY_QUESTIONS.length}</ThemedText>
+          
           <TouchableOpacity 
             style={styles.finishBtn}
-            onPress={() => router.back()}
+            onPress={() => router.push('/course')}
           >
-            <ThemedText style={styles.finishBtnText}>Back to Chapter</ThemedText>
+            <ThemedText style={styles.finishBtnText}>Back to Curriculum</ThemedText>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -82,13 +88,15 @@ export default function QuizScreen() {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-          <Ionicons name="close" size={24} color={Colors.primaryText} />
+        <TouchableOpacity onPress={() => router.back()} style={styles.backBtnSmall}>
+          <Ionicons name="close" size={32} color={Colors.textDark} />
         </TouchableOpacity>
+        
         <View style={styles.progressCounter}>
-          <ThemedText style={styles.progressText}>Question {currentQuestion + 1} of {DUMMY_QUESTIONS.length}</ThemedText>
+          <ThemedText style={styles.progressText}>{currentQuestion + 1} / {DUMMY_QUESTIONS.length}</ThemedText>
         </View>
-        <View style={{ width: 44 }} />
+        
+        <View style={{ width: 56 }} />
       </View>
 
       <View style={styles.content}>
@@ -101,10 +109,19 @@ export default function QuizScreen() {
             const isCorrect = idx === question.correctAnswer;
 
             let cardStyle: any = [styles.optionCard];
+            let textColor = Colors.textHeader;
+
             if (showFeedback) {
-              if (isSelected && isCorrect) cardStyle.push(styles.optionCardCorrect);
-              else if (isSelected && !isCorrect) cardStyle.push(styles.optionCardError);
-              else if (isCorrect) cardStyle.push(styles.optionCardCorrectBorder);
+              if (isSelected && isCorrect) {
+                 cardStyle.push(styles.optionCardCorrect);
+                 textColor = Colors.textDark; // Invert text for light background
+              }
+              else if (isSelected && !isCorrect) {
+                 cardStyle.push(styles.optionCardError);
+              }
+              else if (isCorrect) {
+                 cardStyle.push(styles.optionCardCorrectBorder);
+              }
             }
 
             return (
@@ -113,13 +130,24 @@ export default function QuizScreen() {
                 style={cardStyle}
                 onPress={() => handleOptionSelect(idx)}
                 disabled={selectedOption !== null}
+                activeOpacity={0.8}
               >
-                <ThemedText style={styles.optionText}>{option}</ThemedText>
-                {showFeedback && isCorrect && (
-                   <Ionicons name="checkmark-circle" size={24} color={Colors.secondaryAccent} />
+                <ThemedText style={[styles.optionText, { color: textColor }]}>{option}</ThemedText>
+                
+                {showFeedback && isCorrect && isSelected && (
+                   <View style={styles.iconCircleDark}>
+                      <Ionicons name="checkmark" size={28} color={Colors.secondaryAccent} />
+                   </View>
+                )}
+                {showFeedback && isCorrect && !isSelected && (
+                   <View style={styles.iconCircleLight}>
+                      <Ionicons name="checkmark" size={28} color={Colors.secondaryAccent} />
+                   </View>
                 )}
                 {showFeedback && isSelected && !isCorrect && (
-                   <Ionicons name="close-circle" size={24} color={ThemeColors.dark.error} />
+                   <View style={styles.iconCircleError}>
+                      <Ionicons name="close" size={28} color={Colors.error} />
+                   </View>
                 )}
               </TouchableOpacity>
             );
@@ -139,28 +167,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingTop: 10,
-    paddingBottom: 20,
+    paddingBottom: 24,
   },
-  backBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: Colors.cardBg,
+  backBtnSmall: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
   progressCounter: {
-    backgroundColor: Colors.elevatedSurface,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
+    backgroundColor: Colors.cardBg,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderRadius: 30,
   },
   progressText: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: Colors.secondaryText,
+    fontSize: 20,
+    fontWeight: '900',
+    color: Colors.textHeader,
   },
   content: {
     flex: 1,
@@ -168,40 +196,69 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   questionText: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: Colors.primaryText,
+    fontSize: 38,
+    fontWeight: '900',
+    color: Colors.textHeader,
     marginBottom: 40,
-    lineHeight: 32,
+    lineHeight: 46,
+    letterSpacing: -1,
   },
   optionsContainer: {
     gap: 16,
   },
   optionCard: {
     backgroundColor: Colors.cardBg,
-    borderRadius: 20,
-    padding: 20,
+    borderRadius: 28,
+    padding: 24,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderWidth: 2,
+    borderWidth: 4,
     borderColor: 'transparent',
+    minHeight: 90,
   },
   optionCardCorrect: {
     borderColor: Colors.secondaryAccent,
-    backgroundColor: 'rgba(155, 138, 244, 0.1)',
+    backgroundColor: Colors.secondaryAccent,
   },
   optionCardError: {
-    borderColor: ThemeColors.dark.error,
-    backgroundColor: 'rgba(255, 82, 82, 0.1)',
+    borderColor: Colors.error,
+    backgroundColor: 'rgba(255, 92, 122, 0.1)',
   },
   optionCardCorrectBorder: {
     borderColor: Colors.secondaryAccent,
   },
   optionText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: Colors.primaryText,
+    fontSize: 22,
+    fontWeight: '800',
+    flex: 1,
+  },
+  iconCircleDark: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: Colors.textDark,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 16,
+  },
+  iconCircleLight: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(155, 138, 244, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 16,
+  },
+  iconCircleError: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255, 92, 122, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 16,
   },
   resultContainer: {
     flex: 1,
@@ -209,29 +266,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 24,
   },
+  trophyWrapper: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: 'rgba(255, 184, 0, 0.1)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 40,
+  },
   resultTitle: {
-    fontSize: 32,
+    fontSize: 42,
     fontWeight: '900',
-    color: Colors.primaryText,
-    marginTop: 24,
+    color: Colors.textHeader,
+    letterSpacing: -1.5,
   },
   resultScore: {
-    fontSize: 20,
-    color: Colors.secondaryText,
-    marginTop: 8,
-    marginBottom: 40,
+    fontSize: 24,
+    color: Colors.textMuted,
+    marginTop: 12,
+    fontWeight: '600',
+    marginBottom: 60,
   },
   finishBtn: {
     backgroundColor: Colors.primaryAccent,
-    paddingHorizontal: 32,
-    paddingVertical: 18,
-    borderRadius: 20,
+    paddingHorizontal: 40,
+    paddingVertical: 24,
+    borderRadius: 40,
     width: '100%',
     alignItems: 'center',
   },
   finishBtnText: {
-    color: Colors.mainBg,
-    fontSize: 18,
-    fontWeight: '800',
+    color: Colors.white,
+    fontSize: 24,
+    fontWeight: '900',
   },
 });

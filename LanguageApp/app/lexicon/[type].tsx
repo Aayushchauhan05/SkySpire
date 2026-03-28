@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '../../components/themed-text';
-import { Colors as ThemeColors } from '../../constants/theme';
 
 const { width } = Dimensions.get('window');
 
+// Restored Premium Matte Colors
 const Colors = {
-  mainBg: ThemeColors.dark.background,
-  cardBg: ThemeColors.dark.card,
-  elevatedSurface: ThemeColors.dark.elevated,
-  primaryAccent: ThemeColors.dark.primary,
-  secondaryAccent: ThemeColors.dark.secondary,
-  amber: ThemeColors.dark.accent,
-  primaryText: ThemeColors.dark.text,
-  secondaryText: ThemeColors.dark.secondaryText,
+  mainBg: '#110E1A',
+  cardBg: '#1C1830',
+  elevatedSurface: '#252040',
+  primaryAccent: '#FF8A66',     // Warm coral
+  secondaryAccent: '#9B8AF4', // Soft purple
+  amber: '#FFB800',
+  cyan: '#00E5FF',
+  white: '#FFFFFF',
+  textHeader: '#FFFFFF',
+  textDark: '#110E1A',
+  textMuted: '#8E88B0',
 };
 
 const DUMMY_VOCAB = [
-  { word: "Hola", translation: "Hello", level: "A1", category: "Greetings" },
-  { word: "Gracias", translation: "Thank you", level: "A1", category: "Greetings" },
-  { word: "Cerveza", translation: "Beer", level: "A1", category: "Food & Drink" },
-  { word: "Biblioteca", translation: "Library", level: "A2", category: "Places" },
-  { word: "Desafortunadamente", translation: "Unfortunately", level: "B2", category: "Adverbs" },
+  { word: "Hola", translation: "Hello", level: "Lv.1", category: "Greetings" },
+  { word: "Gracias", translation: "Thank you", level: "Lv.1", category: "Greetings" },
+  { word: "Desarrollar", translation: "Develop", level: "Lv.2", category: "Daily" },
+  { word: "Biblioteca", translation: "Library", level: "Lv.2", category: "Places" },
+  { word: "Desafortunadamente", translation: "Unfortunately", level: "Lv.3", category: "Adverbs" },
 ];
 
 const FLASHCARDS = [
@@ -33,20 +36,38 @@ const FLASHCARDS = [
 ];
 
 export default function LexiconDetailScreen() {
-  const { type } = useLocalSearchParams();
+  const { type } = useLocalSearchParams<{type: string}>();
   const router = useRouter();
   const [flipped, setFlipped] = useState(false);
   const [cardIdx, setCardIdx] = useState(0);
 
+  const getThemeColor = () => {
+    if (type === 'FLASHCARDS') return '#F4A261'; // Peach mapping from Home
+    if (type === 'VOCABULARY') return Colors.secondaryAccent; // Soft Purple
+    return Colors.amber; // Idioms / default
+  };
+
+  const themeColor = getThemeColor();
+
+  const handleBack = () => {
+    // Return to the Lexicon Hub explicitly so we don't accidentally fall out of the stack
+    router.push('/lexicon/index' as any);
+  };
+
   const renderVocabulary = () => (
-    <ScrollView contentContainerStyle={styles.scrollContent}>
+    <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
       {DUMMY_VOCAB.map((item, idx) => (
         <View key={idx} style={styles.vocabRow}>
           <View style={styles.vocabInfo}>
             <ThemedText style={styles.vocabWord}>{item.word}</ThemedText>
-            <ThemedText style={styles.vocabSub}>{item.category} • {item.level}</ThemedText>
+            <ThemedText style={styles.vocabSub}>{item.category}</ThemedText>
           </View>
-          <ThemedText style={styles.vocabTranslation}>{item.translation}</ThemedText>
+          <View style={{alignItems: 'flex-end'}}>
+             <ThemedText style={[styles.vocabTranslation, { color: themeColor }]}>{item.translation}</ThemedText>
+             <View style={styles.levelBadgeMini}>
+                <ThemedText style={styles.levelBadgeText}>{item.level}</ThemedText>
+             </View>
+          </View>
         </View>
       ))}
     </ScrollView>
@@ -55,7 +76,7 @@ export default function LexiconDetailScreen() {
   const renderFlashcards = () => (
     <View style={styles.flashcardContainer}>
       <TouchableOpacity 
-        style={[styles.flashcard, flipped && styles.flashcardFlipped]} 
+        style={[styles.flashcard, flipped && { borderColor: themeColor, backgroundColor: 'rgba(244, 162, 97, 0.05)' }]} 
         onPress={() => setFlipped(!flipped)}
         activeOpacity={0.9}
       >
@@ -70,29 +91,33 @@ export default function LexiconDetailScreen() {
           style={styles.controlBtn} 
           onPress={() => { setFlipped(false); setCardIdx((cardIdx - 1 + FLASHCARDS.length) % FLASHCARDS.length); }}
         >
-          <Ionicons name="chevron-back" size={24} color={Colors.primaryText} />
+          <Ionicons name="chevron-back" size={32} color={Colors.white} />
         </TouchableOpacity>
-        <ThemedText style={styles.counterText}>{cardIdx + 1} / {FLASHCARDS.length}</ThemedText>
+        
+        <View style={styles.counterPill}>
+          <ThemedText style={styles.counterText}>{cardIdx + 1} / {FLASHCARDS.length}</ThemedText>
+        </View>
+
         <TouchableOpacity 
           style={styles.controlBtn} 
           onPress={() => { setFlipped(false); setCardIdx((cardIdx + 1) % FLASHCARDS.length); }}
         >
-          <Ionicons name="chevron-forward" size={24} color={Colors.primaryText} />
+          <Ionicons name="chevron-forward" size={32} color={Colors.white} />
         </TouchableOpacity>
       </View>
     </View>
   );
 
   const renderGenericList = (title: string, icon: any, color: string) => (
-    <ScrollView contentContainerStyle={styles.scrollContent}>
+    <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
       {[1, 2, 3, 4, 5].map((i) => (
-        <View key={i} style={styles.listItem}>
-          <View style={[styles.itemIcon, { backgroundColor: color + '20' }]}>
-            <Ionicons name={icon} size={20} color={color} />
+        <View key={i} style={styles.vocabRow}>
+          <View style={[styles.itemIcon, { backgroundColor: 'rgba(255, 255, 255, 0.1)' }]}>
+            <Ionicons name={icon} size={28} color={color} />
           </View>
           <View style={styles.itemInfo}>
-            <ThemedText style={styles.itemTitle}>{title} Phrase {i}</ThemedText>
-            <ThemedText style={styles.itemSub}>Used in common daily conversations.</ThemedText>
+            <ThemedText style={styles.itemTitle}>{title} Expression {i}</ThemedText>
+            <ThemedText style={styles.itemSubText}>Used in daily conversation.</ThemedText>
           </View>
         </View>
       ))}
@@ -102,17 +127,17 @@ export default function LexiconDetailScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-          <Ionicons name="chevron-back" size={24} color={Colors.primaryText} />
+        <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
+          <Ionicons name="chevron-back" size={24} color={Colors.textDark} />
         </TouchableOpacity>
-        <ThemedText style={styles.headerTitle}>{type?.toString().replace('_', ' ')}</ThemedText>
-        <View style={{ width: 44 }} />
+        <ThemedText style={styles.headerTitle}>{type?.replace('_', ' ')}</ThemedText>
+        <View style={{ width: 56 }} />
       </View>
 
       {type === 'VOCABULARY' && renderVocabulary()}
       {type === 'FLASHCARDS' && renderFlashcards()}
-      {type === 'IDIOMS' && renderGenericList('Idiom', 'chatbubbles', Colors.primaryAccent)}
-      {type === 'PHRASAL_VERBS' && renderGenericList('Verb', 'book', ThemeColors.dark.error)}
+      {type === 'IDIOMS' && renderGenericList('Idiom', 'chatbubbles', Colors.amber)}
+      {type === 'PHRASAL_VERBS' && renderGenericList('Verb', 'book', Colors.cyan)}
     </SafeAreaView>
   );
 }
@@ -128,130 +153,128 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingTop: 10,
-    paddingBottom: 20,
+    paddingBottom: 24,
   },
   backBtn: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: Colors.cardBg,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: '800',
-    color: Colors.primaryText,
+    color: Colors.textHeader,
     textTransform: 'capitalize',
+    letterSpacing: -0.5,
   },
   scrollContent: {
     paddingHorizontal: 20,
     paddingBottom: 40,
+    gap: 16,
   },
   vocabRow: {
     backgroundColor: Colors.cardBg,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 12,
+    borderRadius: 35,
+    padding: 24,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: Colors.elevatedSurface,
   },
   vocabInfo: {
     flex: 1,
   },
   vocabWord: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: '800',
-    color: Colors.primaryText,
+    color: Colors.textHeader,
+    marginBottom: 6,
   },
   vocabSub: {
-    fontSize: 12,
-    color: Colors.secondaryText,
-    marginTop: 4,
+    fontSize: 14,
+    fontWeight: '600',
+    color: Colors.textMuted,
   },
   vocabTranslation: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.primaryAccent,
+    fontSize: 20,
+    fontWeight: '800',
+    marginBottom: 8,
+  },
+  levelBadgeMini: {
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  levelBadgeText: {
+    fontSize: 12,
+    color: Colors.textHeader,
+    fontWeight: '800',
   },
   flashcardContainer: {
     flex: 1,
-    padding: 40,
+    paddingHorizontal: 24,
+    paddingBottom: 60,
+    paddingTop: 20,
     justifyContent: 'center',
   },
   flashcard: {
     width: '100%',
     aspectRatio: 3 / 4,
     backgroundColor: Colors.cardBg,
-    borderRadius: 32,
+    borderRadius: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: Colors.elevatedSurface,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.3,
-    shadowRadius: 20,
-    elevation: 5,
-  },
-  flashcardFlipped: {
-    borderColor: Colors.secondaryAccent,
+    borderWidth: 4,
+    borderColor: 'transparent',
   },
   cardText: {
-    fontSize: 32,
+    fontSize: 38,
     fontWeight: '900',
-    color: Colors.primaryText,
+    color: Colors.textHeader,
     textAlign: 'center',
     paddingHorizontal: 20,
+    letterSpacing: -1,
   },
   flipLabel: {
-    fontSize: 12,
-    color: Colors.secondaryText,
+    fontSize: 13,
+    color: Colors.textMuted,
     fontWeight: '800',
     letterSpacing: 2,
-    marginTop: 40,
     position: 'absolute',
     bottom: 40,
   },
   cardControls: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 32,
     marginTop: 40,
   },
   controlBtn: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: Colors.cardBg,
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: 'rgba(255,255,255,0.1)',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: Colors.elevatedSurface,
+  },
+  counterPill: {
+    backgroundColor: Colors.white,
+    paddingHorizontal: 24,
+    paddingVertical: 14,
+    borderRadius: 30,
   },
   counterText: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: Colors.primaryText,
-  },
-  listItem: {
-    backgroundColor: Colors.cardBg,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: Colors.elevatedSurface,
+    fontSize: 20,
+    fontWeight: '900',
+    color: Colors.textDark,
   },
   itemIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -260,13 +283,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.primaryText,
+    fontSize: 18,
+    fontWeight: '800',
+    color: Colors.textHeader,
+    marginBottom: 4,
   },
-  itemSub: {
-    fontSize: 12,
-    color: Colors.secondaryText,
-    marginTop: 2,
+  itemSubText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: Colors.textMuted,
   },
 });

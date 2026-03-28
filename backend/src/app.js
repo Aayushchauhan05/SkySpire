@@ -24,6 +24,10 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/training', require('./routes/trainingRoutes'));
+app.use('/api/paths', require('./routes/pathRoutes'));
+app.use('/api/chapters', require('./routes/chapterRoutes'));
+app.use('/api/quizzes', require('./routes/quizRoutes'));
 
 // Error Handling Middleware (Custom error handler will be added later)
 app.use((err, req, res, next) => {

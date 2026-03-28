@@ -12,10 +12,10 @@ export const Colors = {
   light: {
     text: '#110E1A',
     background: '#F0EEF8',
-    tint: '#00C896',
+    tint: '#9B8AF4',
     icon: '#8E88B0',
     tabIconDefault: '#8E88B0',
-    tabIconSelected: '#00C896',
+    tabIconSelected: '#9B8AF4',
     primary: '#FF8A66', // Warm Coral
     secondary: '#9B8AF4', // Soft Purple
     accent: '#FFB800',
@@ -29,7 +29,7 @@ export const Colors = {
     icon: '#8E88B0', // Muted Purple
     tabIconDefault: '#8E88B0',
     tabIconSelected: '#FF8A66',
-    primary: '#FF8A66',
+    primary: '#FF8A66', // Warm Coral
     secondary: '#9B8AF4', // Soft Purple
     accent: '#FFB800', // Warm Amber
     card: '#1C1830', // Deep Purple

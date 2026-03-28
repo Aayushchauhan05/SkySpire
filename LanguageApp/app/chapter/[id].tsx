@@ -3,21 +3,21 @@ import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimension
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '../../components/themed-text';
-import { Colors as ThemeColors } from '../../constants/theme';
 
 const { width } = Dimensions.get('window');
 
-// Premium warm palette derived from theme (using global constants)
+// Restored Premium Matte Colors
 const Colors = {
-  mainBg: ThemeColors.dark.background,
-  cardBg: ThemeColors.dark.card,
-  elevatedSurface: ThemeColors.dark.elevated,
-  primaryAccent: ThemeColors.dark.primary,     // Warm coral
-  secondaryAccent: ThemeColors.dark.secondary, // Soft purple
-  amber: ThemeColors.dark.accent,
-  error: ThemeColors.dark.error,
-  primaryText: ThemeColors.dark.text,
-  secondaryText: ThemeColors.dark.secondaryText,
+  mainBg: '#110E1A',
+  cardBg: '#1C1830',
+  elevatedSurface: '#252040',
+  primaryAccent: '#FF8A66',     // Warm coral
+  secondaryAccent: '#9B8AF4', // Soft purple
+  amber: '#FFB800',
+  white: '#FFFFFF',
+  textHeader: '#FFFFFF',
+  textDark: '#110E1A',
+  textMuted: '#8E88B0',
 };
 
 const DUMMY_LECTURES = [
@@ -44,18 +44,20 @@ export default function ChapterDetailScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Simple Header Replacement in Header area if needed, but per request remove header */}
-        <View style={{ marginTop: 20, marginBottom: 10 }}>
+        
+        {/* Simple Header */}
+        <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backBtnSmall}>
-            <Ionicons name="chevron-back" size={24} color={Colors.primaryText} />
+            <Ionicons name="chevron-back" size={24} color={Colors.textDark} />
           </TouchableOpacity>
         </View>
 
-        
-        {/* Video Placeholder */}
+        {/* Massive Video Player */}
         <View style={styles.videoCard}>
           <View style={styles.videoPlaceholder}>
-            <Ionicons name="play" size={48} color={Colors.primaryAccent} />
+            <View style={styles.playButtonCircle}>
+              <Ionicons name="play" size={48} color={Colors.white} style={{ marginLeft: 6 }} />
+            </View>
           </View>
           <View style={styles.videoInfo}>
             <ThemedText style={styles.videoTitle}>Basics of Greetings</ThemedText>
@@ -63,57 +65,51 @@ export default function ChapterDetailScreen() {
           </View>
         </View>
 
-        {/* Progress Overview */}
+        {/* Round Progress Overview */}
         <View style={styles.progressCard}>
           <View style={styles.progressHeader}>
             <ThemedText style={styles.progressTitle}>Your Progress</ThemedText>
-            <ThemedText style={styles.progressMeta}>{completedCount}/{lectures.length} completed</ThemedText>
+            <View style={styles.metaPill}>
+               <ThemedText style={styles.progressMeta}>{completedCount}/{lectures.length}</ThemedText>
+            </View>
           </View>
           <View style={styles.progressBarBg}>
             <View style={[styles.progressBarFill, { width: `${progressPercent}%` }]} />
           </View>
         </View>
 
-        {/* Study Content Section Header */}
         <View style={styles.sectionHeader}>
            <ThemedText style={styles.sectionTitle}>Lectures & Study</ThemedText>
         </View>
 
-        {/* Dynamic Lecture List */}
+        {/* Chunky Lecture List */}
         {lectures.map((item) => (
           <TouchableOpacity 
             key={item.id} 
             style={[styles.lectureCard, item.completed && styles.lectureCardCompleted]}
             onPress={() => toggleComplete(item.id)}
+            activeOpacity={0.8}
           >
-            <View style={styles.lectureIconBox}>
-               <Ionicons 
-                name={item.completed ? "checkmark-circle" : "play-circle-outline"} 
-                size={24} 
-                color={item.completed ? Colors.secondaryAccent : Colors.primaryAccent} 
-               />
+            <View style={[styles.lectureIconBox, item.completed && { backgroundColor: Colors.secondaryAccent }]}>
+               {item.completed ? (
+                 <Ionicons name="checkmark" size={28} color={Colors.white} />
+               ) : (
+                 <Ionicons name="play" size={24} color={Colors.white} />
+               )}
             </View>
             <View style={styles.lectureInfo}>
-              <ThemedText style={[styles.lectureTitle, item.completed && { opacity: 0.6 }]}>
+              <ThemedText style={[styles.lectureTitle, item.completed && { color: Colors.textMuted }]}>
                 {item.title}
               </ThemedText>
               <ThemedText style={styles.lectureDuration}>{item.duration} mins</ThemedText>
             </View>
-            <TouchableOpacity 
-              style={[styles.completeBtn, item.completed && styles.completeBtnActive]}
-              onPress={() => toggleComplete(item.id)}
-            >
-               <ThemedText style={[styles.completeBtnText, item.completed && { color: Colors.secondaryAccent }]}>
-                 {item.completed ? "Done" : "Mark Done"}
-               </ThemedText>
-            </TouchableOpacity>
           </TouchableOpacity>
         ))}
 
-        {/* Study Material / Note Card */}
+        {/* Study Note Card */}
         <View style={styles.studyNoteCard}>
           <View style={styles.noteHeader}>
-            <MaterialCommunityIcons name="pencil-outline" size={20} color={Colors.amber} />
+            <MaterialCommunityIcons name="pencil-circle" size={32} color={Colors.amber} />
             <ThemedText style={styles.noteTag}>STUDY NOTE</ThemedText>
           </View>
           <ThemedText style={styles.noteTitle}>The Difference between 'Hola' and 'Buenos Días'</ThemedText>
@@ -122,20 +118,18 @@ export default function ChapterDetailScreen() {
           </ThemedText>
         </View>
 
-        {/* Quiz Button Card */}
+        {/* Grand Quiz Action */}
         <TouchableOpacity 
           style={styles.quizCard}
           onPress={() => router.push(`/quiz/${id}` as any)}
+          activeOpacity={0.9}
         >
-          <View style={styles.quizIconBox}>
-            <MaterialCommunityIcons name="head-question-outline" size={32} color={Colors.primaryText} />
+          <View style={styles.quizContent}>
+             <ThemedText style={styles.quizTitleWhite}>Take Chapter Quiz</ThemedText>
+             <ThemedText style={styles.quizSubWhite}>Test knowledge and earn 50 XP</ThemedText>
           </View>
-          <View style={styles.quizInfo}>
-            <ThemedText style={styles.quizTitle}>Chapter Quiz</ThemedText>
-            <ThemedText style={styles.quizSub}>Test your knowledge and earn XP</ThemedText>
-          </View>
-          <View style={styles.startBadge}>
-            <ThemedText style={styles.startText}>START</ThemedText>
+          <View style={styles.quizIconCircle}>
+            <Ionicons name="arrow-forward" size={32} color={Colors.primaryAccent} />
           </View>
         </TouchableOpacity>
 
@@ -149,14 +143,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.mainBg,
   },
+  header: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
   backBtnSmall: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: Colors.cardBg,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
   },
   scrollContent: {
     paddingHorizontal: 24,
@@ -164,93 +161,102 @@ const styles = StyleSheet.create({
   },
   videoCard: {
     backgroundColor: Colors.cardBg,
-    borderRadius: 24,
+    borderRadius: 35,
     overflow: 'hidden',
     marginBottom: 24,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.05)',
   },
   videoPlaceholder: {
     width: '100%',
     aspectRatio: 16 / 9,
-    backgroundColor: Colors.elevatedSurface,
+    backgroundColor: Colors.secondaryAccent,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  playButtonCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(255,255,255,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   videoInfo: {
-    padding: 20,
+    padding: 24,
   },
   videoTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: '800',
-    color: Colors.primaryText,
-    marginBottom: 4,
+    color: Colors.textHeader,
+    marginBottom: 8,
   },
   videoSub: {
-    fontSize: 14,
-    color: Colors.secondaryText,
-    fontWeight: '500',
+    fontSize: 16,
+    color: Colors.textMuted,
+    fontWeight: '600',
   },
   progressCard: {
-    backgroundColor: Colors.cardBg,
-    borderRadius: 20,
-    padding: 20,
+    backgroundColor: Colors.white,
+    borderRadius: 35,
+    padding: 24,
     marginBottom: 32,
-    borderWidth: 1,
-    borderColor: Colors.elevatedSurface,
   },
   progressHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 16,
   },
   progressTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.primaryText,
+    fontSize: 20,
+    fontWeight: '800',
+    color: Colors.textDark,
+  },
+  metaPill: {
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
   },
   progressMeta: {
-    fontSize: 12,
-    color: Colors.secondaryText,
-    fontWeight: '600',
+    fontSize: 16,
+    color: Colors.textDark,
+    fontWeight: '800',
   },
   progressBarBg: {
-    height: 8,
-    backgroundColor: Colors.elevatedSurface,
-    borderRadius: 4,
+    height: 12,
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    borderRadius: 6,
   },
   progressBarFill: {
-    height: 8,
+    height: 12,
     backgroundColor: Colors.primaryAccent,
-    borderRadius: 4,
+    borderRadius: 6,
   },
   sectionHeader: {
     marginBottom: 16,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: '800',
-    color: Colors.primaryText,
+    color: Colors.textHeader,
+    letterSpacing: -0.5,
   },
   lectureCard: {
     backgroundColor: Colors.cardBg,
-    borderRadius: 16,
+    borderRadius: 24,
     padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 12,
-    borderWidth: 1,
-    borderColor: Colors.elevatedSurface,
   },
   lectureCardCompleted: {
-    backgroundColor: 'rgba(155, 138, 244, 0.03)',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
   },
   lectureIconBox: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: Colors.elevatedSurface,
+    width: 56,
+    height: 56,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -259,110 +265,80 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   lectureTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
-    color: Colors.primaryText,
+    color: Colors.textHeader,
   },
   lectureDuration: {
-    fontSize: 12,
-    color: Colors.secondaryText,
-    marginTop: 2,
-  },
-  completeBtn: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: Colors.elevatedSurface,
-  },
-  completeBtnActive: {
-    borderColor: Colors.secondaryAccent + '40',
-    backgroundColor: Colors.secondaryAccent + '10',
-  },
-  completeBtnText: {
-    fontSize: 12,
-    fontWeight: '800',
-    color: Colors.secondaryText,
+    fontSize: 14,
+    color: Colors.textMuted,
+    marginTop: 4,
+    fontWeight: '600',
   },
   studyNoteCard: {
-    backgroundColor: Colors.elevatedSurface,
-    borderRadius: 24,
-    padding: 24,
+    backgroundColor: Colors.cardBg,
+    borderRadius: 35,
+    padding: 32,
     marginTop: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(255,184,0,0.1)',
   },
   noteHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginBottom: 12,
+    marginBottom: 16,
   },
   noteTag: {
-    fontSize: 11,
+    fontSize: 14,
     fontWeight: '800',
-    letterSpacing: 1.5,
+    letterSpacing: 2,
     color: Colors.amber,
   },
   noteTitle: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: '800',
-    color: Colors.primaryText,
-    marginBottom: 8,
+    color: Colors.textHeader,
+    marginBottom: 12,
+    lineHeight: 28,
   },
   noteBody: {
-    fontSize: 15,
-    color: Colors.secondaryText,
-    lineHeight: 22,
+    fontSize: 16,
+    color: Colors.textMuted,
+    lineHeight: 26,
     fontWeight: '500',
   },
   quizCard: {
     backgroundColor: Colors.primaryAccent,
-    borderRadius: 24,
-    padding: 24,
+    borderRadius: 40,
+    padding: 28,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginTop: 32,
     marginBottom: 20,
-    shadowColor: Colors.primaryAccent,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 20,
-    elevation: 8,
+    height: 160,
   },
-  quizIconBox: {
-    width: 56,
-    height: 56,
-    borderRadius: 18,
-    backgroundColor: 'rgba(17, 14, 26, 0.15)',
+  quizContent: {
+    flex: 1,
+  },
+  quizTitleWhite: {
+    fontSize: 26,
+    fontWeight: '900',
+    color: Colors.white,
+    lineHeight: 32,
+  },
+  quizSubWhite: {
+    fontSize: 14,
+    color: Colors.white,
+    opacity: 0.9,
+    fontWeight: '600',
+    marginTop: 8,
+  },
+  quizIconCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  quizInfo: {
-    flex: 1,
-    marginLeft: 16,
-  },
-  quizTitle: {
-    fontSize: 20,
-    fontWeight: '800',
-    color: '#110E1A',
-  },
-  quizSub: {
-    fontSize: 13,
-    color: '#110E1A',
-    opacity: 0.7,
-    fontWeight: '600',
-    marginTop: 2,
-  },
-  startBadge: {
-    backgroundColor: '#110E1A',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 10,
-  },
-  startText: {
-    color: Colors.primaryAccent,
-    fontSize: 12,
-    fontWeight: '800',
   },
 });

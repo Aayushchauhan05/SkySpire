@@ -80,6 +80,15 @@ export default function LandingScreen() {
             Already signed up? <ThemedText style={{ color: Colors.primaryAccent, fontWeight: '700' }}>Log In</ThemedText>
           </ThemedText>
         </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={[styles.ghostBtn, { paddingTop: 0 }]} 
+          onPress={() => router.replace('/(tabs)')}
+        >
+          <ThemedText style={{ color: Colors.secondaryText, fontSize: 14, fontWeight: '600' }}>
+            Browse as Guest
+          </ThemedText>
+        </TouchableOpacity>
       </Animated.View>
     </SafeAreaView>
   );
