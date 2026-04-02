@@ -1,546 +1,297 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { ThemedText } from '@/components/themed-text';
 import { useAppStore } from '../../store/useAppStore';
 
 const { width } = Dimensions.get('window');
 
-// Restored Premium Matte Colors
-const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66',     // Warm coral
-  secondaryAccent: '#9B8AF4', // Soft purple
-  amber: '#FFB800',
-  cyan: '#00E5FF',
-  white: '#FFFFFF',
-  textHeader: '#FFFFFF',
-  textDark: '#110E1A',
-  textMuted: '#8E88B0',
+const LANG_FLAGS: Record<string, string> = {
+  Spanish: '🇪🇸',
+  French: '🇫🇷',
+  German: '🇩🇪',
+  Italian: '🇮🇹',
+  Japanese: '🇯🇵',
+  Arabic: '🇸🇦',
 };
+
+function getGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning';
+  if (h < 18) return 'Good afternoon';
+  return 'Good evening';
+}
 
 export default function HomeScreen() {
   const router = useRouter();
-  
-  // Zustand Store
-  const name = useAppStore(state => state.name);
-  const targetLanguage = useAppStore(state => state.targetLanguage);
-  const streakDays = useAppStore(state => state.streakDays);
-  const minutesStudiedToday = useAppStore(state => state.minutesStudiedToday);
-  const dailyGoalMinutes = useAppStore(state => state.dailyGoalMinutes);
-  const savedWords = useAppStore(state => state.savedWords);
-  const cefrLevel = useAppStore(state => state.cefrLevel);
+
+  const name = useAppStore(s => s.name);
+  const targetLanguage = useAppStore(s => s.targetLanguage);
+  const streakDays = useAppStore(s => s.streakDays);
+  const minutesStudiedToday = useAppStore(s => s.minutesStudiedToday);
+  const dailyGoalMinutes = useAppStore(s => s.dailyGoalMinutes);
+  const savedWords = useAppStore(s => s.savedWords);
 
   const progressPercent = Math.min((minutesStudiedToday / dailyGoalMinutes) * 100, 100);
+  const firstName = name.split(' ')[0];
+  const flag = LANG_FLAGS[targetLanguage] ?? '🌐';
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        
-        {/* HEADER */}
-        <View style={styles.topHeader}>
-          <View style={styles.headerLeft}>
-            <TouchableOpacity style={styles.flagBtn}>
-              <ThemedText style={styles.flagEmoji}>🇪🇸</ThemedText>
-              <ThemedText style={styles.langName}>{targetLanguage}</ThemedText>
-              <Ionicons name="chevron-down" size={16} color={Colors.white} />
+    <SafeAreaView className="flex-1 bg-main-bg">
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 32 }}
+      >
+        {/* ── HEADER ── */}
+        <View className="flex-row items-center justify-between px-5 pt-3 pb-5">
+          {/* Language selector */}
+          <TouchableOpacity className="flex-row items-center bg-card-bg px-4 py-2.5 rounded-3xl gap-2">
+            <Text className="text-xl">{flag}</Text>
+            <Text className="text-white font-bold text-base">{targetLanguage}</Text>
+            <Ionicons name="chevron-down" size={15} color="#FFFFFF" />
+          </TouchableOpacity>
+
+          {/* Guest label */}
+          <Text className="text-white font-bold text-base">{firstName}</Text>
+
+          {/* Streak badge */}
+          <View
+            className="flex-row items-center gap-1 px-3 py-2 rounded-2xl"
+            style={{
+              backgroundColor: 'rgba(255,184,0,0.1)',
+              borderWidth: 1,
+              borderColor: 'rgba(255,184,0,0.3)',
+            }}
+          >
+            <MaterialCommunityIcons name="fire" size={20} color="#FFB800" />
+            <Text className="text-amber font-extrabold text-base">
+              Streak: {streakDays}
+            </Text>
+            <Text className="text-lg">🔥</Text>
+          </View>
+        </View>
+
+        {/* ── GREETING ── */}
+        <View className="px-5 mb-8">
+          <Text
+            className="text-white font-extrabold"
+            style={{ fontSize: 38, lineHeight: 46, letterSpacing: -1 }}
+          >
+            {getGreeting()},{'\n'}{firstName}
+          </Text>
+          <Text className="text-muted text-lg font-semibold mt-2">
+            Ready to learn something new?
+          </Text>
+        </View>
+
+        {/* ── CONTINUE BANNER ── */}
+        <View className="mx-5 mb-7 bg-coral rounded-3xl p-6">
+          <Text
+            className="text-xs font-black tracking-widest mb-2 uppercase"
+            style={{ color: 'rgba(0,0,0,0.4)' }}
+          >
+            Continue where you left off
+          </Text>
+          <View className="flex-row justify-between items-center">
+            <View className="flex-1 mr-4">
+              <Text className="text-white/90 text-sm font-bold mb-0.5">
+                Unit 2: Intermediates
+              </Text>
+              <Text className="text-white text-[22px] font-black leading-7">
+                Definite Articles: Part 2
+              </Text>
+            </View>
+            <TouchableOpacity
+              className="flex-row items-center gap-1.5 rounded-2xl px-5 py-3"
+              style={{ backgroundColor: 'rgba(255,255,255,0.25)' }}
+              onPress={() => router.push('/chapter/1_2' as any)}
+            >
+              <Text className="text-white text-base font-extrabold">Resume</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.headerRight}>
-             <View style={styles.streakBadge}>
-                <MaterialCommunityIcons name="fire" size={20} color={Colors.amber} />
-                <ThemedText style={styles.streakText}>{streakDays}</ThemedText>
-             </View>
-          </View>
         </View>
 
-        {/* GREETING */}
-        <View style={styles.greetingSection}>
-          <ThemedText style={styles.greetingText}>
-            {(() => {
-              const hour = new Date().getHours();
-              if (hour < 12) return 'Good morning';
-              if (hour < 18) return 'Good afternoon';
-              return 'Good evening';
-            })()}, {name.split(' ')[0]}
-          </ThemedText>
-          <ThemedText style={styles.subGreetingText}>
-            Ready to learn something new?
-          </ThemedText>
-        </View>
-
-        {/* CONTINUE BANNER */}
-        <View style={styles.continueBanner}>
-           <ThemedText style={styles.continueLabel}>CONTINUE WHERE YOU LEFT OFF</ThemedText>
-           <View style={styles.continueContent}>
-              <View>
-                 <ThemedText style={styles.continueChapter}>Unit 1: Foundations</ThemedText>
-                 <ThemedText style={styles.continueSection}>Definite Articles</ThemedText>
-              </View>
-              <TouchableOpacity style={styles.resumeBtn} onPress={() => router.push('/chapter/1_2' as any)}>
-                 <Ionicons name="play" size={20} color={Colors.white} />
-                 <ThemedText style={styles.resumeText}>Resume</ThemedText>
-              </TouchableOpacity>
-           </View>
-        </View>
-
-        {/* STAGGERED MASONRY GRID */}
-        <View style={styles.mainGrid}>
-          
-          {/* LEFT COLUMN */}
-          <View style={styles.leftCol}>
-            
-            {/* MODULES PATH */}
-            <TouchableOpacity 
-              style={[styles.largeCard, { backgroundColor: Colors.secondaryAccent }]}
+        {/* ── MASONRY GRID ── */}
+        <View className="flex-row gap-3 px-5 mb-7">
+          {/* Left column */}
+          <View style={{ flex: 1.1, gap: 14 }}>
+            {/* Large chapter card */}
+            <TouchableOpacity
+              className="bg-purple-accent rounded-[36px] p-7 justify-between"
+              style={{ height: 380 }}
               onPress={() => router.push('/module/SURVIVAL' as any)}
             >
               <View>
-                 <ThemedText style={[styles.largeCardTitle, {fontSize: 22}]}>Chapter 2: Greetings</ThemedText>
-                 <ThemedText style={{color: Colors.white, opacity: 0.8, marginTop: 4, fontWeight: '600'}}>Lv. 2 · 45% Complete</ThemedText>
+                <Text className="text-white font-extrabold leading-8" style={{ fontSize: 24 }}>
+                  Chapter 2:{'\n'}Essential{'\n'}Greetings
+                </Text>
+                <Text className="text-white/80 mt-2 font-semibold text-sm">
+                  Lv. 2 • 45% Complete
+                </Text>
               </View>
-              
-              <View style={styles.levelBadge}>
-                <ThemedText style={styles.levelText}>Modules</ThemedText>
-              </View>
-            </TouchableOpacity>
 
-            {/* DAILY STATS PILLS */}
-            <View style={styles.pillContainer}>
-              <View style={styles.pill}>
-                <ThemedText style={styles.pillText}>{streakDays} <ThemedText style={styles.pillSubText}>day streak</ThemedText></ThemedText>
-              </View>
-              <View style={styles.pill}>
-                <ThemedText style={styles.pillText}>{minutesStudiedToday}/{dailyGoalMinutes} <ThemedText style={styles.pillSubText}>min goal</ThemedText></ThemedText>
-              </View>
-            </View>
+              {/* View Modules button */}
+              <TouchableOpacity
+                className="bg-white self-start px-6 py-3 rounded-full"
+                onPress={() => router.push('/module/SURVIVAL' as any)}
+              >
+                <Text className="text-main-bg font-extrabold text-base">View Modules</Text>
+              </TouchableOpacity>
+            </TouchableOpacity>
           </View>
 
-          {/* RIGHT COLUMN */}
-          <View style={styles.rightCol}>
-            
-            {/* PROFILE & PROGRESS */}
-            <TouchableOpacity 
-              style={[styles.smallCard, { backgroundColor: Colors.white, alignItems: 'flex-start', justifyContent: 'space-between' }]}
+          {/* Right column */}
+          <View style={{ flex: 1, gap: 14 }}>
+            {/* Badges card */}
+            <TouchableOpacity
+              className="bg-white rounded-[32px] p-5 justify-between"
+              style={{ height: 178 }}
               onPress={() => router.push('/profile' as any)}
             >
-              <View style={{flexDirection: 'row', alignItems: 'center', gap: 6}}>
-                 <Ionicons name="medal" size={24} color={Colors.amber} />
-                 <ThemedText style={{fontSize: 16, fontWeight: '800', color: Colors.textDark}}>4 Badges</ThemedText>
+              <View className="flex-row items-center gap-1.5">
+                <Ionicons name="medal" size={22} color="#FFB800" />
+                <Text className="text-main-bg text-base font-extrabold">4 Badges</Text>
               </View>
-              <View>
-                 <ThemedText style={[styles.progressLabel, {textAlign: 'left', marginTop: 0}]}>View Weekly Report</ThemedText>
+              <View className="flex-row gap-1 mt-1">
+                <Text style={{ fontSize: 22 }}>⭐</Text>
+                <Text style={{ fontSize: 22 }}>👑</Text>
+                <Text style={{ fontSize: 22 }}>🥇</Text>
+                <Text style={{ fontSize: 22 }}>🥈</Text>
               </View>
+              <Text className="text-[#777] text-xs font-bold mt-1">
+                View Achievement{'\n'}Progress
+              </Text>
             </TouchableOpacity>
 
-            {/* GRAMMAR / COURSE */}
-            <TouchableOpacity 
-              style={[styles.mediumCard, { backgroundColor: Colors.primaryAccent }]}
+            {/* Unit 1 card */}
+            <TouchableOpacity
+              className="bg-coral rounded-[32px] p-5 justify-between"
+              style={{ height: 192 }}
               onPress={() => router.push('/course' as any)}
             >
               <View>
-                 <ThemedText style={styles.cardTitleWhite}>Unit 1: Foundations</ThemedText>
-                 <ThemedText style={{color: Colors.white, opacity: 0.9, marginTop: 4, fontWeight: '600'}}>3/5 Ch. · 60%</ThemedText>
+                <Text className="text-white font-extrabold leading-6" style={{ fontSize: 18 }}>
+                  Unit 1:{'\n'}Foundations
+                </Text>
+                <Text className="text-white/90 mt-1 font-semibold text-sm">
+                  3/5 Ch. • 60%{'\n'}Complete
+                </Text>
               </View>
-              <View style={styles.iconCircle}>
-                <Ionicons name="book" size={24} color={Colors.white} />
+              {/* Progress bar */}
+              <View
+                className="rounded-full overflow-hidden"
+                style={{ height: 6, backgroundColor: 'rgba(0,0,0,0.2)' }}
+              >
+                <View
+                  className="bg-white rounded-full h-full"
+                  style={{ width: '60%' }}
+                />
               </View>
             </TouchableOpacity>
-
-            {/* LEXICON */}
-            <TouchableOpacity 
-              style={[styles.mediumCard, { backgroundColor: '#F4A261' }]} // Peach color
-              onPress={() => router.push('/lexicon/index' as any)}
-            >
-              <View>
-                 <ThemedText style={styles.cardTitleWhite}>Lexicon Space</ThemedText>
-                 <ThemedText style={{color: Colors.white, opacity: 0.9, marginTop: 4, fontWeight: '600'}}>{savedWords.length} Words</ThemedText>
-              </View>
-              <MaterialCommunityIcons name="cards" size={40} color={Colors.white} style={styles.libraryIcon} />
-            </TouchableOpacity>
-
           </View>
         </View>
 
-        {/* DAILY CONTENT ROW */}
-        <View style={styles.dailySection}>
-          <ThemedText style={styles.dailySectionTitle}>Daily Spotlight</ThemedText>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{gap: 16, paddingRight: 24, paddingLeft: 4}}>
+        {/* ── DAILY SPOTLIGHT ── */}
+        <View className="mb-2">
+          <Text className="text-white font-extrabold text-lg px-5 mb-4">
+            Daily Spotlight
+          </Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 14, paddingHorizontal: 20, paddingRight: 28 }}
+          >
             {/* Daily Word */}
-            <TouchableOpacity style={[styles.longCard, {width: width * 0.75}]}>
-              <View style={styles.longCardHeader}>
-                <ThemedText style={styles.longCardTag}>DAILY WORD</ThemedText>
-                <Ionicons name="sparkles" size={20} color={Colors.amber} />
+            <TouchableOpacity
+              className="bg-card-bg rounded-[28px] p-6"
+              style={{ width: width * 0.72 }}
+            >
+              <View className="flex-row items-center gap-2 mb-3">
+                <Text className="text-amber text-xs font-black tracking-widest uppercase">
+                  Daily Word
+                </Text>
+                <Ionicons name="sparkles" size={18} color="#FFB800" />
               </View>
-              <ThemedText style={styles.dailyWordText}>Desarrollar</ThemedText>
-              <ThemedText style={styles.dailyDefText}>"To develop, to grow."</ThemedText>
+              <Text className="text-white text-2xl font-extrabold mb-1">Desarrollar</Text>
+              <Text className="text-muted text-base leading-6">"To develop, to grow."</Text>
             </TouchableOpacity>
 
             {/* Grammar Tip */}
-            <TouchableOpacity style={[styles.longCard, {width: width * 0.75, backgroundColor: Colors.elevatedSurface}]}>
-              <View style={styles.longCardHeader}>
-                <ThemedText style={[styles.longCardTag, {color: Colors.cyan}]}>GRAMMAR TIP</ThemedText>
-                <Ionicons name="bulb" size={20} color={Colors.cyan} />
+            <TouchableOpacity
+              className="bg-elevated rounded-[28px] p-6"
+              style={{ width: width * 0.72 }}
+            >
+              <View className="flex-row items-center gap-2 mb-3">
+                <Text className="text-cyan text-xs font-black tracking-widest uppercase">
+                  Grammar Tip
+                </Text>
+                <Ionicons name="bulb" size={18} color="#00E5FF" />
               </View>
-              <ThemedText style={styles.dailyWordText}>El vs. La</ThemedText>
-              <ThemedText style={styles.dailyDefText}>Nouns ending in -o are typically masculine (el), and in -a are feminine (la).</ThemedText>
+              <Text className="text-white text-2xl font-extrabold mb-1">El vs. La</Text>
+              <Text className="text-muted text-base leading-6">
+                Nouns ending in -o are typically masculine (el), and in -a are feminine (la).
+              </Text>
             </TouchableOpacity>
 
             {/* Phrase of the Week */}
-            <TouchableOpacity style={[styles.longCard, {width: width * 0.75, backgroundColor: 'rgba(255, 138, 102, 0.05)', borderColor: Colors.primaryAccent, borderWidth: 1}]}>
-              <View style={styles.longCardHeader}>
-                <ThemedText style={[styles.longCardTag, {color: Colors.primaryAccent}]}>PHRASE OF THE WEEK</ThemedText>
-                <Ionicons name="chatbubbles" size={20} color={Colors.primaryAccent} />
+            <TouchableOpacity
+              className="rounded-[28px] p-6"
+              style={{
+                width: width * 0.72,
+                backgroundColor: 'rgba(255,138,102,0.06)',
+                borderWidth: 1,
+                borderColor: '#FF8A66',
+              }}
+            >
+              <View className="flex-row items-center gap-2 mb-3">
+                <Text className="text-coral text-xs font-black tracking-widest uppercase">
+                  Phrase of the Week
+                </Text>
+                <Ionicons name="chatbubbles" size={18} color="#FF8A66" />
               </View>
-              <ThemedText style={[styles.dailyWordText, {fontSize: 20}]}>"Estar en las nubes"</ThemedText>
-              <ThemedText style={styles.dailyDefText}>Lit: To be in the clouds. Meaning: To be daydreaming.</ThemedText>
+              <Text className="text-white text-xl font-extrabold mb-1">
+                "Estar en las nubes"
+              </Text>
+              <Text className="text-muted text-base leading-6">
+                Lit: To be in the clouds.{'\n'}Meaning: To be daydreaming.
+              </Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
 
-      </ScrollView>
-
-      {/* PERSISTENT BOTTOM STRIP */}
-      <View style={styles.bottomStrip}>
-         <View style={styles.stripLeft}>
-            <MaterialCommunityIcons name="fire" size={24} color={Colors.amber} />
-            <ThemedText style={styles.stripText}>{streakDays}</ThemedText>
-            <View style={styles.stripDivider} />
-            <View style={styles.stripProgressBg}>
-               <View style={[styles.stripProgressFill, {width: `${progressPercent}%`}]} />
+        {/* ── BOTTOM STATS STRIP ── */}
+        <View
+          className="flex-row justify-between items-center mx-5 mt-6 bg-card-bg rounded-3xl px-5 py-4"
+          style={{ borderWidth: 1, borderColor: '#252040' }}
+        >
+          <View className="flex-row items-center gap-2">
+            <MaterialCommunityIcons name="fire" size={22} color="#FFB800" />
+            <Text className="text-white font-extrabold text-base">{streakDays}</Text>
+            <View className="w-px h-4 bg-elevated mx-1" />
+            {/* Mini progress */}
+            <View
+              className="rounded-full overflow-hidden"
+              style={{ width: 56, height: 7, backgroundColor: '#110E1A' }}
+            >
+              <View
+                className="bg-cyan h-full rounded-full"
+                style={{ width: `${progressPercent}%` }}
+              />
             </View>
-            <ThemedText style={styles.stripMinsText}>{minutesStudiedToday}/{dailyGoalMinutes} min</ThemedText>
-         </View>
-         <View style={styles.stripRight}>
-            <MaterialCommunityIcons name="cards" size={20} color={Colors.white} />
-            <ThemedText style={styles.stripTextWhite}>{savedWords.length} List</ThemedText>
-         </View>
-      </View>
+            <Text className="text-muted text-sm font-semibold">
+              {minutesStudiedToday}/{dailyGoalMinutes} min
+            </Text>
+          </View>
+
+          <View className="flex-row items-center gap-2 bg-purple-accent px-3 py-2 rounded-2xl">
+            <MaterialCommunityIcons name="cards" size={18} color="#FFFFFF" />
+            <Text className="text-white font-extrabold text-sm">
+              {savedWords.length} Words
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.mainBg,
-  },
-  topHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 24,
-    paddingTop: 10,
-    paddingBottom: 24,
-    alignItems: 'center',
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  greetingSection: {
-    paddingHorizontal: 24,
-    marginBottom: 40,
-  },
-  greetingText: {
-    fontSize: 42,
-    fontWeight: '800',
-    color: Colors.textHeader,
-    letterSpacing: -1.5,
-    lineHeight: 48,
-  },
-  subGreetingText: {
-    fontSize: 18,
-    color: Colors.textMuted,
-    marginTop: 8,
-    fontWeight: '600',
-  },
-  scrollContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 40,
-  },
-  mainGrid: {
-    flexDirection: 'row',
-    gap: 16,
-    marginBottom: 32,
-  },
-  leftCol: {
-    flex: 1.1,
-    gap: 16,
-  },
-  rightCol: {
-    flex: 1,
-    gap: 16,
-  },
-  largeCard: {
-    borderRadius: 40,
-    padding: 28,
-    height: 380,
-    justifyContent: 'space-between',
-  },
-  largeCardTitle: {
-    fontSize: 26,
-    fontWeight: '800',
-    color: Colors.textHeader,
-    lineHeight: 32,
-  },
-  levelBadge: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 20,
-    alignItems: 'center',
-  },
-  levelText: {
-    fontSize: 24,
-    fontWeight: '900',
-    color: Colors.textHeader,
-  },
-  levelLabel: {
-    fontSize: 10,
-    color: Colors.textHeader,
-    opacity: 0.8,
-    marginTop: -2,
-    textTransform: 'uppercase',
-  },
-  smallCard: {
-    borderRadius: 35,
-    padding: 24,
-    height: 180,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  progressLabel: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: 8,
-    fontWeight: '700',
-  },
-  mediumCard: {
-    borderRadius: 35,
-    padding: 24,
-    height: 220,
-    justifyContent: 'space-between',
-  },
-  cardTitleWhite: {
-    fontSize: 20,
-    fontWeight: '800',
-    color: Colors.white,
-    lineHeight: 26,
-  },
-  iconCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  libraryIcon: {
-    alignSelf: 'flex-start',
-  },
-  pillContainer: {
-    gap: 12,
-    marginTop: 10,
-  },
-  pill: {
-    backgroundColor: Colors.white,
-    paddingVertical: 18,
-    paddingHorizontal: 24,
-    borderRadius: 30,
-    alignSelf: 'flex-start',
-    minWidth: 160,
-  },
-  pillText: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: Colors.textDark,
-  },
-  pillSubText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#888',
-  },
-  dailySection: {
-    marginTop: 8,
-  },
-  dailySectionTitle: {
-    fontSize: 18,
-    fontWeight: '800',
-    color: Colors.textHeader,
-    marginBottom: 16,
-    paddingHorizontal: 4,
-  },
-  longCard: {
-    backgroundColor: Colors.cardBg,
-    borderRadius: 35,
-    padding: 24,
-  },
-  longCardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 12,
-  },
-  longCardTag: {
-    fontSize: 12,
-    fontWeight: '800',
-    color: Colors.amber,
-    letterSpacing: 1.5,
-  },
-  dailyWordText: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: Colors.textHeader,
-    marginBottom: 4,
-  },
-  dailyDefText: {
-    fontSize: 16,
-    color: Colors.textMuted,
-    lineHeight: 24,
-  },
-  flagBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.cardBg,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 24,
-    gap: 8,
-  },
-  flagEmoji: {
-    fontSize: 20,
-  },
-  langName: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.textHeader,
-  },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  streakBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    backgroundColor: 'rgba(255, 184, 0, 0.1)',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 184, 0, 0.3)',
-  },
-  streakText: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: Colors.amber,
-  },
-  continueBanner: {
-    marginHorizontal: 20,
-    marginBottom: 32,
-    backgroundColor: Colors.primaryAccent,
-    borderRadius: 24,
-    padding: 24,
-  },
-  continueLabel: {
-    fontSize: 12,
-    fontWeight: '900',
-    color: 'rgba(0,0,0,0.4)',
-    letterSpacing: 1.5,
-    marginBottom: 8,
-  },
-  continueContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  continueChapter: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: Colors.white,
-    opacity: 0.9,
-    marginBottom: 2,
-  },
-  continueSection: {
-    fontSize: 22,
-    fontWeight: '900',
-    color: Colors.white,
-  },
-  resumeBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 20,
-  },
-  resumeText: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: Colors.white,
-  },
-  bottomStrip: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: Colors.cardBg,
-    borderTopWidth: 1,
-    borderTopColor: Colors.elevatedSurface,
-    paddingHorizontal: 24,
-    paddingVertical: 16,
-    paddingBottom: 20, // Extra padding for raw safe area if needed
-  },
-  stripLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stripRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    backgroundColor: Colors.secondaryAccent,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 16,
-  },
-  stripText: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: Colors.textHeader,
-  },
-  stripTextWhite: {
-    fontSize: 14,
-    fontWeight: '800',
-    color: Colors.white,
-  },
-  stripDivider: {
-    width: 2,
-    height: 16,
-    backgroundColor: Colors.elevatedSurface,
-    marginHorizontal: 8,
-  },
-  stripProgressBg: {
-    width: 60,
-    height: 8,
-    backgroundColor: Colors.mainBg,
-    borderRadius: 4,
-    overflow: 'hidden',
-  },
-  stripProgressFill: {
-    height: '100%',
-    backgroundColor: Colors.cyan,
-    borderRadius: 4,
-  },
-  stripMinsText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.textMuted,
-  }
-});
