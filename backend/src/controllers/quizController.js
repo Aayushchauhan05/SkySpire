@@ -1,5 +1,17 @@
 const Quiz = require('../models/Quiz');
 
+// @desc    Get all quizzes
+// @route   GET /api/quizzes
+// @access  Public
+const getQuizzes = async (req, res) => {
+  try {
+    const quizzes = await Quiz.find({});
+    res.json(quizzes);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // @desc    Get quiz by id
 // @route   GET /api/quizzes/:id
 // @access  Public
@@ -17,5 +29,6 @@ const getQuizById = async (req, res) => {
 };
 
 module.exports = {
+  getQuizzes,
   getQuizById,
 };

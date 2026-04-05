@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions, Modal, TextInput, Alert, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { ThemedText } from '../../components/themed-text';
+import { Text as ThemedText } from 'react-native';
 
 const { width } = Dimensions.get('window');
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { CaretLeft, CaretRight, User, Fire, Sparkle, Gear, BellRinging, Question, BookmarkSimple, TrendUp } from 'phosphor-react-native';
-import { useAppStore } from '../store/useAppStore';
+import { useAppStore } from '../../store/useAppStore';
 
 const Colors = {
   mainBg: '#110E1A',

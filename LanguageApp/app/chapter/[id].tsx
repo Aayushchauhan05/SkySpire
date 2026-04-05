@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '../../components/themed-text';
@@ -30,13 +30,46 @@ const DUMMY_LECTURES = [
 export default function ChapterDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const [chapter, setChapter] = useState<any>(null);
   const [lectures, setLectures] = useState<any[]>(DUMMY_LECTURES);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.9:3000';
 
   const toggleComplete = (lectureId: number) => {
     setLectures(prev => prev.map(l => 
       l.id === lectureId ? { ...l, completed: !l.completed } : l
     ));
   };
+
+  useEffect(() => {
+    const fetchChapter = async () => {
+      if (!id) return;
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/chapters/${encodeURIComponent(id as string)}`);
+        if (!res.ok) throw new Error(`Failed to load chapter: ${res.status}`);
+
+        const data = await res.json();
+        setChapter(data);
+
+        if (data.lectures && Array.isArray(data.lectures)) {
+          setLectures(data.lectures);
+        } else {
+          setLectures(DUMMY_LECTURES);
+        }
+      } catch (err: any) {
+        setError(err.message || 'Could not fetch chapter data');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchChapter();
+  }, [id, API_BASE_URL]);
 
   const completedCount = lectures.filter(l => l.completed).length;
   const progressPercent = Math.round((completedCount / lectures.length) * 100);
@@ -52,6 +85,18 @@ export default function ChapterDetailScreen() {
           </TouchableOpacity>
         </View>
 
+        {isLoading && (
+          <View style={{ paddingVertical: 16, alignItems: 'center' }}>
+            <ActivityIndicator size="large" color={Colors.primaryAccent} />
+          </View>
+        )}
+
+        {error && (
+          <View style={{ paddingVertical: 16 }}>
+            <ThemedText style={styles.errorText}>{error}</ThemedText>
+          </View>
+        )}
+
         {/* Massive Video Player */}
         <View style={styles.videoCard}>
           <View style={styles.videoPlaceholder}>
@@ -60,8 +105,8 @@ export default function ChapterDetailScreen() {
             </View>
           </View>
           <View style={styles.videoInfo}>
-            <ThemedText style={styles.videoTitle}>Basics of Greetings</ThemedText>
-            <ThemedText style={styles.videoSub}>Lesson 1 • 5:24 mins</ThemedText>
+            <ThemedText style={styles.videoTitle}>{chapter?.title || 'Basics of Greetings'}</ThemedText>
+            <ThemedText style={styles.videoSub}>{chapter?.videoTitle || 'Introduction to Greetings'} • {chapter?.videoDuration || '5:24'}</ThemedText>
           </View>
         </View>
 
@@ -121,7 +166,7 @@ export default function ChapterDetailScreen() {
         {/* Grand Quiz Action */}
         <TouchableOpacity 
           style={styles.quizCard}
-          onPress={() => router.push(`/quiz/${id}` as any)}
+          onPress={() => router.push(`/quiz/${chapter?.id || id}` as any)}
           activeOpacity={0.9}
         >
           <View style={styles.quizContent}>
@@ -305,6 +350,11 @@ const styles = StyleSheet.create({
     color: Colors.textMuted,
     lineHeight: 26,
     fontWeight: '500',
+  },
+  errorText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FF5C7A',
   },
   quizCard: {
     backgroundColor: Colors.primaryAccent,

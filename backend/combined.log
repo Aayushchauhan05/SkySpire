@@ -1,0 +1,15 @@
+{"level":"info","message":"Server running in development mode on port 5000","service":"backend-service","timestamp":"2026-04-05 15:27:04"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"backend-service","timestamp":"2026-04-05 15:35:54"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"backend-service","timestamp":"2026-04-05 15:36:50"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"backend-service","timestamp":"2026-04-05 15:40:20"}
+{"level":"info","message":"Server running in development mode on port 5000","service":"backend-service","timestamp":"2026-04-05 15:42:42"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-05 15:46:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[32m200\u001b[0m 37.308 ms - 361\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:46:25"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[32m200\u001b[0m 42.421 ms - 2\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:46:25"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/part_a/chapters? \u001b[32m200\u001b[0m 69.273 ms - 24438\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:46:29"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/chapters/chapter_01 \u001b[32m200\u001b[0m 33.227 ms - 889\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:46:31"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/chapters/chapter_01/sections \u001b[32m200\u001b[0m 34.810 ms - 9266\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:46:31"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/sections/ch01_sec_1_1 \u001b[32m200\u001b[0m 64.480 ms - 4342\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:46:35"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/chapters/chapter_02/sections \u001b[32m200\u001b[0m 33.924 ms - 7116\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:47:09"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/chapters/chapter_02 \u001b[32m200\u001b[0m 36.199 ms - 873\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:47:09"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/sections/ch02_sec_2_6 \u001b[32m200\u001b[0m 71.617 ms - 4709\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:47:11"}

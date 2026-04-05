@@ -164,6 +164,24 @@ export default function HomeScreen() {
               </Text>
             </TouchableOpacity>
 
+            {/* Grammar Module card */}
+            <TouchableOpacity
+              className="bg-amber rounded-[32px] p-5 justify-between"
+              style={{ height: 178 }}
+              onPress={() => router.push('/grammar')}
+            >
+              <View className="flex-row items-center gap-1.5">
+                <Ionicons name="book" size={22} color="#110E1A" />
+                <Text className="text-main-bg text-base font-extrabold">Grammar</Text>
+              </View>
+              <Text className="text-main-bg text-lg font-black leading-6">
+                Master Spanish{'\n'}Structures
+              </Text>
+              <View className="bg-white/30 self-start px-3 py-1 rounded-full">
+                <Text className="text-main-bg text-[10px] font-black uppercase">73 Chapters</Text>
+              </View>
+            </TouchableOpacity>
+
             {/* Unit 1 card */}
             <TouchableOpacity
               className="bg-coral rounded-[32px] p-5 justify-between"
