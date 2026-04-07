@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useGrammarStore } from '../../../../store/useGrammarStore';
+import { useGrammarStore } from '../../../store/useGrammarStore';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SectionReaderScreen() {
   const { sectionId } = useLocalSearchParams<{ sectionId: string }>();
   const router = useRouter();
   const { markSectionComplete } = useGrammarStore();
-  
+
   const [data, setData] = useState<{ section: any; examples: any[] } | null>(null);
 
-  const API_URL = 'http://192.168.1.9:3000/api/grammar';
+  const API_URL = 'https://sky-spire.vercel.app/api/grammar';
 
   useEffect(() => {
     if (sectionId) {
@@ -46,7 +46,7 @@ export default function SectionReaderScreen() {
 
       <ScrollView className="flex-1 px-6 pt-6">
         <Text className="text-3xl font-black text-white mb-6 leading-tight">{data.section.title}</Text>
-        
+
         <View className="bg-[#1C1830] p-6 rounded-3xl mb-8">
           <Text className="text-[#fef9f0] text-lg leading-relaxed">{data.section.content}</Text>
         </View>
@@ -71,7 +71,7 @@ export default function SectionReaderScreen() {
       </ScrollView>
 
       <View className="p-6 border-t border-[#252040] bg-[#110E1A]">
-        <TouchableOpacity 
+        <TouchableOpacity
           className="bg-[#22c55e] p-4 rounded-2xl flex-row justify-center items-center"
           onPress={handleMarkDone}
         >

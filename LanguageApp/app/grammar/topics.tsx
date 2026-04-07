@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useGrammarStore } from '../../../store/useGrammarStore';
+import { useGrammarStore } from '../../store/useGrammarStore';
 import { Ionicons } from '@expo/vector-icons';
 
 // Hardcoded for demo, normally fetched actively from uniquely indexing all chapters' tags

@@ -10,7 +10,7 @@ export default function ChapterDetailScreen() {
   const [sections, setSections] = useState<any[]>([]);
 
   // Assume API is available locally for DEV via the same domain store uses.
-  const API_URL = 'http://192.168.1.9:3000/api/grammar';
+  const API_URL = 'https://sky-spire.vercel.app/api/grammar';
 
   useEffect(() => {
     if (chapterId) {

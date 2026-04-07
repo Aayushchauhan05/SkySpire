@@ -13,3 +13,31 @@
 {"level":"info","message":"\u001b[0mGET /api/grammar/chapters/chapter_02/sections \u001b[32m200\u001b[0m 33.924 ms - 7116\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:47:09"}
 {"level":"info","message":"\u001b[0mGET /api/grammar/chapters/chapter_02 \u001b[32m200\u001b[0m 36.199 ms - 873\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:47:09"}
 {"level":"info","message":"\u001b[0mGET /api/grammar/sections/ch02_sec_2_6 \u001b[32m200\u001b[0m 71.617 ms - 4709\u001b[0m","service":"backend-service","timestamp":"2026-04-05 15:47:11"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-06 22:59:39"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-06 23:04:33"}
+{"level":"info","message":"\u001b[0mGET /_next/webpack-hmr?id=9KUM7ZlBA7Ss06kHFNOM8 \u001b[33m404\u001b[0m 0.849 ms - 156\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:04:37"}
+{"level":"info","message":"\u001b[0mGET /_next/webpack-hmr?id=9KUM7ZlBA7Ss06kHFNOM8 \u001b[33m404\u001b[0m 0.665 ms - 156\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:04:43"}
+{"level":"info","message":"\u001b[0mGET /_next/webpack-hmr?id=9KUM7ZlBA7Ss06kHFNOM8 \u001b[33m404\u001b[0m 0.446 ms - 156\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:04:50"}
+{"level":"info","message":"\u001b[0mGET / \u001b[32m200\u001b[0m 4.273 ms - 17\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:04:50"}
+{"level":"info","message":"\u001b[0mGET /favicon.ico \u001b[33m404\u001b[0m 0.337 ms - 150\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:04:50"}
+{"level":"info","message":"\u001b[0mGET /.well-known/appspecific/com.chrome.devtools.json \u001b[33m404\u001b[0m 0.236 ms - 187\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:04:50"}
+{"level":"info","message":"\u001b[0mGET /firebase-messaging-sw.js \u001b[33m404\u001b[0m 0.197 ms - 163\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:04:51"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 34.881 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:05:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 41.378 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:05:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/examples/random?count=10 \u001b[32m200\u001b[0m 38.068 ms - 2607\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:05:14"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/part_a/chapters? \u001b[36m304\u001b[0m 78.459 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:05:20"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 33.287 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:07:50"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 42.584 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:07:50"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/examples/random?count=10 \u001b[32m200\u001b[0m 39.455 ms - 2748\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:07:52"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/part_a/chapters? \u001b[36m304\u001b[0m 93.041 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:07:59"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/chapters/chapter_01 \u001b[36m304\u001b[0m 41.425 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:08:04"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/chapters/chapter_01/sections \u001b[36m304\u001b[0m 37.932 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:08:04"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/sections/ch01_sec_1_1 \u001b[36m304\u001b[0m 67.068 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:08:07"}
+{"level":"info","message":"\u001b[0mPOST /api/grammar/progress \u001b[32m200\u001b[0m 80.312 ms - 340\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:08:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[32m200\u001b[0m 29.509 ms - 342\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:08:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/sections/ch01_sec_1_5 \u001b[32m200\u001b[0m 62.421 ms - 3004\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:08:14"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/part_b/chapters? \u001b[32m200\u001b[0m 99.184 ms - 40167\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:08:29"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/chapters/chapter_69 \u001b[32m200\u001b[0m 31.660 ms - 924\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:12:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/chapters/chapter_69/sections \u001b[32m200\u001b[0m 41.546 ms - 5800\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:12:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/sections/ch69_sec_69_1 \u001b[32m200\u001b[0m 78.095 ms - 5299\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:12:38"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-07 22:35:55"}

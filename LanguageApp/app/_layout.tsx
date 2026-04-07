@@ -50,6 +50,7 @@ export default function RootLayout() {
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="signup" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="grammar" options={{ headerShown: false }} />
         <Stack.Screen name="chapter/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="quiz/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="lexicon/[type]" options={{ headerShown: false }} />

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 // Use local network IP if testing on real device, or localhost for simulator.
-const API_URL = 'http://192.168.1.9:3000/api/grammar';
+const API_URL = 'https://sky-spire.vercel.app/api/grammar';
 const DEV_USER_ID = 'dev_user_123'; // Mock user id
 
 export interface GrammarPart {
@@ -93,7 +93,7 @@ export const useGrammarStore = create<GrammarState>((set, get) => ({
       if (filters.search && !partId) params.append('q', filters.search); // global search
 
       url += `?${params.toString()}`;
-      
+
       const res = await fetch(url);
       if (!res.ok) {
         const text = await res.text();

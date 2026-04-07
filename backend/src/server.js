@@ -1,9 +1,6 @@
 const app = require('./app');
 const logger = require('./utils/logger');
-const connectDB = async () => {
-  const dbConfig = require('./config/db');
-  await dbConfig();
-};
+const connectDB = require('./config/db');
 
 const PORT = process.env.PORT || 5000;
 
