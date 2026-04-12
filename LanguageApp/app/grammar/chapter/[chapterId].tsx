@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -22,20 +22,32 @@ export default function ChapterDetailScreen() {
   const [sections, setSections] = useState<any[]>([]);
 
   // Assume API is available locally for DEV via the same domain store uses.
-  const API_URL = 'http://192.168.29.34:3000/api/grammar';
+  const API_URL = 'http://192.168.29.34:3000/api/grammar'; // Matching env backend
+  const [refreshing, setRefreshing] = useState(false);
+
+  const loadData = async () => {
+    if (chapterId) {
+      try {
+        const [chapRes, secRes] = await Promise.all([
+          fetch(`${API_URL}/chapters/${chapterId}`),
+          fetch(`${API_URL}/chapters/${chapterId}/sections`)
+        ]);
+        if (chapRes.ok) setChapter(await chapRes.json());
+        if (secRes.ok) setSections(await secRes.json());
+      } catch (err) {
+        console.error('Fetch Chapter Data error', err);
+      }
+    }
+  };
 
   useEffect(() => {
-    if (chapterId) {
-      fetch(`${API_URL}/chapters/${chapterId}`)
-        .then(res => res.json())
-        .then(data => setChapter(data))
-        .catch(console.error);
+    loadData();
+  }, [chapterId]);
 
-      fetch(`${API_URL}/chapters/${chapterId}/sections`)
-        .then(res => res.json())
-        .then(data => setSections(data))
-        .catch(console.error);
-    }
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await loadData();
+    setRefreshing(false);
   }, [chapterId]);
 
   if (!chapter) {
@@ -48,7 +60,11 @@ export default function ChapterDetailScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right', 'bottom']}>
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContent} 
+        showsVerticalScrollIndicator={false}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#259D7A" />}
+      >
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn} activeOpacity={0.8}>
           <Ionicons name="arrow-back" size={24} color={Colors.primaryText} />
         </TouchableOpacity>

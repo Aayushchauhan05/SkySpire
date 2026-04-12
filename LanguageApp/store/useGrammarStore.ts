@@ -93,8 +93,13 @@ export const useGrammarStore = create<GrammarState>((set, get) => ({
       console.log(`[Store] Fetching books: ${API_URL}/books`);
       const res = await fetch(`${API_URL}/books`);
       if (!res.ok) return;
-      const data = await res.json();
-      set({ books: data });
+      const text = await res.text();
+      try {
+        const data = JSON.parse(text);
+        set({ books: data });
+      } catch (parseError) {
+        console.error('JSON Parse error in fetchBooks:', parseError, 'Response text:', text.substring(0, 100));
+      }
     } catch (error) {
       console.error('Error fetching books:', error);
     }
@@ -118,8 +123,14 @@ export const useGrammarStore = create<GrammarState>((set, get) => ({
         set({ parts: [] });
         return;
       }
-      const data = await res.json();
-      set({ parts: data });
+      const text = await res.text();
+      try {
+        const data = JSON.parse(text);
+        set({ parts: data });
+      } catch (parseError) {
+        console.error('JSON Parse error in fetchParts:', parseError, 'Response text:', text.substring(0, 100));
+        set({ parts: [] });
+      }
     } catch (error) {
       console.error('Error fetching parts:', error);
       set({ parts: [] });
@@ -147,9 +158,13 @@ export const useGrammarStore = create<GrammarState>((set, get) => ({
         console.error(`FetchChapters Error [${res.status}]:`, text);
         return;
       }
-      const data = await res.json();
-      // If it's a search endpoint, chapters are returned in data.chapters
-      set({ chapters: data.chapters || data });
+      const text = await res.text();
+      try {
+        const data = JSON.parse(text);
+        set({ chapters: data.chapters || data });
+      } catch (parseError) {
+        console.error('JSON Parse error in fetchChapters:', parseError, 'Response text:', text.substring(0, 100));
+      }
     } catch (error) {
       console.error('Error fetching chapters:', error);
     }
@@ -164,15 +179,20 @@ export const useGrammarStore = create<GrammarState>((set, get) => ({
         console.error(`FetchProgress Error [${res.status}]:`, text);
         return;
       }
-      const data = await res.json();
-      const progressMap: Record<string, UserProgress[]> = {};
-      data.forEach((p: UserProgress) => {
-        if (!progressMap[p.chapter_id]) {
-          progressMap[p.chapter_id] = [];
-        }
-        progressMap[p.chapter_id].push(p);
-      });
-      set({ progress: progressMap });
+      const text = await res.text();
+      try {
+        const data = JSON.parse(text);
+        const progressMap: Record<string, UserProgress[]> = {};
+        data.forEach((p: UserProgress) => {
+          if (!progressMap[p.chapter_id]) {
+            progressMap[p.chapter_id] = [];
+          }
+          progressMap[p.chapter_id].push(p);
+        });
+        set({ progress: progressMap });
+      } catch (parseError) {
+        console.error('JSON Parse error in fetchProgress:', parseError, 'Response text:', text.substring(0, 100));
+      }
     } catch (error) {
       console.error('Error fetching progress:', error);
     }

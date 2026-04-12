@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useGrammarStore } from '../../store/useGrammarStore';
@@ -19,10 +19,22 @@ export default function GrammarHomeScreen() {
   const router = useRouter();
   const { books, parts, progress, activeFilter, fetchBooks, fetchParts, fetchProgress } = useGrammarStore();
 
+  const [refreshing, setRefreshing] = useState(false);
+
   useEffect(() => {
     fetchBooks();
     fetchParts(activeFilter.bookId || undefined);
     fetchProgress();
+  }, [activeFilter.bookId]);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await Promise.all([
+      fetchBooks(),
+      fetchParts(activeFilter.bookId || undefined),
+      fetchProgress()
+    ]);
+    setRefreshing(false);
   }, [activeFilter.bookId]);
 
   const selectedBook = activeFilter.bookId 
@@ -39,7 +51,10 @@ export default function GrammarHomeScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right', 'bottom']}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContent}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#259D7A" />}
+      >
         <View style={{ paddingTop: 12 }}>
           <Text style={styles.screenTitle}>📚 Grammar</Text>
           <Text style={styles.screenSubtitle}>

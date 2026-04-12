@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Defs, RadialGradient, Stop, Rect } from 'react-native-svg';
 import { useRouter } from 'expo-router';
@@ -25,10 +25,22 @@ export default function HomeScreen() {
   
   const { books, fetchBooks, fetchParts, fetchProgress, setFilter } = useGrammarStore();
 
+  const [refreshing, setRefreshing] = useState(false);
+
   useEffect(() => {
     fetchBooks();
     fetchParts();
     fetchProgress();
+  }, []);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await Promise.all([
+      fetchBooks(),
+      fetchParts(),
+      fetchProgress()
+    ]);
+    setRefreshing(false);
   }, []);
 
   const progressPercent = dailyGoalMinutes > 0 ? Math.min((minutesStudiedToday / dailyGoalMinutes) * 100, 100) : 0;
@@ -54,7 +66,11 @@ export default function HomeScreen() {
          </Svg>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer} 
+        showsVerticalScrollIndicator={false}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#259D7A" />}
+      >
         <TopNavBar />
         <ScreenTitle firstName={firstName} />
         

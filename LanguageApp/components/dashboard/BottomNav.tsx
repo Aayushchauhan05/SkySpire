@@ -3,9 +3,12 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import Svg, { Path, Rect, Circle, Line } from 'react-native-svg';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import * as Haptics from 'expo-haptics';
 
 export const BottomNav = ({ state, descriptors, navigation }: BottomTabBarProps) => {
   const insets = useSafeAreaInsets();
+  
+  if (!state) return null;
   
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom > 0 ? insets.bottom - 10 : 0, height: 80 + (insets.bottom > 0 ? insets.bottom - 10 : 0) }]}>
@@ -13,6 +16,7 @@ export const BottomNav = ({ state, descriptors, navigation }: BottomTabBarProps)
         const isFocused = state.index === index;
 
         const onPress = () => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
