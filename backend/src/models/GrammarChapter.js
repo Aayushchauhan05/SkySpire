@@ -18,7 +18,9 @@ const grammarChapterSchema = new mongoose.Schema({
   summary: { type: String },
 });
 
+grammarChapterSchema.index({ book_id: 1 });
 grammarChapterSchema.index({ part_id: 1 });
+grammarChapterSchema.index({ chapter_number: 1 });
 grammarChapterSchema.index({ difficulty: 1 });
 grammarChapterSchema.index({ tags: 1 });
 

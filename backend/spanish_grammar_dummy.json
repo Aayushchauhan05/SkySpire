@@ -1,0 +1,53 @@
+{
+  "book": {
+    "id": "esp_grammar_book",
+    "title": "Modern Spanish Grammar",
+    "authors": "SkySpire Team",
+    "edition": "First Edition",
+    "language": "es",
+    "target_language": "en",
+    "total_pages": 10,
+    "total_chapters": 1,
+    "source_file": "internal_dummy"
+  },
+  "parts": [
+    {
+      "id": "esp_grammar_part_01",
+      "title": "Grammar Fundamentals",
+      "description": "Basic Spanish structures and greetings.",
+      "order": 1,
+      "chapter_range": [1, 1]
+    }
+  ],
+  "chapters": [
+    {
+      "id": "esp_grammar_chapter_01",
+      "book_id": "esp_grammar_book",
+      "part_id": "esp_grammar_part_01",
+      "chapter_number": 1,
+      "title": "Essential Greetings",
+      "slug": "ch-01-essential-greetings",
+      "difficulty": "beginner",
+      "page_start": 1,
+      "tags": ["grammar", "basics", "spanish"]
+    }
+  ],
+  "sections": [
+    {
+      "id": "esp_grammar_chapter_01_sec_1",
+      "chapter_id": "esp_grammar_chapter_01",
+      "section_number": "1",
+      "title": "The verb SER",
+      "content": "In Spanish, the verb 'Ser' is used to express identity, origin, and characteristics."
+    }
+  ],
+  "examples": [
+    {
+      "id": "esp_grammar_ex_1",
+      "chapter_id": "esp_grammar_chapter_01",
+      "english": "I am a student.",
+      "spanish": "Yo soy un estudiante.",
+      "tags": ["ser", "present"]
+    }
+  ]
+}

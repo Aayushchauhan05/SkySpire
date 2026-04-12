@@ -7,12 +7,18 @@ import { Ionicons } from '@expo/vector-icons';
 export default function ChapterListScreen() {
   const { partId } = useLocalSearchParams<{ partId: string }>();
   const router = useRouter();
+  const [isLoading, setIsLoading] = React.useState(true);
   const { chapters, fetchChapters } = useGrammarStore();
 
   useEffect(() => {
-    if (partId) {
-      fetchChapters(partId);
-    }
+    const load = async () => {
+      if (partId) {
+        setIsLoading(true);
+        await fetchChapters(partId);
+        setIsLoading(false);
+      }
+    };
+    load();
   }, [partId]);
 
   const getDifficultyColor = (diff: string) => {
@@ -33,9 +39,23 @@ export default function ChapterListScreen() {
         <Text className="text-xl font-bold text-white flex-1">Part chapters</Text>
       </View>
 
-      {chapters.length === 0 ? (
+      {isLoading ? (
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#FF8A66" />
+        </View>
+      ) : chapters.length === 0 ? (
+        <View className="flex-1 justify-center items-center px-10">
+          <Ionicons name="book-outline" size={64} color="#252040" />
+          <Text className="text-white text-xl font-bold mt-4 text-center">No chapters found</Text>
+          <Text className="text-[#8E88B0] text-base mt-2 text-center">
+            This module might still be syncing or lacks chapters for this part.
+          </Text>
+          <TouchableOpacity 
+            className="mt-8 bg-[#252040] px-6 py-3 rounded-full"
+            onPress={() => router.back()}
+          >
+            <Text className="text-[#FF8A66] font-bold">Go Back</Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <ScrollView className="px-6 pb-20">

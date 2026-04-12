@@ -1,13 +1,26 @@
+const GrammarBook = require('../models/GrammarBook');
 const GrammarPart = require('../models/GrammarPart');
 const GrammarChapter = require('../models/GrammarChapter');
 const GrammarSection = require('../models/GrammarSection');
 const GrammarExample = require('../models/GrammarExample');
 const UserProgress = require('../models/UserProgress');
 
+// GET /api/grammar/books
+exports.getBooks = async (req, res) => {
+  try {
+    const books = await GrammarBook.find().sort({ title: 1 }).lean();
+    res.json(books);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // GET /api/grammar/parts
 exports.getParts = async (req, res) => {
   try {
-    const parts = await GrammarPart.find().sort({ order: 1 });
+    const { bookId } = req.query;
+    const query = bookId ? { book_id: bookId } : {};
+    const parts = await GrammarPart.find(query).sort({ order: 1 }).lean();
     res.json(parts);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -27,7 +40,7 @@ exports.getChaptersByPart = async (req, res) => {
       query.title = { $regex: search, $options: 'i' };
     }
 
-    const chapters = await GrammarChapter.find(query).sort({ chapter_number: 1 });
+    const chapters = await GrammarChapter.find(query).sort({ chapter_number: 1 }).lean();
     res.json(chapters);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -37,7 +50,7 @@ exports.getChaptersByPart = async (req, res) => {
 // GET /api/grammar/chapters/:chapterId
 exports.getChapterById = async (req, res) => {
   try {
-    const chapter = await GrammarChapter.findById(req.params.chapterId);
+    const chapter = await GrammarChapter.findById(req.params.chapterId).lean();
     if (!chapter) return res.status(404).json({ error: 'Chapter not found' });
     res.json(chapter);
   } catch (error) {
@@ -48,7 +61,7 @@ exports.getChapterById = async (req, res) => {
 // GET /api/grammar/chapters/:chapterId/sections
 exports.getSectionsByChapter = async (req, res) => {
   try {
-    const sections = await GrammarSection.find({ chapter_id: req.params.chapterId }).sort({ section_number: 1 });
+    const sections = await GrammarSection.find({ chapter_id: req.params.chapterId }).sort({ section_number: 1 }).lean();
     res.json(sections);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -58,11 +71,11 @@ exports.getSectionsByChapter = async (req, res) => {
 // GET /api/grammar/sections/:sectionId
 exports.getSectionById = async (req, res) => {
   try {
-    const section = await GrammarSection.findById(req.params.sectionId);
+    const section = await GrammarSection.findById(req.params.sectionId).lean();
     if (!section) return res.status(404).json({ error: 'Section not found' });
 
     // Also fetch context examples locally to frontload them easily if desired
-    const examples = await GrammarExample.find({ section_id: req.params.sectionId });
+    const examples = await GrammarExample.find({ section_id: req.params.sectionId }).lean();
     res.json({ section, examples });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -75,7 +88,8 @@ exports.getExamplesByChapter = async (req, res) => {
     const { limit = 20, offset = 0 } = req.query;
     const examples = await GrammarExample.find({ chapter_id: req.params.chapterId })
       .skip(Number(offset))
-      .limit(Number(limit));
+      .limit(Number(limit))
+      .lean();
     res.json(examples);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -117,14 +131,14 @@ exports.search = async (req, res) => {
         { summary: regex },
         { tags: { $in: [regex] } }
       ]
-    }).limit(10);
+    }).limit(10).lean();
     
     const sections = await GrammarSection.find({
       $or: [
         { title: regex },
         { content: regex }
       ]
-    }).limit(10);
+    }).limit(10).lean();
 
     res.json({ chapters, sections });
   } catch (error) {

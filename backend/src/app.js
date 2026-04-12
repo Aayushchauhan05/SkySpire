@@ -50,7 +50,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('API is running...');
+  res.json({ status: 'online', message: 'Language API is running' });
 });
 
 app.use('/api/auth', require('./routes/authRoutes'));

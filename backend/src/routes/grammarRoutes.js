@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const grammarController = require('../controllers/grammarController');
 
+// Get all grammar books
+router.get('/books', grammarController.getBooks);
+
 // Get both parts with chapter counts
 router.get('/parts', grammarController.getParts);
 

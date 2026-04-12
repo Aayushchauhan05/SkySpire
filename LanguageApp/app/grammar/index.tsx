@@ -6,12 +6,17 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function GrammarHomeScreen() {
   const router = useRouter();
-  const { parts, progress, fetchParts, fetchProgress } = useGrammarStore();
+  const { books, parts, progress, activeFilter, fetchBooks, fetchParts, fetchProgress } = useGrammarStore();
 
   useEffect(() => {
-    fetchParts();
+    fetchBooks();
+    fetchParts(activeFilter.bookId || undefined);
     fetchProgress();
-  }, []);
+  }, [activeFilter.bookId]);
+
+  const selectedBook = activeFilter.bookId 
+    ? books.find(b => b._id === activeFilter.bookId) 
+    : books[0];
 
   if (parts.length === 0) {
     return (
@@ -25,7 +30,9 @@ export default function GrammarHomeScreen() {
     <SafeAreaView className="flex-1 bg-[#110E1A]">
       <ScrollView className="p-6">
         <Text className="text-3xl font-black text-white mb-2">📚 Grammar</Text>
-        <Text className="text-lg text-gray-400 mb-6">Modern Spanish Grammar · 73 Chapters</Text>
+        <Text className="text-lg text-gray-400 mb-6">
+          {selectedBook?.title || 'Loading...'} · {selectedBook?.total_chapters || '0'} Chapters
+        </Text>
 
         <TouchableOpacity 
           className="bg-[#252040] p-4 rounded-full flex-row items-center mb-8"
@@ -35,17 +42,35 @@ export default function GrammarHomeScreen() {
           <Text className="text-[#8E88B0] ml-3 text-base">Search topics or browse tags...</Text>
         </TouchableOpacity>
 
-        <View className="flex-row gap-4 mb-8">
+        <View className="mb-8">
           {parts.map((p) => (
             <TouchableOpacity 
               key={p._id} 
-              className="flex-1 bg-[#1C1830] p-5 rounded-3xl border border-[#252040]"
+              className="bg-[#1C1830] p-6 rounded-[32px] border border-[#252040] mb-4"
               onPress={() => router.push(`/grammar/part/${p._id}` as any)}
             >
-              <Text className="text-[#FFB800] font-bold text-sm mb-1">{p.title.split(':')[0]}</Text>
-              <Text className="text-white font-bold text-xl mb-2">{p.title.split(':')[1]?.trim() || p.title}</Text>
-              <Text className="text-[#8E88B0] text-sm mb-4" numberOfLines={2}>{p.description}</Text>
-              <Text className="text-xs font-bold text-[#FF8A66] uppercase">{p.chapter_range[1] - p.chapter_range[0] + 1} Chapters</Text>
+              <View className="flex-row justify-between items-start mb-2">
+                <View className="flex-1">
+                  <Text className="text-[#FFB800] font-bold text-sm mb-1">{p.title.split(':')[0]}</Text>
+                  <Text className="text-white font-bold text-2xl" numberOfLines={2}>
+                    {p.title.split(':')[1]?.trim() || p.title}
+                  </Text>
+                </View>
+                <View className="bg-[#FF8A66]/10 px-3 py-1 rounded-full">
+                  <Text className="text-xs font-bold text-[#FF8A66] uppercase">
+                    {p.chapter_range[1] - p.chapter_range[0] + 1} Chapters
+                  </Text>
+                </View>
+              </View>
+              
+              <Text className="text-[#8E88B0] text-base leading-6 mt-2" numberOfLines={3}>
+                {p.description}
+              </Text>
+              
+              <View className="flex-row items-center mt-4">
+                <Text className="text-[#9B8AF4] font-bold">Start Learning</Text>
+                <Ionicons name="arrow-forward" size={16} color="#9B8AF4" style={{ marginLeft: 6 }} />
+              </View>
             </TouchableOpacity>
           ))}
         </View>

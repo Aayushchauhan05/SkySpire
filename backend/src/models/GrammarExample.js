@@ -4,7 +4,7 @@ const grammarExampleSchema = new mongoose.Schema({
   _id: { type: String, required: true },
   chapter_id: { type: String, ref: 'GrammarChapter', required: true },
   section_id: { type: String, ref: 'GrammarSection' },
-  spanish: { type: String, required: true },
+  spanish: { type: String },
   english: { type: String, required: true },
   tags: { type: [String], required: true },
 });

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useAppStore } from '../../store/useAppStore';
+import { useGrammarStore } from '../../store/useGrammarStore';
 
 const { width } = Dimensions.get('window');
 
@@ -32,6 +33,13 @@ export default function HomeScreen() {
   const minutesStudiedToday = useAppStore(s => s.minutesStudiedToday);
   const dailyGoalMinutes = useAppStore(s => s.dailyGoalMinutes);
   const savedWords = useAppStore(s => s.savedWords);
+  const { books, fetchBooks, fetchParts, fetchProgress, setFilter } = useGrammarStore();
+
+  useEffect(() => {
+    fetchBooks();
+    fetchParts();
+    fetchProgress();
+  }, []);
 
   const progressPercent = Math.min((minutesStudiedToday / dailyGoalMinutes) * 100, 100);
   const firstName = name.split(' ')[0];
@@ -164,23 +172,47 @@ export default function HomeScreen() {
               </Text>
             </TouchableOpacity>
 
-            {/* Grammar Module card */}
-            <TouchableOpacity
-              className="bg-amber rounded-[32px] p-5 justify-between"
-              style={{ height: 178 }}
-              onPress={() => router.push('/grammar')}
-            >
-              <View className="flex-row items-center gap-1.5">
-                <Ionicons name="book" size={22} color="#110E1A" />
-                <Text className="text-main-bg text-base font-extrabold">Grammar</Text>
-              </View>
-              <Text className="text-main-bg text-lg font-black leading-6">
-                Master Spanish{'\n'}Structures
-              </Text>
-              <View className="bg-white/30 self-start px-3 py-1 rounded-full">
-                <Text className="text-main-bg text-[10px] font-black uppercase">73 Chapters</Text>
-              </View>
-            </TouchableOpacity>
+            {/* Multi-Book Grammar Cards */}
+            {books.map((book, idx) => (
+              <TouchableOpacity
+                key={book._id}
+                className={`rounded-[32px] p-5 justify-between mb-4 ${
+                  book.language === 'es' ? 'bg-[#9B8AF4]' : 'bg-amber'
+                }`}
+                style={{ height: 160 }}
+                onPress={() => {
+                  setFilter({ bookId: book._id });
+                  router.push('/grammar');
+                }}
+              >
+                <View className="flex-row items-center gap-1.5">
+                  <Ionicons 
+                    name="book" 
+                    size={22} 
+                    color={book.language === 'es' ? 'white' : '#110E1A'} 
+                  />
+                  <Text className={`text-base font-extrabold ${
+                    book.language === 'es' ? 'text-white' : 'text-main-bg'
+                  }`}>
+                    {book.language === 'es' ? '🇪🇸 Spanish' : '🇺🇸 English'}
+                  </Text>
+                </View>
+                <Text className={`text-lg font-black leading-6 ${
+                  book.language === 'es' ? 'text-white' : 'text-main-bg'
+                }`}>
+                  {book.title.length > 30 ? book.title.substring(0, 27) + '...' : book.title}
+                </Text>
+                <View className={`${
+                  book.language === 'es' ? 'bg-white/20' : 'bg-white/30'
+                } self-start px-3 py-1 rounded-full`}>
+                  <Text className={`text-[10px] font-black uppercase ${
+                    book.language === 'es' ? 'text-white' : 'text-main-bg'
+                  }`}>
+                    {book.total_chapters} Chapters
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
 
             {/* Unit 1 card */}
             <TouchableOpacity

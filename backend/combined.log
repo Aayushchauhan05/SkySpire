@@ -42,3 +42,113 @@
 {"level":"info","message":"\u001b[0mGET /api/grammar/sections/ch69_sec_69_1 \u001b[32m200\u001b[0m 78.095 ms - 5299\u001b[0m","service":"backend-service","timestamp":"2026-04-06 23:12:38"}
 {"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-07 22:35:55"}
 {"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-10 23:15:48"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 13:53:12"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 13:53:34"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 13:58:32"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 13:58:44"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 13:59:28"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 14:00:04"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 14:02:04"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 14:02:15"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 14:02:54"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 14:03:00"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[32m200\u001b[0m 42.039 ms - 938\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:04:09"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[32m200\u001b[0m 29.188 ms - 938\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:09:59"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[32m200\u001b[0m 38.879 ms - 757\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:09:59"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[32m200\u001b[0m 35.622 ms - 938\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:09:59"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[32m200\u001b[0m 38.092 ms - 342\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:09:59"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[32m200\u001b[0m 44.949 ms - 757\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:09:59"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 37.066 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:09:59"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 29.049 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 31.408 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 30.014 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 30.765 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 39.665 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 119.591 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:35"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 39.785 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:52"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 28.585 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:52"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 29.649 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:52"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 29.996 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:55"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 30.378 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:55"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 36.130 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:10:55"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 39.937 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:11:03"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts?bookId=free_english_grammar \u001b[32m200\u001b[0m 42.601 ms - 2\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:11:03"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 38.665 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:11:03"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts?bookId=book_modern_spanish_grammar \u001b[32m200\u001b[0m 31.017 ms - 441\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:11:31"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 29.174 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:11:31"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 39.933 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:11:31"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 14:12:08"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 14:13:02"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 14:13:08"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts?bookId=eng_grammar_book \u001b[32m200\u001b[0m 36.258 ms - 180\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:13:18"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 36.934 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:13:18"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 36.043 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:13:18"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/eng_grammar_part_01/chapters? \u001b[32m200\u001b[0m 40.902 ms - 7539\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:13:20"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 14:13:56"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[32m200\u001b[0m 47.037 ms - 938\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:14:06"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 110.780 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:14:26"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 110.499 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:14:26"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 122.233 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:14:26"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 28.768 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:14:27"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 29.935 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:14:27"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 36.566 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:14:27"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 28.872 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:14:29"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts?bookId=free_english_grammar \u001b[36m304\u001b[0m 31.592 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:14:29"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 33.855 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:14:29"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 92.442 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:15:04"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 99.993 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:15:04"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 106.834 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:15:04"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 113.192 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:15:06"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 116.959 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:15:06"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 125.537 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:15:06"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 39.242 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:15:07"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts?bookId=free_english_grammar \u001b[36m304\u001b[0m 40.753 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:15:07"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 43.019 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:15:07"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 30.678 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:16:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 39.375 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:16:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 28.970 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:16:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 28.934 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:16:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 31.536 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:16:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 27.849 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:16:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 27.428 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:16:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 31.330 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:16:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 37.303 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:16:12"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 42.104 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:18:56"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/part_1/chapters? \u001b[32m200\u001b[0m 40.549 ms - 2\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:19:10"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/part_a/chapters? \u001b[32m200\u001b[0m 81.093 ms - 2\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:19:38"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 45.510 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[32m200\u001b[0m 49.512 ms - 652\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[32m200\u001b[0m 43.068 ms - 620\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[32m200\u001b[0m 40.519 ms - 620\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[32m200\u001b[0m 38.123 ms - 652\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 103.863 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/part_a/chapters? \u001b[36m304\u001b[0m 102.168 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 104.102 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 103.962 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 111.260 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:34"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/part_a/chapters? \u001b[36m304\u001b[0m 87.535 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:21:44"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 30.046 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:22:40"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 29.267 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:22:40"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 38.062 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:22:40"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 38.736 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:22:42"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts?bookId=eng_grammar_book \u001b[36m304\u001b[0m 29.897 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:22:43"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 37.834 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:22:43"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/eng_grammar_part_01/chapters? \u001b[36m304\u001b[0m 41.046 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 14:22:45"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-12 15:39:26"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[32m200\u001b[0m 68.354 ms - 652\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:39:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 69.754 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:39:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 70.892 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:39:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 75.803 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:39:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[32m200\u001b[0m 71.230 ms - 652\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:39:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 38.807 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:39:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 34.716 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:39:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 36.935 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:39:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 40.461 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:39:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/eng_grammar_part_01/chapters? \u001b[36m304\u001b[0m 38.224 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:39:36"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 44.483 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:40:47"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 48.506 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:40:47"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 41.584 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:40:47"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 103.981 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:40:50"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts?bookId=eng_grammar_book \u001b[36m304\u001b[0m 41.419 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:40:51"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 39.025 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:40:51"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts/eng_grammar_part_01/chapters? \u001b[36m304\u001b[0m 53.692 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-12 15:40:53"}

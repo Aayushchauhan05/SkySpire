@@ -35,7 +35,7 @@ export default function ChapterDetailScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:5000';
+  const API_BASE_URL = 'http://192.168.1.9:3000';
 
   const toggleComplete = (lectureId: number) => {
     setLectures(prev => prev.map(l => 
