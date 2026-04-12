@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 // Use local network IP if testing on real device, or localhost for simulator.
-const API_URL = 'http://192.168.1.9:3000/api/grammar';
+const API_URL = 'http://192.168.29.34:3000/api/grammar';
 const DEV_USER_ID = 'dev_user_123'; // Mock user id
 
 export interface GrammarBook {

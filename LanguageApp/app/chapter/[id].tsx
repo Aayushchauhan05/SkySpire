@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '../../components/themed-text';
 
 const { width } = Dimensions.get('window');
 
-// Restored Premium Matte Colors
 const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66',     // Warm coral
-  secondaryAccent: '#9B8AF4', // Soft purple
+  mainBg: '#FAFCFC',
+  cardBg: '#FFFFFF',
+  elevatedSurface: '#F3F4F6',
+  primaryAccent: '#259D7A',     // Teal
+  secondaryAccent: '#F49320',   // Orange
   amber: '#FFB800',
   white: '#FFFFFF',
-  textHeader: '#FFFFFF',
-  textDark: '#110E1A',
-  textMuted: '#8E88B0',
+  textHeader: '#2B2D42',
+  textDark: '#2B2D42',
+  textMuted: '#A0AABF',
+  border: '#E2E8F0',
 };
 
 const DUMMY_LECTURES = [
@@ -32,10 +33,10 @@ export default function ChapterDetailScreen() {
   const router = useRouter();
   const [chapter, setChapter] = useState<any>(null);
   const [lectures, setLectures] = useState<any[]>(DUMMY_LECTURES);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // set false to show UI quickly if not connected
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE_URL = 'http://192.168.1.9:3000';
+  const API_BASE_URL = 'http://192.168.29.34:3000';
 
   const toggleComplete = (lectureId: number) => {
     setLectures(prev => prev.map(l => 
@@ -62,7 +63,8 @@ export default function ChapterDetailScreen() {
           setLectures(DUMMY_LECTURES);
         }
       } catch (err: any) {
-        setError(err.message || 'Could not fetch chapter data');
+        // Suppress error so offline viewing works with dummy data
+        setLectures(DUMMY_LECTURES);
       } finally {
         setIsLoading(false);
       }
@@ -75,10 +77,10 @@ export default function ChapterDetailScreen() {
   const progressPercent = Math.round((completedCount / lectures.length) * 100);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right', 'bottom']}>
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         
-        {/* Simple Header */}
+        {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backBtnSmall}>
             <Ionicons name="chevron-back" size={24} color={Colors.textDark} />
@@ -91,13 +93,7 @@ export default function ChapterDetailScreen() {
           </View>
         )}
 
-        {error && (
-          <View style={{ paddingVertical: 16 }}>
-            <ThemedText style={styles.errorText}>{error}</ThemedText>
-          </View>
-        )}
-
-        {/* Massive Video Player */}
+        {/* Video Player Placeholder */}
         <View style={styles.videoCard}>
           <View style={styles.videoPlaceholder}>
             <View style={styles.playButtonCircle}>
@@ -127,7 +123,7 @@ export default function ChapterDetailScreen() {
            <ThemedText style={styles.sectionTitle}>Lectures & Study</ThemedText>
         </View>
 
-        {/* Chunky Lecture List */}
+        {/* Lecture List */}
         {lectures.map((item) => (
           <TouchableOpacity 
             key={item.id} 
@@ -135,11 +131,11 @@ export default function ChapterDetailScreen() {
             onPress={() => toggleComplete(item.id)}
             activeOpacity={0.8}
           >
-            <View style={[styles.lectureIconBox, item.completed && { backgroundColor: Colors.secondaryAccent }]}>
+            <View style={[styles.lectureIconBox, item.completed && { backgroundColor: Colors.primaryAccent }]}>
                {item.completed ? (
                  <Ionicons name="checkmark" size={28} color={Colors.white} />
                ) : (
-                 <Ionicons name="play" size={24} color={Colors.white} />
+                 <Ionicons name="play" size={24} color={Colors.primaryAccent} />
                )}
             </View>
             <View style={styles.lectureInfo}>
@@ -196,9 +192,16 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.cardBg,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.03,
+    shadowRadius: 10,
+    elevation: 2,
   },
   scrollContent: {
     paddingHorizontal: 24,
@@ -209,6 +212,13 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     overflow: 'hidden',
     marginBottom: 24,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.04,
+    shadowRadius: 20,
+    elevation: 4,
   },
   videoPlaceholder: {
     width: '100%',
@@ -221,7 +231,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: 'rgba(255,255,255,0.3)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -244,6 +254,13 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     padding: 24,
     marginBottom: 32,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.04,
+    shadowRadius: 20,
+    elevation: 4,
   },
   progressHeader: {
     flexDirection: 'row',
@@ -257,7 +274,7 @@ const styles = StyleSheet.create({
     color: Colors.textDark,
   },
   metaPill: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
+    backgroundColor: Colors.elevatedSurface,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -269,7 +286,7 @@ const styles = StyleSheet.create({
   },
   progressBarBg: {
     height: 12,
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: Colors.elevatedSurface,
     borderRadius: 6,
   },
   progressBarFill: {
@@ -293,15 +310,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
   },
   lectureCardCompleted: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: Colors.elevatedSurface,
+    borderColor: 'transparent',
+    shadowOpacity: 0,
+    elevation: 0,
   },
   lectureIconBox: {
     width: 56,
     height: 56,
     borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(37, 157, 122, 0.1)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -325,6 +352,13 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     padding: 32,
     marginTop: 20,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.04,
+    shadowRadius: 16,
+    elevation: 4,
   },
   noteHeader: {
     flexDirection: 'row',
@@ -351,13 +385,8 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     fontWeight: '500',
   },
-  errorText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#FF5C7A',
-  },
   quizCard: {
-    backgroundColor: Colors.primaryAccent,
+    backgroundColor: Colors.secondaryAccent,
     borderRadius: 40,
     padding: 28,
     flexDirection: 'row',
@@ -366,6 +395,11 @@ const styles = StyleSheet.create({
     marginTop: 32,
     marginBottom: 20,
     height: 160,
+    shadowColor: Colors.secondaryAccent,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 6,
   },
   quizContent: {
     flex: 1,

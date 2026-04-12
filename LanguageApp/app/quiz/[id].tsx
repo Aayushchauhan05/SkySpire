@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '../../components/themed-text';
@@ -9,17 +10,18 @@ const { width } = Dimensions.get('window');
 
 // Restored Premium Matte Colors
 const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66',     
-  secondaryAccent: '#9B8AF4', 
+  mainBg: '#FAFCFC',
+  cardBg: '#FFFFFF',
+  elevatedSurface: '#F3F4F6',
+  primaryAccent: '#259D7A',     // Teal
+  secondaryAccent: '#F49320',   // Orange
   amber: '#FFB800',
   error: '#FF5C7A',
   white: '#FFFFFF',
-  textHeader: '#FFFFFF',
-  textDark: '#110E1A',
-  textMuted: '#8E88B0',
+  textHeader: '#2B2D42',
+  textDark: '#2B2D42',
+  textMuted: '#A0AABF',
+  border: '#E2E8F0',
 };
 
 const DUMMY_QUESTIONS = [
@@ -115,7 +117,7 @@ export default function QuizScreen() {
 
   if (isFinished) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container} edges={['top', 'left', 'right', 'bottom']}>
         <View style={styles.resultContainer}>
           <View style={styles.trophyWrapper}>
              <Ionicons name="trophy" size={100} color={Colors.amber} />
@@ -135,7 +137,7 @@ export default function QuizScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right', 'bottom']}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtnSmall}>

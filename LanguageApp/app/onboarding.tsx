@@ -7,15 +7,15 @@ import { useAppStore } from '../store/useAppStore';
 const { width } = Dimensions.get('window');
 
 const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66', // Warm Coral
-  secondaryAccent: '#9B8AF4', // Soft Purple
+  mainBg: '#FAFCFC',
+  cardBg: '#FFFFFF',
+  elevatedSurface: '#F3F4F6',
+  primaryAccent: '#259D7A', 
+  secondaryAccent: '#F49320', 
   amber: '#FFB800',
   error: '#FF5C7A',
-  primaryText: '#F0EEF8',
-  secondaryText: '#8E88B0',
+  primaryText: '#2B2D42',
+  secondaryText: '#A0AABF',
 };
 
 // Wizard Data
@@ -91,7 +91,7 @@ export default function OnboardingScreen() {
         cefrLevel: 'A1' // Default, placement test might override this
       });
 
-      const response = await fetch('http://192.168.1.9:3000/api/auth/register', {
+      const response = await fetch('http://192.168.29.34:3000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
   },
   selectBtnActive: {
     borderColor: Colors.primaryAccent,
-    backgroundColor: 'rgba(255, 138, 102, 0.05)',
+    backgroundColor: 'rgba(37, 157, 122, 0.05)',
   },
   selectBtnText: {
     fontFamily: 'Plus Jakarta Sans',
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
   },
   goalCardActive: {
     borderColor: Colors.primaryAccent,
-    backgroundColor: 'rgba(255, 138, 102, 0.05)',
+    backgroundColor: 'rgba(37, 157, 122, 0.05)',
   },
   goalCardText: {
     fontFamily: 'Plus Jakarta Sans',

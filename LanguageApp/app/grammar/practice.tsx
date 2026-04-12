@@ -1,7 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+
+const Colors = {
+  mainBg: '#FAFCFC',
+  cardBg: '#FFFFFF',
+  elevatedSurface: '#F3F4F6',
+  primaryAccent: '#259D7A',
+  secondaryAccent: '#F49320',
+  primaryText: '#2B2D42',
+  secondaryText: '#A0AABF',
+  border: '#E2E8F0',
+  error: '#FF5C7A',
+};
 
 export default function PracticeFlashcardsScreen() {
   const router = useRouter();
@@ -10,7 +23,7 @@ export default function PracticeFlashcardsScreen() {
   const [currIdx, setCurrIdx] = useState(0);
   const [revealed, setRevealed] = useState(false);
 
-  const API_URL = 'https://sky-spire.vercel.app/api/grammar';
+  const API_URL = 'http://192.168.29.34:3000/api/grammar'; // Update to local for testing if needed
 
   useEffect(() => {
     let url = `${API_URL}/examples/random?count=10`;
@@ -32,64 +45,207 @@ export default function PracticeFlashcardsScreen() {
   };
 
   if (examples.length === 0) return (
-    <SafeAreaView className="flex-1 bg-[#110E1A] justify-center items-center">
-      <ActivityIndicator size="large" color="#FF8A66" />
+    <SafeAreaView style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]} edges={['top', 'left', 'right', 'bottom']}>
+      <ActivityIndicator size="large" color={Colors.primaryAccent} />
     </SafeAreaView>
   );
 
   const card = examples[currIdx];
 
   return (
-    <SafeAreaView className="flex-1 bg-[#110E1A]">
-      <View className="px-6 py-4 flex-row items-center justify-between border-b border-[#252040]">
-        <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="close" size={28} color="#FFFFFF" />
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right', 'bottom']}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.actionBtn}>
+          <Ionicons name="close" size={24} color={Colors.primaryText} />
         </TouchableOpacity>
-        <Text className="text-gray-400 font-bold">Card {currIdx + 1} of {examples.length}</Text>
-        <Ionicons name="options" size={28} color="#FFFFFF" />
+        <Text style={styles.progressText}>Card {currIdx + 1} of {examples.length}</Text>
+        <TouchableOpacity style={styles.actionBtn}>
+          <Ionicons name="options" size={24} color={Colors.primaryText} />
+        </TouchableOpacity>
       </View>
 
-      <View className="flex-1 p-6 justify-center">
+      <View style={styles.content}>
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => setRevealed(true)}
-          className={`bg-[#1C1830] border-2 rounded-[40px] p-8 flex-1 max-h-[400px] justify-center items-center ${revealed ? 'border-[#FF8A66]' : 'border-[#252040]'}`}
+          style={[styles.flashcard, revealed ? styles.flashcardRevealed : null]}
         >
-          <Text className="text-3xl font-black text-center text-[#fef9f0] mb-8">{card.spanish}</Text>
+          <Text style={styles.spanishText}>{card.spanish}</Text>
 
           {!revealed ? (
-            <Text className="text-[#8E88B0] font-bold text-lg mt-10">Tap to reveal translation</Text>
+            <Text style={styles.tapPrompt}>Tap to reveal translation</Text>
           ) : (
-            <Text className="text-2xl font-bold text-center text-[#9B8AF4]">{card.english}</Text>
+            <Text style={styles.englishText}>{card.english}</Text>
           )}
         </TouchableOpacity>
 
-        <View className="flex-row justify-center mt-6 h-[20px]">
+        <View style={styles.tagsContainer}>
           {revealed && (
-            <Text className="text-[#8E88B0] text-sm">
-              Tags: {card.tags.join(' · ')}
+            <Text style={styles.tagsText}>
+              Tags: {card.tags?.join(' · ')}
             </Text>
           )}
         </View>
 
         {revealed && (
-          <View className="flex-row justify-between mt-10 gap-4">
-            <TouchableOpacity className="bg-[#ef4444]/20 border border-[#ef4444] rounded-2xl p-4 flex-1 items-center" onPress={nextCard}>
-              <Text className="text-xl">😕</Text>
-              <Text className="text-[#ef4444] font-bold mt-1">Hard</Text>
+          <View style={styles.evaluationContainer}>
+            <TouchableOpacity style={styles.evalBtnHard} onPress={nextCard}>
+              <Text style={{ fontSize: 24 }}>😕</Text>
+              <Text style={styles.evalTextHard}>Hard</Text>
             </TouchableOpacity>
-            <TouchableOpacity className="bg-[#f59e0b]/20 border border-[#f59e0b] rounded-2xl p-4 flex-1 items-center" onPress={nextCard}>
-              <Text className="text-xl">😐</Text>
-              <Text className="text-[#f59e0b] font-bold mt-1">OK</Text>
+            <TouchableOpacity style={styles.evalBtnOk} onPress={nextCard}>
+              <Text style={{ fontSize: 24 }}>😐</Text>
+              <Text style={styles.evalTextOk}>OK</Text>
             </TouchableOpacity>
-            <TouchableOpacity className="bg-[#22c55e]/20 border border-[#22c55e] rounded-2xl p-4 flex-1 items-center" onPress={nextCard}>
-              <Text className="text-xl">😊</Text>
-              <Text className="text-[#22c55e] font-bold mt-1">Easy</Text>
+            <TouchableOpacity style={styles.evalBtnEasy} onPress={nextCard}>
+              <Text style={{ fontSize: 24 }}>😊</Text>
+              <Text style={styles.evalTextEasy}>Easy</Text>
             </TouchableOpacity>
           </View>
         )}
       </View>
-
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.mainBg,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  actionBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: Colors.cardBg,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 1,
+  },
+  progressText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: Colors.secondaryText,
+  },
+  content: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+  },
+  flashcard: {
+    backgroundColor: Colors.cardBg,
+    borderRadius: 40,
+    padding: 32,
+    height: 400,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.04,
+    shadowRadius: 30,
+    elevation: 8,
+  },
+  flashcardRevealed: {
+    borderColor: Colors.primaryAccent,
+    borderWidth: 2,
+    shadowColor: Colors.primaryAccent,
+  },
+  spanishText: {
+    fontSize: 32,
+    fontWeight: '900',
+    color: Colors.primaryText,
+    textAlign: 'center',
+    marginBottom: 32,
+  },
+  tapPrompt: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: Colors.secondaryText,
+    marginTop: 40,
+  },
+  englishText: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: Colors.primaryAccent,
+    textAlign: 'center',
+  },
+  tagsContainer: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 24,
+  },
+  tagsText: {
+    color: Colors.secondaryText,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  evaluationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 40,
+    gap: 16,
+  },
+  evalBtnHard: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 92, 122, 0.1)',
+    borderWidth: 1,
+    borderColor: Colors.error,
+    borderRadius: 24,
+    padding: 16,
+    alignItems: 'center',
+  },
+  evalBtnOk: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 184, 0, 0.1)',
+    borderWidth: 1,
+    borderColor: Colors.amber,
+    borderRadius: 24,
+    padding: 16,
+    alignItems: 'center',
+  },
+  evalBtnEasy: {
+    flex: 1,
+    backgroundColor: 'rgba(37, 157, 122, 0.1)',
+    borderWidth: 1,
+    borderColor: Colors.primaryAccent,
+    borderRadius: 24,
+    padding: 16,
+    alignItems: 'center',
+  },
+  evalTextHard: {
+    color: Colors.error,
+    fontWeight: '800',
+    marginTop: 8,
+    fontSize: 16,
+  },
+  evalTextOk: {
+    color: Colors.amber,
+    fontWeight: '800',
+    marginTop: 8,
+    fontSize: 16,
+  },
+  evalTextEasy: {
+    color: Colors.primaryAccent,
+    fontWeight: '800',
+    marginTop: 8,
+    fontSize: 16,
+  },
+});

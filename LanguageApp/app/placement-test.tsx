@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Dimensions, Animated } from 'react-native';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Dimensions, Animated, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { ThemedText } from '../components/themed-text';
 import { useAppStore } from '../store/useAppStore';
 
 const { width } = Dimensions.get('window');
 
 const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66', // Warm Coral     
-  secondaryAccent: '#9B8AF4', // Soft Purple
+  mainBg: '#FAFCFC',
+  cardBg: '#FFFFFF',
+  elevatedSurface: '#F3F4F6',
+  primaryAccent: '#259D7A',
+  secondaryAccent: '#F49320',
   amber: '#FFB800',
-  cyan: '#00E5FF',
-  white: '#FFFFFF',
-  textHeader: '#FFFFFF',
-  textDark: '#110E1A',
-  textMuted: '#8E88B0',
+  cyan: '#00ACC1',
+  primaryText: '#2B2D42',
+  textHeader: '#2B2D42',
+  textDark: '#FFFFFF',
+  textMuted: '#A0AABF',
+  border: '#E2E8F0',
 };
 
 const DUMMY_PLACEMENT = [
@@ -70,17 +70,18 @@ export default function PlacementTestScreen() {
       <SafeAreaView style={styles.container}>
         <View style={styles.resultContainer}>
           <View style={styles.cefrBadge}>
-             <ThemedText style={styles.cefrText}>{placementLevel}</ThemedText>
+             <Text style={styles.cefrText}>{placementLevel}</Text>
           </View>
-          <ThemedText style={styles.resultTitle}>You're Level {placementLevel}</ThemedText>
-          <ThemedText style={styles.resultDesc}>
+          <Text style={styles.resultTitle}>You're Level {placementLevel}</Text>
+          <Text style={styles.resultDesc}>
             Based on your test results, we've calibrated your curriculum to match your proficiency.
-          </ThemedText>
+          </Text>
           <TouchableOpacity 
             style={styles.finishBtn} 
             onPress={() => router.replace('/(tabs)' as any)}
+            activeOpacity={0.8}
           >
-            <ThemedText style={styles.finishBtnText}>Start Learning</ThemedText>
+            <Text style={styles.finishBtnText}>Start Learning</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -96,12 +97,12 @@ export default function PlacementTestScreen() {
         <View style={styles.progressTrack}>
            <View style={[styles.progressFill, { width: `${progressPercent}%` }]} />
         </View>
-        <ThemedText style={styles.counterText}>{currentIdx + 1}/20</ThemedText>
+        <Text style={styles.counterText}>{currentIdx + 1}/20</Text>
       </View>
 
       <View style={styles.content}>
-        <ThemedText style={styles.questionTitle}>Grammar & Vocab</ThemedText>
-        <ThemedText style={styles.questionText}>{question.question}</ThemedText>
+        <Text style={styles.questionTitle}>Grammar & Vocab</Text>
+        <Text style={styles.questionText}>{question.question}</Text>
         
         <View style={styles.optionsWrap}>
           {question.options.map((opt, idx) => (
@@ -111,7 +112,7 @@ export default function PlacementTestScreen() {
                onPress={() => handleSelect(idx)}
                activeOpacity={0.7}
              >
-               <ThemedText style={styles.optionText}>{opt}</ThemedText>
+               <Text style={styles.optionText}>{opt}</Text>
              </TouchableOpacity>
           ))}
         </View>
@@ -138,6 +139,8 @@ const styles = StyleSheet.create({
     height: 44,
     borderRadius: 22,
     backgroundColor: Colors.cardBg,
+    borderWidth: 1,
+    borderColor: Colors.border,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
   },
   progressFill: {
     height: '100%',
-    backgroundColor: Colors.cyan,
+    backgroundColor: Colors.primaryAccent,
     borderRadius: 4,
   },
   counterText: {
@@ -167,7 +170,7 @@ const styles = StyleSheet.create({
   questionTitle: {
     fontSize: 14,
     fontWeight: '800',
-    color: Colors.cyan,
+    color: Colors.primaryAccent,
     textTransform: 'uppercase',
     letterSpacing: 2,
     marginBottom: 16,
@@ -175,7 +178,7 @@ const styles = StyleSheet.create({
   questionText: {
     fontSize: 32,
     fontWeight: '900',
-    color: Colors.white,
+    color: Colors.primaryText,
     lineHeight: 40,
     letterSpacing: -1,
     marginBottom: 40,
@@ -188,13 +191,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 20,
     borderRadius: 20,
-    borderWidth: 2,
-    borderColor: 'transparent',
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
   },
   optionText: {
     fontSize: 20,
     fontWeight: '700',
-    color: Colors.white,
+    color: Colors.primaryText,
   },
   resultContainer: {
     flex: 1,
@@ -203,25 +211,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cefrBadge: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: Colors.cyan + '20',
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: 'rgba(37, 157, 122, 0.1)',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 32,
-    borderWidth: 4,
-    borderColor: Colors.cyan + '50',
+    borderWidth: 8,
+    borderColor: 'rgba(37, 157, 122, 0.2)',
   },
   cefrText: {
-    fontSize: 48,
+    fontSize: 56,
     fontWeight: '900',
-    color: Colors.cyan,
+    color: Colors.primaryAccent,
   },
   resultTitle: {
     fontSize: 36,
     fontWeight: '900',
-    color: Colors.white,
+    color: Colors.primaryText,
     marginBottom: 16,
     textAlign: 'center',
   },
@@ -233,15 +241,20 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   finishBtn: {
-    backgroundColor: Colors.cyan,
+    backgroundColor: Colors.primaryAccent,
     width: '100%',
     paddingVertical: 20,
-    borderRadius: 30,
+    borderRadius: 24,
     alignItems: 'center',
+    shadowColor: Colors.primaryAccent,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 6,
   },
   finishBtnText: {
     fontSize: 20,
     fontWeight: '900',
-    color: Colors.textDark,
+    color: '#FFFFFF',
   }
 });

@@ -1,8 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useGrammarStore } from '../../../store/useGrammarStore';
 import { Ionicons } from '@expo/vector-icons';
+
+const Colors = {
+  mainBg: '#FAFCFC',
+  cardBg: '#FFFFFF',
+  elevatedSurface: '#F3F4F6',
+  primaryAccent: '#259D7A',
+  secondaryAccent: '#F49320',
+  amber: '#FFB800',
+  success: '#22c55e',
+  primaryText: '#2B2D42',
+  secondaryText: '#A0AABF',
+  border: '#E2E8F0',
+};
 
 export default function SectionReaderScreen() {
   const { sectionId } = useLocalSearchParams<{ sectionId: string }>();
@@ -11,7 +25,7 @@ export default function SectionReaderScreen() {
 
   const [data, setData] = useState<{ section: any; examples: any[] } | null>(null);
 
-  const API_URL = 'https://sky-spire.vercel.app/api/grammar';
+  const API_URL = 'http://192.168.29.34:3000/api/grammar'; // Match backend env
 
   useEffect(() => {
     if (sectionId) {
@@ -30,39 +44,39 @@ export default function SectionReaderScreen() {
   };
 
   if (!data) return (
-    <SafeAreaView className="flex-1 bg-[#110E1A] justify-center items-center">
-      <ActivityIndicator size="large" color="#FF8A66" />
+    <SafeAreaView style={[styles.container, styles.centerContainer]} edges={['top', 'left', 'right', 'bottom']}>
+      <ActivityIndicator size="large" color={Colors.primaryAccent} />
     </SafeAreaView>
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-[#110E1A]">
-      <View className="px-6 py-4 flex-row items-center border-b border-[#252040]">
-        <TouchableOpacity onPress={() => router.back()} className="mr-4">
-          <Ionicons name="close" size={28} color="#FFFFFF" />
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right', 'bottom']}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backBtn} activeOpacity={0.8}>
+          <Ionicons name="close" size={24} color={Colors.primaryText} />
         </TouchableOpacity>
-        <Text className="text-gray-400 font-bold flex-1">Sec {data.section.section_number}</Text>
+        <Text style={styles.headerTitle}>Sec {data.section.section_number}</Text>
       </View>
 
-      <ScrollView className="flex-1 px-6 pt-6">
-        <Text className="text-3xl font-black text-white mb-6 leading-tight">{data.section.title}</Text>
+      <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <Text style={styles.sectionTitle}>{data.section.title}</Text>
 
-        <View className="bg-[#1C1830] p-6 rounded-3xl mb-8">
-          <Text className="text-[#fef9f0] text-lg leading-relaxed">{data.section.content}</Text>
+        <View style={styles.contentCard}>
+          <Text style={styles.contentText}>{data.section.content}</Text>
         </View>
 
-        {data.examples.length > 0 && (
-          <View className="mb-8">
-            <Text className="text-gray-400 font-bold uppercase tracking-wider mb-4">Examples in context</Text>
+        {data.examples?.length > 0 && (
+          <View style={styles.examplesSection}>
+            <Text style={styles.examplesHeading}>Examples in context</Text>
             {data.examples.map((ex, i) => (
-              <View key={ex._id} className="bg-[#252040] p-5 rounded-2xl mb-3">
-                <View className="flex-row items-start">
-                  <Text className="text-xl mr-3">🇪🇸</Text>
-                  <Text className="text-[#fef9f0] font-medium text-lg flex-1 leading-snug">{ex.spanish}</Text>
+              <View key={ex._id} style={styles.exampleCard}>
+                <View style={styles.exampleRow}>
+                  <Text style={styles.flagIcon}>🇪🇸</Text>
+                  <Text style={styles.spanishText}>{ex.spanish}</Text>
                 </View>
-                <View className="flex-row items-start mt-3">
-                  <Text className="text-xl mr-3">🇬🇧</Text>
-                  <Text className="text-[#8E88B0] text-base flex-1">{ex.english}</Text>
+                <View style={[styles.exampleRow, { marginTop: 12 }]}>
+                  <Text style={styles.flagIcon}>🇬🇧</Text>
+                  <Text style={styles.englishText}>{ex.english}</Text>
                 </View>
               </View>
             ))}
@@ -70,15 +84,154 @@ export default function SectionReaderScreen() {
         )}
       </ScrollView>
 
-      <View className="p-6 border-t border-[#252040] bg-[#110E1A]">
+      <View style={styles.footer}>
         <TouchableOpacity
-          className="bg-[#22c55e] p-4 rounded-2xl flex-row justify-center items-center"
+          style={styles.completeBtn}
           onPress={handleMarkDone}
+          activeOpacity={0.9}
         >
           <Ionicons name="checkmark-circle" size={24} color="#FFF" />
-          <Text className="text-white font-black text-lg ml-2">Mark Section Complete</Text>
+          <Text style={styles.completeBtnText}>Mark Section Complete</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.mainBg,
+  },
+  centerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  backBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: Colors.cardBg,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 16,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  headerTitle: {
+    color: Colors.secondaryText,
+    fontFamily: 'System',
+    fontWeight: '800',
+    fontSize: 18,
+    flex: 1,
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 40,
+  },
+  sectionTitle: {
+    fontSize: 32,
+    fontWeight: '900',
+    color: Colors.primaryText,
+    marginBottom: 24,
+    lineHeight: 40,
+  },
+  contentCard: {
+    backgroundColor: Colors.cardBg,
+    padding: 24,
+    borderRadius: 24,
+    marginBottom: 32,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 12,
+    elevation: 3,
+  },
+  contentText: {
+    color: Colors.primaryText,
+    fontSize: 18,
+    lineHeight: 28,
+  },
+  examplesSection: {
+    marginBottom: 32,
+  },
+  examplesHeading: {
+    color: Colors.secondaryText,
+    fontWeight: '800',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 16,
+  },
+  exampleCard: {
+    backgroundColor: Colors.elevatedSurface,
+    padding: 20,
+    borderRadius: 20,
+    marginBottom: 12,
+  },
+  exampleRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  flagIcon: {
+    fontSize: 20,
+    marginRight: 12,
+  },
+  spanishText: {
+    color: Colors.primaryText,
+    fontWeight: '700',
+    fontSize: 18,
+    flex: 1,
+    lineHeight: 26,
+  },
+  englishText: {
+    color: Colors.secondaryText,
+    fontSize: 16,
+    flex: 1,
+    lineHeight: 24,
+    fontWeight: '500',
+  },
+  footer: {
+    padding: 24,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
+    backgroundColor: Colors.mainBg,
+  },
+  completeBtn: {
+    backgroundColor: Colors.primaryAccent,
+    padding: 20,
+    borderRadius: 24,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: Colors.primaryAccent,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 6,
+  },
+  completeBtnText: {
+    color: '#FFF',
+    fontWeight: '900',
+    fontSize: 18,
+    marginLeft: 8,
+  },
+});

@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { CaretLeft, CaretRight, User, Fire, Sparkle, Gear, BellRinging, Question, BookmarkSimple, TrendUp } from 'phosphor-react-native';
 import { useAppStore } from '../../store/useAppStore';
 
 const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66', // Warm Coral
-  secondaryAccent: '#9B8AF4', // Soft Purple
+  mainBg: '#FAFCFC',
+  cardBg: '#FFFFFF',
+  elevatedSurface: '#F3F4F6',
+  primaryAccent: '#259D7A',
+  secondaryAccent: '#F49320',
   amber: '#FFB800',
   error: '#FF5C7A',
-  cyan: '#00E5FF',
-  white: '#FFFFFF',
-  primaryText: '#F0EEF8',
-  secondaryText: '#8E88B0',
-  textMuted: '#8E88B0',
+  cyan: '#00ACC1',
+  white: '#2B2D42', // Text replaces white
+  primaryText: '#2B2D42',
+  secondaryText: '#A0AABF',
+  textMuted: '#A0AABF',
+  border: '#E2E8F0',
 };
 
 export default function ProfileScreen() {
@@ -33,7 +35,7 @@ export default function ProfileScreen() {
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
@@ -101,7 +103,7 @@ export default function ProfileScreen() {
                      return (
                        <View 
                          key={colIndex} 
-                         style={[styles.heatmapSquare, intensity > 0.7 ? {backgroundColor: Colors.primaryAccent} : intensity > 0.3 ? {backgroundColor: 'rgba(255, 138, 102, 0.4)'} : null]} 
+                         style={[styles.heatmapSquare, intensity > 0.7 ? {backgroundColor: Colors.primaryAccent} : intensity > 0.3 ? {backgroundColor: 'rgba(37, 157, 122, 0.4)'} : null]} 
                        />
                      );
                    })}
@@ -118,7 +120,7 @@ export default function ProfileScreen() {
                    <TrendUp size={24} color={Colors.amber} />
                 </View>
                 <View style={{flex: 1, marginLeft: 16}}>
-                   <Text style={[styles.sectionTitle, {color: Colors.white, marginBottom: 4}]}>Master 20 Verbs</Text>
+                   <Text style={[styles.sectionTitle, {color: Colors.primaryText, marginBottom: 4}]}>Master 20 Verbs</Text>
                    <Text style={{color: Colors.textMuted, fontSize: 13}}>Ends in 2 days. 15/20 completed.</Text>
                 </View>
             </TouchableOpacity>
@@ -137,8 +139,8 @@ export default function ProfileScreen() {
                  const Icon = badge.icon;
                  return (
                    <View key={badge.id} style={[styles.badgeItem, !badge.unlocked && styles.badgeItemLocked]}>
-                     <View style={[styles.badgeIconWrap, { backgroundColor: badge.unlocked ? 'rgba(255, 138, 102, 0.15)' : Colors.elevatedSurface }]}>
-                        <Icon size={32} color={badge.unlocked ? Colors.primaryAccent : Colors.secondaryText} weight={badge.unlocked ? "duotone" : "regular"} />
+                     <View style={[styles.badgeIconWrap, { backgroundColor: badge.unlocked ? 'rgba(244, 147, 32, 0.15)' : Colors.elevatedSurface }]}>
+                        <Icon size={32} color={badge.unlocked ? Colors.secondaryAccent : Colors.secondaryText} weight={badge.unlocked ? "duotone" : "regular"} />
                      </View>
                      <Text style={[styles.badgeTitle, !badge.unlocked && { color: Colors.secondaryText }]}>{badge.title}</Text>
                    </View>
@@ -151,7 +153,7 @@ export default function ProfileScreen() {
             </View>
             <View style={styles.settingsGroup}>
                <TouchableOpacity style={styles.settingsRow}>
-                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(155, 138, 244, 0.1)' }]}>
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(244, 147, 32, 0.1)' }]}>
                      <BookmarkSimple size={24} color={Colors.secondaryAccent} />
                   </View>
                   <Text style={styles.settingsLabel}>My Notes</Text>
@@ -159,7 +161,7 @@ export default function ProfileScreen() {
                </TouchableOpacity>
                <View style={styles.settingsDivider} />
                <TouchableOpacity style={styles.settingsRow}>
-                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(0, 229, 255, 0.1)' }]}>
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(0, 172, 193, 0.1)' }]}>
                      <BookmarkSimple size={24} color={Colors.cyan} />
                   </View>
                   <Text style={styles.settingsLabel}>Saved Grammar Rules</Text>
@@ -181,8 +183,8 @@ export default function ProfileScreen() {
                </TouchableOpacity>
                <View style={styles.settingsDivider} />
                <TouchableOpacity style={styles.settingsRow}>
-                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(155, 138, 244, 0.1)' }]}>
-                     <Fire size={24} color={Colors.secondaryAccent} />
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(37, 157, 122, 0.1)' }]}>
+                     <Fire size={24} color={Colors.primaryAccent} />
                   </View>
                   <Text style={styles.settingsLabel}>Grammar Reference Index</Text>
                   <CaretRight size={20} color={Colors.secondaryText} />
@@ -215,7 +217,7 @@ export default function ProfileScreen() {
                <View style={styles.settingsDivider} />
 
                <TouchableOpacity style={styles.settingsRow}>
-                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(0, 229, 255, 0.1)' }]}>
+                  <View style={[styles.settingsIconWrap, { backgroundColor: 'rgba(0, 172, 193, 0.1)' }]}>
                      <Sparkle size={24} color={Colors.cyan} />
                   </View>
                   <Text style={styles.settingsLabel}>Subscription & Billing</Text>
@@ -256,6 +258,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBg,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   headerRightBtn: {
     width: 44,
@@ -265,20 +269,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 20,
     fontWeight: '700',
     color: Colors.primaryText,
   },
   scrollContent: {
     paddingHorizontal: 24,
-    paddingBottom: 40,
+    paddingBottom: 100,
   },
   userCard: {
     backgroundColor: Colors.cardBg,
     borderRadius: 24,
     padding: 24,
     marginBottom: 32,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
   },
   userTopRow: {
     flexDirection: 'row',
@@ -289,7 +299,7 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: 'rgba(255, 138, 102, 0.1)',
+    backgroundColor: 'rgba(37, 157, 122, 0.1)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -297,14 +307,12 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   userName: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 24,
     fontWeight: '800',
     color: Colors.primaryText,
     marginBottom: 4,
   },
   userLang: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 14,
     color: Colors.secondaryText,
     fontWeight: '500',
@@ -321,7 +329,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statNumber: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 24,
     fontWeight: '800',
     color: Colors.primaryText,
@@ -329,7 +336,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   statLabel: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 12,
     color: Colors.secondaryText,
     textTransform: 'uppercase',
@@ -339,7 +345,7 @@ const styles = StyleSheet.create({
   statDivider: {
     width: 2,
     height: 40,
-    backgroundColor: Colors.cardBg,
+    backgroundColor: Colors.border,
   },
   sectionHeaderWrap: {
     flexDirection: 'row',
@@ -348,7 +354,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 14,
     fontWeight: '700',
     color: Colors.secondaryText,
@@ -356,7 +361,6 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
   },
   viewAllText: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 14,
     fontWeight: '700',
     color: Colors.primaryAccent,
@@ -383,7 +387,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   badgeTitle: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 12,
     fontWeight: '600',
     color: Colors.primaryText,
@@ -394,6 +397,13 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     paddingHorizontal: 20,
     marginBottom: 32,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
   },
   settingsRow: {
     flexDirection: 'row',
@@ -409,7 +419,6 @@ const styles = StyleSheet.create({
   },
   settingsLabel: {
     flex: 1,
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 16,
     fontWeight: '600',
     color: Colors.primaryText,
@@ -417,7 +426,7 @@ const styles = StyleSheet.create({
   },
   settingsDivider: {
     height: 1,
-    backgroundColor: Colors.elevatedSurface,
+    backgroundColor: Colors.border,
   },
   signOutBtn: {
     backgroundColor: Colors.elevatedSurface,
@@ -427,7 +436,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   signOutText: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 16,
     fontWeight: '700',
     color: Colors.primaryText,
@@ -436,7 +444,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 24,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.elevatedSurface,
+    borderBottomColor: Colors.border,
   },
   profileTab: {
     flex: 1,
@@ -449,14 +457,13 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.primaryAccent,
   },
   profileTabText: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 11,
     fontWeight: '800',
     color: Colors.secondaryText,
     letterSpacing: 0.5,
   },
   profileTabTextActive: {
-    color: Colors.white,
+    color: Colors.primaryText,
   },
   heatmapCard: {
     backgroundColor: Colors.cardBg,
@@ -464,6 +471,13 @@ const styles = StyleSheet.create({
     padding: 24,
     marginBottom: 32,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
   },
   heatmapRow: {
     flexDirection: 'row',
@@ -484,6 +498,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: Colors.elevatedSurface,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
   }
 });

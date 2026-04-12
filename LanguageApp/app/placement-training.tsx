@@ -1,22 +1,21 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions, Text } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { ThemedText } from '@/components/themed-text';
-import { Colors as ThemeColors } from '@/constants/theme';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
 const Colors = {
-  mainBg: ThemeColors.dark.background,
-  cardBg: ThemeColors.dark.card,
-  elevatedSurface: ThemeColors.dark.elevated,
-  primaryAccent: ThemeColors.dark.primary,
-  secondaryAccent: ThemeColors.dark.secondary,
-  amber: ThemeColors.dark.accent,
-  error: ThemeColors.dark.error,
-  primaryText: ThemeColors.dark.text,
-  secondaryText: ThemeColors.dark.secondaryText,
+  mainBg: '#FAFCFC',
+  cardBg: '#FFFFFF',
+  elevatedSurface: '#F3F4F6',
+  primaryAccent: '#259D7A',
+  secondaryAccent: '#F49320',
+  amber: '#FFB800',
+  error: '#FF5C7A',
+  primaryText: '#2B2D42',
+  secondaryText: '#A0AABF',
+  border: '#E2E8F0',
 };
 
 const TRAINING_MODULES = [
@@ -71,25 +70,26 @@ export default function PlacementTrainingScreen() {
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <Ionicons name="chevron-back" size={24} color={Colors.primaryText} />
         </TouchableOpacity>
-        <ThemedText style={styles.headerTitle}>Placement Training</ThemedText>
+        <Text style={styles.headerTitle}>Placement Training</Text>
         <View style={{ width: 44 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.heroSection}>
-          <ThemedText style={styles.heroTitle}>Refine Your Skills</ThemedText>
-          <ThemedText style={styles.heroSub}>
+          <Text style={styles.heroTitle}>Refine Your Skills</Text>
+          <Text style={styles.heroSub}>
             Complete these modules to ensure a more accurate placement result.
-          </ThemedText>
+          </Text>
         </View>
 
-        <ThemedText style={styles.sectionHeading}>Your Progress</ThemedText>
+        <Text style={styles.sectionHeading}>Your Progress</Text>
 
         {TRAINING_MODULES.map((module) => (
           <TouchableOpacity 
             key={module.id} 
             style={styles.moduleCard}
-            onPress={() => {}} // Placeholder for module interaction
+            onPress={() => {}} 
+            activeOpacity={0.8}
           >
             <View style={[styles.iconContainer, { backgroundColor: module.color + '15' }]}>
               <Ionicons name={module.icon as any} size={28} color={module.color} />
@@ -97,13 +97,13 @@ export default function PlacementTrainingScreen() {
             
             <View style={styles.moduleInfo}>
               <View style={styles.moduleHeaderRow}>
-                <ThemedText style={styles.moduleTitle}>{module.title}</ThemedText>
-                <ThemedText style={[styles.durationText, { color: Colors.secondaryText }]}>
+                <Text style={styles.moduleTitle}>{module.title}</Text>
+                <Text style={[styles.durationText, { color: Colors.secondaryText }]}>
                   {module.duration}
-                </ThemedText>
+                </Text>
               </View>
               
-              <ThemedText style={styles.moduleDesc}>{module.desc}</ThemedText>
+              <Text style={styles.moduleDesc}>{module.desc}</Text>
               
               <View style={styles.progressContainer}>
                 <View style={styles.progressBarBg}>
@@ -114,9 +114,9 @@ export default function PlacementTrainingScreen() {
                     ]} 
                   />
                 </View>
-                <ThemedText style={[styles.statusText, { color: module.progress === 1 ? Colors.secondaryAccent : Colors.secondaryText }]}>
+                <Text style={[styles.statusText, { color: module.progress === 1 ? Colors.primaryAccent : Colors.secondaryText }]}>
                   {module.status}
-                </ThemedText>
+                </Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -125,8 +125,9 @@ export default function PlacementTrainingScreen() {
         <TouchableOpacity 
           style={styles.examCta}
           onPress={() => router.back()}
+          activeOpacity={0.8}
         >
-          <ThemedText style={styles.examCtaText}>Ready for Placement Test</ThemedText>
+          <Text style={styles.examCtaText}>Ready for Placement Test</Text>
           <Ionicons name="arrow-forward" size={20} color={Colors.mainBg} />
         </TouchableOpacity>
       </ScrollView>
@@ -155,7 +156,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: Colors.elevatedSurface,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
   },
   headerTitle: {
     fontSize: 20,
@@ -173,8 +179,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBg,
     marginBottom: 32,
     borderWidth: 1,
-    borderColor: Colors.elevatedSurface,
+    borderColor: Colors.border,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.03,
+    shadowRadius: 16,
+    elevation: 4,
   },
   heroTitle: {
     fontSize: 28,
@@ -205,7 +216,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     borderWidth: 1,
-    borderColor: Colors.elevatedSurface,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
   },
   iconContainer: {
     width: 56,
@@ -271,9 +287,9 @@ const styles = StyleSheet.create({
     gap: 12,
     shadowColor: Colors.primaryAccent,
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: 16,
-    elevation: 8,
+    elevation: 6,
   },
   examCtaText: {
     color: Colors.mainBg,

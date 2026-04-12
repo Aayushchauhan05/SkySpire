@@ -1,18 +1,20 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { CaretLeft, BookOpenText, CheckCircle, LockKey } from 'phosphor-react-native';
 
 const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66', // Warm Coral
-  secondaryAccent: '#9B8AF4', // Soft Purple
+  mainBg: '#FAFCFC',
+  cardBg: '#FFFFFF',
+  elevatedSurface: '#F3F4F6',
+  primaryAccent: '#259D7A',
+  secondaryAccent: '#F49320',
   amber: '#FFB800',
   error: '#FF5C7A',
-  primaryText: '#F0EEF8',
-  secondaryText: '#8E88B0',
+  primaryText: '#2B2D42',
+  secondaryText: '#A0AABF',
+  border: '#E2E8F0',
 };
 
 const GRAMMAR_UNITS = [
@@ -42,7 +44,7 @@ export default function GrammarScreen() {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
@@ -80,11 +82,11 @@ export default function GrammarScreen() {
                   <View style={styles.chapterLeft}>
                     <View style={[
                       styles.statusIndicator,
-                      chapter.completed && { backgroundColor: 'rgba(155, 138, 244, 0.1)' },
-                      isLocked && { backgroundColor: Colors.mainBg }
+                      chapter.completed && { backgroundColor: 'rgba(37, 157, 122, 0.1)' },
+                      isLocked && { backgroundColor: Colors.elevatedSurface }
                     ]}>
                       {chapter.completed ? (
-                        <CheckCircle size={20} color={Colors.secondaryAccent} weight="fill" />
+                        <CheckCircle size={20} color={Colors.primaryAccent} weight="fill" />
                       ) : isLocked ? (
                         <LockKey size={20} color={Colors.secondaryText} weight="bold" />
                       ) : (
@@ -110,8 +112,6 @@ export default function GrammarScreen() {
   );
 }
 
-import { Text } from 'react-native';
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -132,16 +132,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.cardBg,
     borderRadius: 14,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
   },
   headerTitle: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 20,
     fontWeight: '700',
     color: Colors.primaryText,
   },
   scrollContent: {
     paddingHorizontal: 24,
-    paddingBottom: 40,
+    paddingBottom: 100,
   },
   unitContainer: {
     marginBottom: 32,
@@ -153,7 +159,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   unitTitle: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 14,
     fontWeight: '700',
     color: Colors.primaryAccent,
@@ -162,13 +167,12 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   unitDesc: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 22,
-    fontWeight: '700',
+    fontWeight: '800',
     color: Colors.primaryText,
   },
   unitIconContainer: {
-    backgroundColor: 'rgba(255, 138, 102, 0.1)',
+    backgroundColor: 'rgba(37, 157, 122, 0.1)',
     padding: 12,
     borderRadius: 16,
   },
@@ -177,11 +181,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     marginBottom: 12,
-    borderWidth: 2,
-    borderColor: 'transparent',
+    borderWidth: 1,
+    borderColor: Colors.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 10,
+    elevation: 2,
   },
   chapterCardLocked: {
     opacity: 0.6,
+    backgroundColor: Colors.mainBg,
   },
   chapterLeft: {
     flexDirection: 'row',
@@ -200,19 +210,17 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: Colors.primaryText,
+    backgroundColor: Colors.secondaryText,
   },
   chapterTitle: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 16,
     fontWeight: '600',
     color: Colors.primaryText,
   },
   freeBadge: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 11,
     fontWeight: '700',
-    color: Colors.primaryAccent,
+    color: Colors.secondaryAccent,
     letterSpacing: 1,
     marginTop: 4,
   },

@@ -9,12 +9,23 @@ import {
   ScrollView,
   Alert,
   Dimensions,
+  StyleSheet
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 const { height } = Dimensions.get('window');
+
+const Colors = {
+  mainBg: '#FAFCFC',
+  cardBg: '#FFFFFF',
+  primaryAccent: '#259D7A',
+  secondaryAccent: '#F49320',
+  primaryText: '#2B2D42',
+  secondaryText: '#A0AABF',
+  border: '#E2E8F0',
+};
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -30,7 +41,7 @@ export default function LoginScreen() {
     }
     setLoading(true);
     try {
-      const response = await fetch('http://192.168.1.9:3000/api/auth/login', {
+      const response = await fetch('http://192.168.29.34:3000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -49,119 +60,61 @@ export default function LoginScreen() {
   };
 
   const inputBorder = (field: 'email' | 'password') =>
-    focusedField === field
-      ? 'rgba(255,138,102,0.7)'
-      : 'rgba(255,255,255,0.08)';
+    focusedField === field ? Colors.primaryAccent : Colors.border;
 
   return (
-    <SafeAreaView className="flex-1 bg-main-bg">
-
-      {/* ── DECORATIVE BLOBS ── */}
-      <View
-        className="absolute rounded-full"
-        style={{
-          width: 280,
-          height: 280,
-          top: -60,
-          right: -80,
-          backgroundColor: 'rgba(155,138,244,0.1)',
-        }}
-      />
-      <View
-        className="absolute rounded-full"
-        style={{
-          width: 200,
-          height: 200,
-          top: height * 0.3,
-          left: -80,
-          backgroundColor: 'rgba(255,138,102,0.08)',
-        }}
-      />
+    <SafeAreaView style={styles.container}>
+      {/* Decorative Blobs */}
+      <View style={[styles.blob1, { top: -60, right: -80 }]} />
+      <View style={[styles.blob2, { top: height * 0.3, left: -80 }]} />
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
+        style={{ flex: 1 }}
       >
         <ScrollView
-          contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 24 }}
+          contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          {/* ── BACK BUTTON ── */}
+          {/* Back Button */}
           <TouchableOpacity
-            className="mt-2 mb-6 self-start p-2 rounded-2xl"
-            style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}
+            style={styles.backButton}
             onPress={() => router.back()}
           >
-            <Ionicons name="chevron-back" size={22} color="#FFFFFF" />
+            <Ionicons name="chevron-back" size={22} color={Colors.primaryText} />
           </TouchableOpacity>
 
-          {/* ── BRAND MARK ── */}
-          <View className="items-center mb-10">
-            <View
-              className="items-center justify-center rounded-[22px] mb-4"
-              style={{
-                width: 64,
-                height: 64,
-                backgroundColor: '#FF8A66',
-                shadowColor: '#FF8A66',
-                shadowOpacity: 0.45,
-                shadowRadius: 20,
-                shadowOffset: { width: 0, height: 6 },
-                elevation: 10,
-              }}
-            >
+          {/* Brand Mark */}
+          <View style={styles.brandContainer}>
+            <View style={styles.logoBox}>
               <Ionicons name="language" size={30} color="#FFFFFF" />
             </View>
-            <Text
-              className="text-white font-black tracking-widest"
-              style={{ fontSize: 20, letterSpacing: 4 }}
-            >
-              SKYSPIRE
-            </Text>
+            <Text style={styles.brandText}>SKYSPIRE</Text>
           </View>
 
-          {/* ── HEADLINE ── */}
-          <View className="mb-8">
-            <Text
-              className="text-white font-extrabold"
-              style={{ fontSize: 32, lineHeight: 38 }}
-            >
-              Welcome back 👋
-            </Text>
-            <Text className="text-muted mt-2 text-base font-medium">
-              Sign in to continue your streak
-            </Text>
+          {/* Headline */}
+          <View style={styles.headlineContainer}>
+            <Text style={styles.title}>Welcome back 👋</Text>
+            <Text style={styles.subtitle}>Sign in to continue your streak</Text>
           </View>
 
-          {/* ── FORM ── */}
-          <View className="gap-4 mb-3">
-
-            {/* Email field */}
-            <View>
-              <Text className="text-white/60 text-sm font-semibold mb-2 ml-1">
-                Email address
-              </Text>
-              <View
-                className="flex-row items-center rounded-2xl px-4"
-                style={{
-                  height: 56,
-                  backgroundColor: '#1C1830',
-                  borderWidth: 1.5,
-                  borderColor: inputBorder('email'),
-                }}
-              >
+          {/* Form */}
+          <View style={styles.formContainer}>
+            {/* Email Field */}
+            <View style={styles.inputWrapper}>
+              <Text style={styles.inputLabel}>Email address</Text>
+              <View style={[styles.inputBox, { borderColor: inputBorder('email') }]}>
                 <Ionicons
                   name="mail-outline"
                   size={20}
-                  color={focusedField === 'email' ? '#FF8A66' : '#8E88B0'}
-                  style={{ marginRight: 10 }}
+                  color={focusedField === 'email' ? Colors.primaryAccent : Colors.secondaryText}
+                  style={styles.inputIcon}
                 />
                 <TextInput
-                  className="flex-1 text-white font-medium"
-                  style={{ fontSize: 15 }}
+                  style={styles.textInput}
                   placeholder="name@example.com"
-                  placeholderTextColor="#4A4570"
+                  placeholderTextColor={Colors.secondaryText}
                   value={email}
                   onChangeText={setEmail}
                   onFocus={() => setFocusedField('email')}
@@ -173,123 +126,75 @@ export default function LoginScreen() {
               </View>
             </View>
 
-            {/* Password field */}
-            <View>
-              <Text className="text-white/60 text-sm font-semibold mb-2 ml-1">
-                Password
-              </Text>
-              <View
-                className="flex-row items-center rounded-2xl px-4"
-                style={{
-                  height: 56,
-                  backgroundColor: '#1C1830',
-                  borderWidth: 1.5,
-                  borderColor: inputBorder('password'),
-                }}
-              >
+            {/* Password Field */}
+            <View style={styles.inputWrapper}>
+              <Text style={styles.inputLabel}>Password</Text>
+              <View style={[styles.inputBox, { borderColor: inputBorder('password') }]}>
                 <Ionicons
                   name="lock-closed-outline"
                   size={20}
-                  color={focusedField === 'password' ? '#FF8A66' : '#8E88B0'}
-                  style={{ marginRight: 10 }}
+                  color={focusedField === 'password' ? Colors.primaryAccent : Colors.secondaryText}
+                  style={styles.inputIcon}
                 />
                 <TextInput
-                  className="flex-1 text-white font-medium"
-                  style={{ fontSize: 15 }}
+                  style={styles.textInput}
                   placeholder="••••••••"
-                  placeholderTextColor="#4A4570"
+                  placeholderTextColor={Colors.secondaryText}
                   value={password}
                   onChangeText={setPassword}
                   onFocus={() => setFocusedField('password')}
                   onBlur={() => setFocusedField(null)}
                   secureTextEntry={!showPassword}
                 />
-                <TouchableOpacity
-                  onPress={() => setShowPassword(v => !v)}
-                  className="p-1"
-                >
+                <TouchableOpacity onPress={() => setShowPassword(v => !v)} style={{ padding: 4 }}>
                   <Ionicons
                     name={showPassword ? 'eye-off-outline' : 'eye-outline'}
                     size={20}
-                    color="#8E88B0"
+                    color={Colors.secondaryText}
                   />
                 </TouchableOpacity>
               </View>
             </View>
 
-            {/* Forgot password */}
-            <TouchableOpacity className="self-end">
-              <Text className="text-coral font-semibold text-sm">
-                Forgot password?
-              </Text>
+            {/* Forgot Password */}
+            <TouchableOpacity style={styles.forgotBtn}>
+              <Text style={styles.forgotText}>Forgot password?</Text>
             </TouchableOpacity>
           </View>
 
-          {/* ── SIGN IN BUTTON ── */}
+          {/* Sign In Button */}
           <TouchableOpacity
-            className="items-center justify-center rounded-2xl mt-2"
-            style={{
-              height: 58,
-              backgroundColor: loading ? 'rgba(255,138,102,0.5)' : '#FF8A66',
-              shadowColor: '#FF8A66',
-              shadowOpacity: loading ? 0 : 0.4,
-              shadowRadius: 16,
-              shadowOffset: { width: 0, height: 6 },
-              elevation: 8,
-            }}
+            style={[styles.submitBtn, loading && { opacity: 0.7 }]}
             onPress={handleLogin}
             disabled={loading}
           >
-            <Text className="text-white font-extrabold text-base">
-              {loading ? 'Signing in…' : 'Sign In'}
-            </Text>
+            <Text style={styles.submitBtnText}>{loading ? 'Signing in…' : 'Sign In'}</Text>
           </TouchableOpacity>
 
-          {/* ── DIVIDER ── */}
-          <View className="flex-row items-center gap-3 my-7">
-            <View className="flex-1 h-px bg-white/10" />
-            <Text className="text-muted text-sm font-medium">or continue with</Text>
-            <View className="flex-1 h-px bg-white/10" />
+          {/* Divider */}
+          <View style={styles.dividerContainer}>
+            <View style={styles.dividerLine} />
+            <Text style={styles.dividerText}>or continue with</Text>
+            <View style={styles.dividerLine} />
           </View>
 
-          {/* ── SOCIAL BUTTONS ── */}
-          <View className="flex-row gap-4 mb-10">
-            <TouchableOpacity
-              className="flex-1 flex-row items-center justify-center gap-2 rounded-2xl"
-              style={{
-                height: 52,
-                backgroundColor: '#1C1830',
-                borderWidth: 1,
-                borderColor: 'rgba(255,255,255,0.08)',
-              }}
-            >
+          {/* Social Buttons */}
+          <View style={styles.socialContainer}>
+            <TouchableOpacity style={styles.socialBtn}>
               <Text style={{ fontSize: 20 }}>🌐</Text>
-              <Text className="text-white font-semibold text-sm">Google</Text>
+              <Text style={styles.socialBtnText}>Google</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity
-              className="flex-1 flex-row items-center justify-center gap-2 rounded-2xl"
-              style={{
-                height: 52,
-                backgroundColor: '#1C1830',
-                borderWidth: 1,
-                borderColor: 'rgba(255,255,255,0.08)',
-              }}
-            >
-              <Ionicons name="logo-apple" size={20} color="#FFFFFF" />
-              <Text className="text-white font-semibold text-sm">Apple</Text>
+            <TouchableOpacity style={styles.socialBtn}>
+              <Ionicons name="logo-apple" size={20} color={Colors.primaryText} />
+              <Text style={styles.socialBtnText}>Apple</Text>
             </TouchableOpacity>
           </View>
 
-          {/* ── FOOTER ── */}
-          <View className="flex-row justify-center items-center pb-6">
-            <Text className="text-muted text-sm font-medium">
-              Don't have an account?{' '}
-            </Text>
+          {/* Footer */}
+          <View style={styles.footerContainer}>
+            <Text style={styles.footerText}>Don't have an account? </Text>
             <TouchableOpacity onPress={() => router.push('/signup')}>
-              <Text className="text-coral font-extrabold text-sm">
-                Sign Up
-              </Text>
+              <Text style={styles.footerLink}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -297,3 +202,62 @@ export default function LoginScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: Colors.mainBg },
+  blob1: {
+    position: 'absolute', width: 280, height: 280, borderRadius: 140,
+    backgroundColor: 'rgba(37, 157, 122, 0.05)',
+  },
+  blob2: {
+    position: 'absolute', width: 200, height: 200, borderRadius: 100,
+    backgroundColor: 'rgba(244, 147, 32, 0.06)',
+  },
+  scrollContent: { flexGrow: 1, paddingHorizontal: 24 },
+  backButton: {
+    marginTop: 8, marginBottom: 24, alignSelf: 'flex-start', padding: 10,
+    backgroundColor: '#FFFFFF', borderRadius: 16,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.05, shadowRadius: 10, elevation: 2
+  },
+  brandContainer: { alignItems: 'center', marginBottom: 40 },
+  logoBox: {
+    width: 64, height: 64, borderRadius: 22, backgroundColor: Colors.primaryAccent,
+    alignItems: 'center', justifyContent: 'center', marginBottom: 16,
+    shadowColor: Colors.primaryAccent, shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.3, shadowRadius: 16, elevation: 8
+  },
+  brandText: { fontSize: 20, fontWeight: '900', letterSpacing: 4, color: Colors.primaryText },
+  headlineContainer: { marginBottom: 32 },
+  title: { fontSize: 32, fontWeight: '800', color: Colors.primaryText, lineHeight: 38 },
+  subtitle: { fontSize: 16, fontWeight: '500', color: Colors.secondaryText, marginTop: 8 },
+  formContainer: { gap: 16, marginBottom: 12 },
+  inputWrapper: { marginBottom: 4 },
+  inputLabel: { fontSize: 14, fontWeight: '600', color: Colors.secondaryText, marginBottom: 8, marginLeft: 4 },
+  inputBox: {
+    flexDirection: 'row', alignItems: 'center', height: 56, backgroundColor: Colors.cardBg,
+    borderRadius: 16, paddingHorizontal: 16, borderWidth: 1.5,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.02, shadowRadius: 8, elevation: 1
+  },
+  inputIcon: { marginRight: 10 },
+  textInput: { flex: 1, fontSize: 15, fontWeight: '500', color: Colors.primaryText },
+  forgotBtn: { alignSelf: 'flex-end', marginTop: 8 },
+  forgotText: { fontSize: 14, fontWeight: '600', color: Colors.secondaryAccent },
+  submitBtn: {
+    height: 58, backgroundColor: Colors.primaryAccent, borderRadius: 16,
+    alignItems: 'center', justifyContent: 'center', marginTop: 8,
+    shadowColor: Colors.primaryAccent, shadowOffset: { width: 0, height: 6 }, shadowOpacity: 0.3, shadowRadius: 16, elevation: 8
+  },
+  submitBtnText: { fontSize: 16, fontWeight: '800', color: '#FFFFFF' },
+  dividerContainer: { flexDirection: 'row', alignItems: 'center', gap: 12, marginVertical: 28 },
+  dividerLine: { flex: 1, height: 1, backgroundColor: Colors.border },
+  dividerText: { fontSize: 14, fontWeight: '500', color: Colors.secondaryText },
+  socialContainer: { flexDirection: 'row', gap: 16, marginBottom: 40 },
+  socialBtn: {
+    flex: 1, height: 52, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
+    backgroundColor: Colors.cardBg, borderRadius: 16, borderWidth: 1, borderColor: Colors.border,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.02, shadowRadius: 8, elevation: 1
+  },
+  socialBtnText: { fontSize: 14, fontWeight: '600', color: Colors.primaryText },
+  footerContainer: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: 24 },
+  footerText: { fontSize: 14, fontWeight: '500', color: Colors.secondaryText },
+  footerLink: { fontSize: 14, fontWeight: '800', color: Colors.primaryAccent }
+});
