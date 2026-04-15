@@ -1,0 +1,1132 @@
+{
+  "book": {
+    "id": "grammar_french_001",
+    "title": "French Grammar Master",
+    "language": "fr",
+    "targetLanguage": "French",
+    "nativeLanguage": "English",
+    "version": "1.0",
+    "totalTopics": 151
+  },
+  "units": [
+    {
+      "id": "unit_pre_a1",
+      "unitNumber": 1,
+      "level": "Pre-A1",
+      "levelName": "Foundation — Zero to First Word",
+      "totalTopics": 3,
+      "chapters": [
+        {
+          "id": "chapter_001",
+          "order": 1,
+          "level": "Pre-A1",
+          "title": "French Alphabet",
+          "slug": "french-alphabet",
+          "summary": "Learn the 26 letters of the French alphabet, including accented characters and their names and pronunciations.",
+          "tags": ["alphabet", "pronunciation", "foundation", "reading"],
+          "difficulty": null,
+          "dependsOn": [],
+          "unlocks": [2, 3],
+          "isFree": true,
+          "sections": [
+            {
+              "id": "section_001_01",
+              "sectionNumber": 1,
+              "title": "The 26 Letters",
+              "content": "The French alphabet contains the same 26 letters as the English alphabet, but each letter has a distinct French name and pronunciation. Learning to name and pronounce each letter correctly is the essential first step to reading and speaking French."
+            },
+            {
+              "id": "section_001_02",
+              "sectionNumber": 2,
+              "title": "Accented Characters",
+              "content": "French uses several accent marks that change pronunciation or distinguish meaning. The key accented characters are: é (e-acute), è (e-grave), ê (e-circumflex), ë (e-dieresis), â (a-circumflex), ä (a-dieresis), î (i-circumflex), ï (i-dieresis), ô (o-circumflex), ù (u-grave), û (u-circumflex), ü (u-dieresis), ç (c-cedilla), and the ligatures œ (oe) and æ (ae)."
+            },
+            {
+              "id": "section_001_03",
+              "sectionNumber": 3,
+              "title": "Letter Names",
+              "content": "Each French letter has a name used when spelling aloud. For example: A (ah), B (bay), C (say), D (day), E (euh), F (eff), G (zhay), H (ash), I (ee), J (zhee), K (kah), L (ell), M (em), N (en), O (oh), P (pay), Q (koo), R (air), S (ess), T (tay), U (oo), V (vay), W (doobluh-vay), X (eeks), Y (ee-grek), Z (zed)."
+            },
+            {
+              "id": "section_001_04",
+              "sectionNumber": 4,
+              "title": "Alphabetical Order",
+              "content": "Alphabetical order in French follows the same sequence as English. When accented letters appear, they are treated as their base letter for alphabetical ordering. For example, é, è, ê all sort under E. The cedilla ç sorts under C."
+            }
+          ],
+          "examples": [
+            {
+              "id": "example_001_01",
+              "french": "Comment ça s'écrit ? C-H-A-T",
+              "english": "How do you spell it? C-H-A-T",
+              "phonetics": "kɔmɑ̃ sa seʁi — say, ash, ah, tay",
+              "chapterId": "chapter_001",
+              "sectionId": "section_001_03"
+            },
+            {
+              "id": "example_001_02",
+              "french": "Mon prénom s'écrit avec un accent : André",
+              "english": "My first name is spelled with an accent: André",
+              "phonetics": "mɔ̃ pʁenɔ̃ seʁi avɛk œ̃n‿asɑ̃ : ɑ̃dʁe",
+              "chapterId": "chapter_001",
+              "sectionId": "section_001_02"
+            }
+          ],
+          "quiz": {
+            "id": "quiz_001",
+            "chapterId": "chapter_001",
+            "questions": [
+              {
+                "id": "q_001_01",
+                "type": "multiple_choice",
+                "question": "Which of the following is NOT a French accented character?",
+                "options": ["é", "ñ", "ç", "œ"],
+                "correctAnswer": "ñ",
+                "explanation": "ñ is a Spanish character, not French. French uses é, ç, œ and other accents.",
+                "sectionRef": "section_001_02"
+              },
+              {
+                "id": "q_001_02",
+                "type": "multiple_choice",
+                "question": "What is the French name for the letter W?",
+                "options": ["vay", "doobluh-vay", "doubluh-vee", "oo"],
+                "correctAnswer": "doobluh-vay",
+                "explanation": "W in French is called 'double-v' (doobluh-vay), literally 'double V'.",
+                "sectionRef": "section_001_03"
+              },
+              {
+                "id": "q_001_03",
+                "type": "true_false",
+                "question": "Accented letters like é and è are treated as separate letters from E in alphabetical order.",
+                "correctAnswer": false,
+                "explanation": "In French, accented letters sort under their base letter. É, è, ê all sort under E.",
+                "sectionRef": "section_001_04"
+              },
+              {
+                "id": "q_001_04",
+                "type": "multiple_choice",
+                "question": "The cedilla (ç) is used to:",
+                "options": ["Make the C sound like 'sh'", "Make the C sound like 's' before a, o, u", "Make the C silent", "Make the C sound like 'k'"],
+                "correctAnswer": "Make the C sound like 's' before a, o, u",
+                "explanation": "The cedilla (ç) changes the hard C sound to a soft S sound, especially before A, O, or U.",
+                "sectionRef": "section_001_02"
+              },
+              {
+                "id": "q_001_05",
+                "type": "multiple_choice",
+                "question": "How many letters are in the standard French alphabet (excluding accented variations)?",
+                "options": ["24", "25", "26", "28"],
+                "correctAnswer": "26",
+                "explanation": "The French alphabet has exactly 26 letters, the same as the English alphabet.",
+                "sectionRef": "section_001_01"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_002",
+          "order": 2,
+          "level": "Pre-A1",
+          "title": "French Pronunciation Rules",
+          "slug": "french-pronunciation-rules",
+          "summary": "Master the core differences between French and English sounds, including vowels, silent consonants, nasal vowels, and the distinctive French R.",
+          "tags": ["pronunciation", "vowels", "consonants", "nasals", "foundation"],
+          "difficulty": null,
+          "dependsOn": [1],
+          "unlocks": [3, 4],
+          "isFree": true,
+          "sections": [
+            {
+              "id": "section_002_01",
+              "sectionNumber": 1,
+              "title": "French Vowel Sounds vs English",
+              "content": "French vowels are 'pure' — unlike English vowels, they do not glide into another sound. The French A is always an open 'ah' sound, never the English diphthong in 'cake'. The French E has two main sounds: open (è) as in 'bet', and closed (é) as in a clipped 'ay' without the glide."
+            },
+            {
+              "id": "section_002_02",
+              "sectionNumber": 2,
+              "title": "Consonant Differences",
+              "content": "Several French consonants differ from their English equivalents. The French R is produced in the throat (a voiced uvular fricative), not with the tongue as in English. The French L is 'clear' with the tongue touching the teeth. The letters B, D, G, V at the end of words are sometimes voiced differently from English equivalents."
+            },
+            {
+              "id": "section_002_03",
+              "sectionNumber": 3,
+              "title": "Silent Final Consonants",
+              "content": "In French, most final consonants are silent. The word 'chat' (cat) sounds like 'sha' — the T is silent. Common silent final consonants: S, T, D, X, Z, P, G. Exceptions exist, especially in borrowed words. A useful rule: final C, R, F, L are often pronounced (think CaReFuL)."
+            },
+            {
+              "id": "section_002_04",
+              "sectionNumber": 4,
+              "title": "Nasal Vowels",
+              "content": "French has four nasal vowel sounds, produced by allowing air to flow through both the mouth and nose. They occur when a vowel is followed by M or N: AN/EN (like 'ahn'), IN/IM (like a nasal 'uh'), ON/OM (like a nasal 'oh'), UN/UM (like a nasal 'uh' but rounder). When a double N or M follows (comme, bonne), the nasal effect disappears."
+            },
+            {
+              "id": "section_002_05",
+              "sectionNumber": 5,
+              "title": "French R — The Throat Sound",
+              "content": "The French R is one of the most recognisable sounds in the language. It is produced at the back of the throat (uvula) with a gentle vibration — similar to gargling. It is NOT the rolled R of Spanish, nor the English R. Practice by saying 'ah' then narrowing the throat slightly while exhaling."
+            },
+            {
+              "id": "section_002_06",
+              "sectionNumber": 6,
+              "title": "French U vs OU",
+              "content": "French has two distinct U sounds that English lacks. OU (as in 'ou', 'vous') sounds like the English 'oo' in 'food'. The pure French U (as in 'tu', 'sur') is a front-rounded vowel: shape your lips for 'oo' but try to say 'ee'. These two sounds must not be confused as they change word meaning."
+            }
+          ],
+          "examples": [
+            {
+              "id": "example_002_01",
+              "french": "un chat — [œ̃ ʃa]",
+              "english": "a cat — the T and S are silent",
+              "phonetics": "œ̃ ʃa",
+              "chapterId": "chapter_002",
+              "sectionId": "section_002_03"
+            },
+            {
+              "id": "example_002_02",
+              "french": "le vin blanc — [lə vɛ̃ blɑ̃]",
+              "english": "the white wine — IN and AN are nasal vowels",
+              "phonetics": "lə vɛ̃ blɑ̃",
+              "chapterId": "chapter_002",
+              "sectionId": "section_002_04"
+            },
+            {
+              "id": "example_002_03",
+              "french": "tu — [ty] vs. tout — [tu]",
+              "english": "'you' vs. 'all/everything' — different U sounds",
+              "phonetics": "ty vs tu",
+              "chapterId": "chapter_002",
+              "sectionId": "section_002_06"
+            },
+            {
+              "id": "example_002_04",
+              "french": "rouge — [ʁuʒ]",
+              "english": "red — R is a throat sound, G is silent",
+              "phonetics": "ʁuʒ",
+              "chapterId": "chapter_002",
+              "sectionId": "section_002_05"
+            }
+          ],
+          "quiz": {
+            "id": "quiz_002",
+            "chapterId": "chapter_002",
+            "questions": [
+              {
+                "id": "q_002_01",
+                "type": "multiple_choice",
+                "question": "Which final consonants in French are most often SILENT?",
+                "options": ["C, R, F, L", "S, T, D, X", "P, R, L, N", "B, M, N, G"],
+                "correctAnswer": "S, T, D, X",
+                "explanation": "S, T, D, X, Z, P are typically silent at the end of French words. C, R, F, L are more often pronounced.",
+                "sectionRef": "section_002_03"
+              },
+              {
+                "id": "q_002_02",
+                "type": "true_false",
+                "question": "French vowels glide into another sound, just like English vowels.",
+                "correctAnswer": false,
+                "explanation": "French vowels are 'pure' — they hold a single sound without gliding, unlike English diphthongs.",
+                "sectionRef": "section_002_01"
+              },
+              {
+                "id": "q_002_03",
+                "type": "multiple_choice",
+                "question": "How many nasal vowel sounds does French have?",
+                "options": ["2", "3", "4", "5"],
+                "correctAnswer": "4",
+                "explanation": "French has 4 nasal vowels: AN/EN, IN/IM, ON/OM, and UN/UM.",
+                "sectionRef": "section_002_04"
+              },
+              {
+                "id": "q_002_04",
+                "type": "multiple_choice",
+                "question": "Where is the French R produced?",
+                "options": ["At the tip of the tongue", "At the back of the throat (uvula)", "Between the teeth", "At the roof of the mouth"],
+                "correctAnswer": "At the back of the throat (uvula)",
+                "explanation": "The French R is a uvular sound, produced at the back of the throat — not like the English or Spanish R.",
+                "sectionRef": "section_002_05"
+              },
+              {
+                "id": "q_002_05",
+                "type": "multiple_choice",
+                "question": "What is the difference between 'tu' and 'tout' in French?",
+                "options": ["They are pronounced identically", "'tu' uses the pure French U sound, 'tout' uses the OU sound", "'tout' uses the pure French U sound, 'tu' uses OU", "Only the spelling differs"],
+                "correctAnswer": "'tu' uses the pure French U sound, 'tout' uses the OU sound",
+                "explanation": "'tu' [ty] uses the front-rounded French U, while 'tout' [tu] uses the OU sound similar to English 'oo'.",
+                "sectionRef": "section_002_06"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_003",
+          "order": 3,
+          "level": "Pre-A1",
+          "title": "Basic Reading Rules",
+          "slug": "basic-reading-rules",
+          "summary": "Connect sounds to spelling, decode unfamiliar French words, and master key phonetic patterns including silent E, vowel and consonant combinations.",
+          "tags": ["reading", "phonics", "spelling", "vowels", "consonants", "foundation"],
+          "difficulty": null,
+          "dependsOn": [1, 2],
+          "unlocks": [4, 5],
+          "isFree": true,
+          "sections": [
+            {
+              "id": "section_003_01",
+              "sectionNumber": 1,
+              "title": "Sound to Spelling Connections",
+              "content": "French spelling is more consistent than English, though it still requires learning. Once you know the rules, you can read unfamiliar words aloud with reasonable accuracy. The key principle: each French letter or letter combination produces a predictable sound."
+            },
+            {
+              "id": "section_003_02",
+              "sectionNumber": 2,
+              "title": "Silent E",
+              "content": "A final E in French is usually silent: 'table' sounds like 'tabl'. However, E at the end of a syllable in the middle of a word is often pronounced as a short 'uh' (schwa): 'venu' [vəny]. In formal speech and singing, the E muet (mute E) is more often pronounced. In casual speech it is frequently dropped."
+            },
+            {
+              "id": "section_003_03",
+              "sectionNumber": 3,
+              "title": "Vowel Combinations",
+              "content": "Key vowel combinations to learn: AU and EAU both sound like 'oh' (eau, chaud). OU sounds like 'oo' (bonjour, vous). UI sounds like 'wee' (nuit, lui). AI and EI sound like 'eh' (faire, neige). EU sounds like a rounded 'uh' (feu, deux). OI sounds like 'wah' (moi, toi, voici)."
+            },
+            {
+              "id": "section_003_04",
+              "sectionNumber": 4,
+              "title": "Consonant Combinations",
+              "content": "Essential consonant combinations: CH sounds like English 'sh' (chat, chercher). GN sounds like 'ny' (gagner, oignon, agneau). PH sounds like 'f' (photo, pharmacie). QU sounds like 'k' (qui, que, question). TH sounds like 't' in French (not as in English 'the') — théâtre, thé."
+            },
+            {
+              "id": "section_003_05",
+              "sectionNumber": 5,
+              "title": "Decoding Unfamiliar Words",
+              "content": "A strategy for reading new French words: identify vowel groups first, then apply consonant rules. Remember that final consonants are mostly silent. Use known word parts — many French and English words share Latin roots. When in doubt about stress, French stress falls on the final syllable of a word or rhythmic group."
+            }
+          ],
+          "examples": [
+            {
+              "id": "example_003_01",
+              "french": "l'eau — [lo]",
+              "english": "water — EAU = 'oh' sound",
+              "phonetics": "lo",
+              "chapterId": "chapter_003",
+              "sectionId": "section_003_03"
+            },
+            {
+              "id": "example_003_02",
+              "french": "chat — [ʃa]",
+              "english": "cat — CH = 'sh' sound",
+              "phonetics": "ʃa",
+              "chapterId": "chapter_003",
+              "sectionId": "section_003_04"
+            },
+            {
+              "id": "example_003_03",
+              "french": "la nuit — [la nɥi]",
+              "english": "the night — UI = 'wee' sound",
+              "phonetics": "la nɥi",
+              "chapterId": "chapter_003",
+              "sectionId": "section_003_03"
+            },
+            {
+              "id": "example_003_04",
+              "french": "la montagne — [la mɔ̃taɲ]",
+              "english": "the mountain — GN = 'ny' sound",
+              "phonetics": "la mɔ̃taɲ",
+              "chapterId": "chapter_003",
+              "sectionId": "section_003_04"
+            }
+          ],
+          "quiz": {
+            "id": "quiz_003",
+            "chapterId": "chapter_003",
+            "questions": [
+              {
+                "id": "q_003_01",
+                "type": "multiple_choice",
+                "question": "What sound does the combination CH make in French?",
+                "options": ["ch (as in 'church')", "sh (as in 'shell')", "k (as in 'cat')", "It is silent"],
+                "correctAnswer": "sh (as in 'shell')",
+                "explanation": "In French, CH makes the 'sh' sound — so 'chat' sounds like 'sha', not 'chat' as in English.",
+                "sectionRef": "section_003_04"
+              },
+              {
+                "id": "q_003_02",
+                "type": "multiple_choice",
+                "question": "The vowel combination OI in French sounds like:",
+                "options": ["oo", "oh", "wah", "wee"],
+                "correctAnswer": "wah",
+                "explanation": "OI makes a 'wah' sound: moi [mwa], toi [twa], voici [vwasi].",
+                "sectionRef": "section_003_03"
+              },
+              {
+                "id": "q_003_03",
+                "type": "true_false",
+                "question": "The final E in French words like 'table' is always pronounced clearly.",
+                "correctAnswer": false,
+                "explanation": "Final E in French is usually silent — 'table' sounds like 'tabl'. It is the E muet (mute E).",
+                "sectionRef": "section_003_02"
+              },
+              {
+                "id": "q_003_04",
+                "type": "multiple_choice",
+                "question": "The combination PH in French sounds like:",
+                "options": ["p", "f", "ph (as in 'phone')", "silent"],
+                "correctAnswer": "f",
+                "explanation": "PH in French makes an 'f' sound: photo, pharmacie, téléphone.",
+                "sectionRef": "section_003_04"
+              },
+              {
+                "id": "q_003_05",
+                "type": "multiple_choice",
+                "question": "Both AU and EAU in French sound like:",
+                "options": ["ah", "ay", "oh", "oo"],
+                "correctAnswer": "oh",
+                "explanation": "AU and EAU both produce the 'oh' sound: chaud [ʃo], eau [o], beau [bo].",
+                "sectionRef": "section_003_03"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "unit_a1",
+      "unitNumber": 2,
+      "level": "A1",
+      "levelName": "Beginner — Building the Base",
+      "totalTopics": 28,
+      "chapters": [
+        {
+          "id": "chapter_004",
+          "order": 4,
+          "level": "A1",
+          "title": "Pre-A1 Readiness Checkpoint",
+          "slug": "pre-a1-readiness-checkpoint",
+          "summary": "Diagnostic review of Pre-A1 content: alphabet recognition, pronunciation identification, and reading unfamiliar words aloud.",
+          "tags": ["checkpoint", "diagnostic", "review", "alphabet", "pronunciation"],
+          "difficulty": null,
+          "dependsOn": [1, 2, 3],
+          "unlocks": [5, 6, 7],
+          "isFree": true,
+          "isCheckpoint": true,
+          "sections": [
+            {
+              "id": "section_004_01",
+              "sectionNumber": 1,
+              "title": "What This Checkpoint Covers",
+              "content": "This diagnostic review tests your mastery of all three Pre-A1 topics: the French alphabet and accented characters, French pronunciation rules (vowels, consonants, nasals, the French R), and basic reading rules (phonetic patterns, vowel/consonant combinations). Use your results to identify any gaps before beginning A1 grammar."
+            }
+          ],
+          "examples": [],
+          "quiz": {
+            "id": "quiz_004",
+            "chapterId": "chapter_004",
+            "questions": [
+              {
+                "id": "q_004_01",
+                "type": "multiple_choice",
+                "question": "Which word contains a nasal vowel sound?",
+                "options": ["été", "ami", "brun", "livre"],
+                "correctAnswer": "brun",
+                "explanation": "'brun' (brown) contains the nasal UN vowel sound. The UN/UM combination creates a nasal vowel.",
+                "sectionRef": "section_004_01"
+              },
+              {
+                "id": "q_004_02",
+                "type": "multiple_choice",
+                "question": "How would you read the word 'oignon' aloud in French?",
+                "options": ["oh-ig-non", "oh-nyɔ̃", "oy-gnon", "oi-gnon"],
+                "correctAnswer": "oh-nyɔ̃",
+                "explanation": "GN makes the 'ny' sound, and the final ON is nasal. So 'oignon' = [ɔɲɔ̃], roughly 'oh-nyɔ̃'.",
+                "sectionRef": "section_004_01"
+              },
+              {
+                "id": "q_004_03",
+                "type": "true_false",
+                "question": "The letter H in French words like 'hôtel' is always pronounced.",
+                "correctAnswer": false,
+                "explanation": "H in French is almost always silent. 'Hôtel' is pronounced [otɛl] — the H is mute.",
+                "sectionRef": "section_004_01"
+              },
+              {
+                "id": "q_004_04",
+                "type": "multiple_choice",
+                "question": "Which French letter combination sounds like the English 'f'?",
+                "options": ["CH", "GN", "PH", "QU"],
+                "correctAnswer": "PH",
+                "explanation": "PH in French makes the 'f' sound, just as in English. CH='sh', GN='ny', QU='k'.",
+                "sectionRef": "section_004_01"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_005",
+          "order": 5,
+          "level": "A1",
+          "title": "Liaison and Elision",
+          "slug": "liaison-and-elision",
+          "summary": "Learn when to link words with liaison, how elision replaces vowels before other vowels, and master common fixed liaison phrases.",
+          "tags": ["liaison", "elision", "pronunciation", "linking", "oral"],
+          "difficulty": null,
+          "dependsOn": [4],
+          "unlocks": [6, 7, 8, 9],
+          "isFree": true,
+          "sections": [
+            {
+              "id": "section_005_01",
+              "sectionNumber": 1,
+              "title": "What Is Liaison?",
+              "content": "Liaison is the linking of a normally silent final consonant to the following word when it begins with a vowel or silent H. For example, 'les amis' — the S in 'les' is normally silent, but before 'amis' (which starts with a vowel), it is pronounced as a Z sound: [lɛz‿ami]. Liaison makes French sound smooth and flowing."
+            },
+            {
+              "id": "section_005_02",
+              "sectionNumber": 2,
+              "title": "Required Liaison",
+              "content": "Liaison is required (mandatory) in several contexts: between a determiner and a noun (les amis, ces enfants), between an adjective and a following noun (un grand arbre), between a pronoun and its verb (nous_avons, vous_êtes, ils_ont), after common one-syllable prepositions (en_été, chez_eux), and in numbers before nouns (deux_amis, trois_heures)."
+            },
+            {
+              "id": "section_005_03",
+              "sectionNumber": 3,
+              "title": "Forbidden Liaison",
+              "content": "Liaison is forbidden in certain positions: after a singular noun (un étudiant / intelligent — no liaison), before an H aspiré (un / hibou — no liaison), after the word 'et' (lui et / elle — no liaison), and between a plural subject noun and its verb (les étudiants / arrivent — no liaison in writing-based speech)."
+            },
+            {
+              "id": "section_005_04",
+              "sectionNumber": 4,
+              "title": "Elision — Vowel Dropping",
+              "content": "Elision occurs when certain small words ending in E or A drop their final vowel before a word beginning with a vowel or silent H. The dropped vowel is replaced by an apostrophe. Key words that undergo elision: je → j' (j'aime), me → m' (il m'appelle), te → t' (il t'attend), le/la → l' (l'ami, l'amie), de → d' (d'accord), que → qu' (qu'est-ce que), ne → n' (n'est-ce pas), ce → c' (c'est)."
+            },
+            {
+              "id": "section_005_05",
+              "sectionNumber": 5,
+              "title": "Common Fixed Liaison Phrases",
+              "content": "Some liaisons appear so frequently they are best learned as fixed phrases: Comment allez-vous [kɔmɑ̃t‿ale vu], Vous avez [vuz‿ave], C'est un [sɛt‿œ̃], De temps en temps [də tɑ̃z‿ɑ̃ tɑ̃], de plus en plus [də plyz‿ɑ̃ ply]. In these set expressions, liaison is always required."
+            }
+          ],
+          "examples": [
+            {
+              "id": "example_005_01",
+              "french": "les amis — [lɛz‿ami]",
+              "english": "the friends — liaison: S links as Z",
+              "phonetics": "lɛz‿ami",
+              "chapterId": "chapter_005",
+              "sectionId": "section_005_01"
+            },
+            {
+              "id": "example_005_02",
+              "french": "j'aime le chocolat",
+              "english": "I love chocolate — elision: je → j' before vowel",
+              "phonetics": "ʒɛm lə ʃɔkɔla",
+              "chapterId": "chapter_005",
+              "sectionId": "section_005_04"
+            },
+            {
+              "id": "example_005_03",
+              "french": "nous avons — [nuz‿avɔ̃]",
+              "english": "we have — required liaison between pronoun and verb",
+              "phonetics": "nuz‿avɔ̃",
+              "chapterId": "chapter_005",
+              "sectionId": "section_005_02"
+            },
+            {
+              "id": "example_005_04",
+              "french": "l'école est grande",
+              "english": "The school is big — elision: la → l' before vowel",
+              "phonetics": "lekɔl ɛ ɡʁɑ̃d",
+              "chapterId": "chapter_005",
+              "sectionId": "section_005_04"
+            }
+          ],
+          "quiz": {
+            "id": "quiz_005",
+            "chapterId": "chapter_005",
+            "questions": [
+              {
+                "id": "q_005_01",
+                "type": "multiple_choice",
+                "question": "In the phrase 'les enfants', the S in 'les' is pronounced because of:",
+                "options": ["Elision", "Required liaison", "Forbidden liaison", "Silent letter rule"],
+                "correctAnswer": "Required liaison",
+                "explanation": "Between a determiner (les) and a noun starting with a vowel (enfants), liaison is required. The S sounds like Z.",
+                "sectionRef": "section_005_02"
+              },
+              {
+                "id": "q_005_02",
+                "type": "multiple_choice",
+                "question": "Which word undergoes elision before a vowel?",
+                "options": ["nous", "vous", "je", "ils"],
+                "correctAnswer": "je",
+                "explanation": "'je' becomes 'j'' before a vowel: j'aime, j'arrive. The other pronouns (nous, vous, ils) do not elide.",
+                "sectionRef": "section_005_04"
+              },
+              {
+                "id": "q_005_03",
+                "type": "true_false",
+                "question": "Liaison is required after the word 'et' (and).",
+                "correctAnswer": false,
+                "explanation": "Liaison is FORBIDDEN after 'et'. 'Lui et elle' — no liaison between 'et' and 'elle'.",
+                "sectionRef": "section_005_03"
+              },
+              {
+                "id": "q_005_04",
+                "type": "multiple_choice",
+                "question": "How would you write 'de accord' with correct elision?",
+                "options": ["de accord", "d'accord", "de'accord", "d accord"],
+                "correctAnswer": "d'accord",
+                "explanation": "'de' elides to 'd'' before a vowel. 'D'accord' (OK/agreed) uses elision of the preposition 'de'.",
+                "sectionRef": "section_005_04"
+              },
+              {
+                "id": "q_005_05",
+                "type": "multiple_choice",
+                "question": "In 'vous êtes', the liaison S sounds like which consonant?",
+                "options": ["S (as in 'sun')", "Z (as in 'zero')", "SH", "It remains silent"],
+                "correctAnswer": "Z (as in 'zero')",
+                "explanation": "When a final S links through liaison, it is always pronounced as a Z sound: vous êtes [vuz‿ɛt].",
+                "sectionRef": "section_005_01"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_006",
+          "order": 6,
+          "level": "A1",
+          "title": "Noun Gender",
+          "slug": "noun-gender",
+          "summary": "Understand the masculine and feminine gender system in French, and learn clues from noun endings to help predict gender.",
+          "tags": ["gender", "nouns", "masculine", "feminine", "articles"],
+          "difficulty": null,
+          "dependsOn": [5],
+          "unlocks": [10, 11, 12, 13],
+          "isFree": true,
+          "sections": [
+            {
+              "id": "section_006_01",
+              "sectionNumber": 1,
+              "title": "The Masculine/Feminine Concept",
+              "content": "Every French noun has a grammatical gender — either masculine (masculin) or feminine (féminin). Unlike in English, this applies to all nouns including objects, ideas, and abstractions — not just people or animals. Gender affects the form of articles, adjectives, and pronouns used with the noun. There is no neutral gender in French."
+            },
+            {
+              "id": "section_006_02",
+              "sectionNumber": 2,
+              "title": "Gender Clues from Noun Endings",
+              "content": "While gender must be learned for each noun, certain endings are strong indicators. Typically FEMININE endings: -tion (la nation, la question), -sion (la passion), -ité (la liberté), -ette (la baguette), -ence/-ance (la patience, la chance), -ure (la culture), -ée (la journée). Typically MASCULINE endings: -age (le voyage, le fromage), -ment (le gouvernement, le document), -eur (le directeur), -isme (le tourisme), -et (le buffet)."
+            },
+            {
+              "id": "section_006_03",
+              "sectionNumber": 3,
+              "title": "Important Exceptions",
+              "content": "Rules have exceptions. Some -age words are feminine: la plage (beach), la cage. Some -eur words are feminine: la fleur (flower), la chaleur (heat), la peur (fear), la douleur (pain). Some common words break patterns entirely: le problème (masculine despite -ème), le musée (masculine despite -ée). Always learn the article with the noun."
+            }
+          ],
+          "examples": [
+            {
+              "id": "example_006_01",
+              "french": "la nation, la question, la solution",
+              "english": "the nation, the question, the solution — all feminine, ending in -tion",
+              "phonetics": "la nasjɔ̃, la kɛstjɔ̃, la solysjɔ̃",
+              "chapterId": "chapter_006",
+              "sectionId": "section_006_02"
+            },
+            {
+              "id": "example_006_02",
+              "french": "le voyage, le fromage, le mariage",
+              "english": "the trip, the cheese, the marriage — all masculine, ending in -age",
+              "phonetics": "lə vwajaʒ, lə fʁɔmaʒ, lə maʁjaʒ",
+              "chapterId": "chapter_006",
+              "sectionId": "section_006_02"
+            },
+            {
+              "id": "example_006_03",
+              "french": "la plage — NOT le plage",
+              "english": "the beach — exception: feminine despite -age ending",
+              "phonetics": "la plaʒ",
+              "chapterId": "chapter_006",
+              "sectionId": "section_006_03"
+            }
+          ],
+          "quiz": {
+            "id": "quiz_006",
+            "chapterId": "chapter_006",
+            "questions": [
+              {
+                "id": "q_006_01",
+                "type": "multiple_choice",
+                "question": "A noun ending in -tion in French is most likely:",
+                "options": ["Masculine", "Feminine", "Could be either — no rule", "Neutral"],
+                "correctAnswer": "Feminine",
+                "explanation": "Nouns ending in -tion are almost always feminine in French: la nation, la question, la solution.",
+                "sectionRef": "section_006_02"
+              },
+              {
+                "id": "q_006_02",
+                "type": "multiple_choice",
+                "question": "Which of the following is an exception to the -age = masculine rule?",
+                "options": ["le voyage", "le fromage", "la plage", "le mariage"],
+                "correctAnswer": "la plage",
+                "explanation": "'La plage' (the beach) is feminine despite ending in -age, which is usually masculine.",
+                "sectionRef": "section_006_03"
+              },
+              {
+                "id": "q_006_03",
+                "type": "true_false",
+                "question": "In French, only nouns referring to people and animals have grammatical gender.",
+                "correctAnswer": false,
+                "explanation": "ALL French nouns have grammatical gender — objects, ideas, and abstractions too. Every noun is either masculine or feminine.",
+                "sectionRef": "section_006_01"
+              },
+              {
+                "id": "q_006_04",
+                "type": "multiple_choice",
+                "question": "The noun 'liberté' (freedom) — what is its likely gender based on the ending?",
+                "options": ["Masculine (-té ending)", "Feminine (-ité/-té ending)", "It has no gender", "Cannot tell from ending"],
+                "correctAnswer": "Feminine (-ité/-té ending)",
+                "explanation": "-ité and -té endings indicate feminine gender: la liberté, la beauté, la vérité.",
+                "sectionRef": "section_006_02"
+              },
+              {
+                "id": "q_006_05",
+                "type": "multiple_choice",
+                "question": "What is the best strategy for learning French noun gender?",
+                "options": ["Always guess masculine — it is more common", "Learn the article with every noun from the start", "Only learn gender rules and apply them", "Gender does not matter in everyday speech"],
+                "correctAnswer": "Learn the article with every noun from the start",
+                "explanation": "Because exceptions exist, the most reliable approach is to always learn the article (le/la) together with each new noun.",
+                "sectionRef": "section_006_01"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_007",
+          "order": 7,
+          "level": "A1",
+          "title": "Singular and Plural Nouns",
+          "slug": "singular-and-plural-nouns",
+          "summary": "Learn how to form plural nouns in French, including regular patterns, special endings, and key irregular forms.",
+          "tags": ["plural", "nouns", "spelling", "grammar"],
+          "difficulty": null,
+          "dependsOn": [6],
+          "unlocks": [10, 11, 12],
+          "isFree": false,
+          "sections": [
+            {
+              "id": "section_007_01",
+              "sectionNumber": 1,
+              "title": "The Default Plural — Adding S",
+              "content": "The most common way to form the plural in French is to add S to the singular noun: un chat → des chats, une maison → des maisons. Important: this S is usually silent in pronunciation. The plural is signalled primarily by the article, not by the noun's sound."
+            },
+            {
+              "id": "section_007_02",
+              "sectionNumber": 2,
+              "title": "Nouns Unchanged in Plural",
+              "content": "Nouns already ending in S, X, or Z do not change in the plural: un bras → des bras (arms), une voix → des voix (voices), un nez → des nez (noses). The plural is shown only by the article."
+            },
+            {
+              "id": "section_007_03",
+              "sectionNumber": 3,
+              "title": "Special Plural Endings",
+              "content": "Several patterns require special treatment: Nouns ending in -EAU or -EU add X (not S): un gâteau → des gâteaux, un jeu → des jeux. Nouns ending in -AL change to -AUX: un animal → des animaux, un cheval → des chevaux, un journal → des journaux. Nouns ending in -OU: most add S (un trou → des trous), but seven common ones add X: bijou, caillou, chou, genou, hibou, joujou, pou."
+            },
+            {
+              "id": "section_007_04",
+              "sectionNumber": 4,
+              "title": "Plural Pronunciation",
+              "content": "A crucial point: the plural S added to nouns is almost always silent. 'Chat' and 'chats' sound identical in isolation. The plural meaning is communicated through the article: 'le chat' (singular) vs 'les chats' (plural). The S becomes audible only through liaison: 'les_animaux'."
+            }
+          ],
+          "examples": [
+            {
+              "id": "example_007_01",
+              "french": "un gâteau → des gâteaux",
+              "english": "a cake → cakes — -eau becomes -eaux in plural",
+              "phonetics": "œ̃ ɡato → de ɡato",
+              "chapterId": "chapter_007",
+              "sectionId": "section_007_03"
+            },
+            {
+              "id": "example_007_02",
+              "french": "un animal → des animaux",
+              "english": "an animal → animals — -al becomes -aux",
+              "phonetics": "œ̃n‿animal → dɛz‿animo",
+              "chapterId": "chapter_007",
+              "sectionId": "section_007_03"
+            },
+            {
+              "id": "example_007_03",
+              "french": "une voix → des voix",
+              "english": "a voice → voices — X ending unchanged",
+              "phonetics": "yn vwa → de vwa",
+              "chapterId": "chapter_007",
+              "sectionId": "section_007_02"
+            }
+          ],
+          "quiz": {
+            "id": "quiz_007",
+            "chapterId": "chapter_007",
+            "questions": [
+              {
+                "id": "q_007_01",
+                "type": "multiple_choice",
+                "question": "What is the plural of 'un cheval' (a horse)?",
+                "options": ["des chevals", "des chevaux", "des chevals", "des chevales"],
+                "correctAnswer": "des chevaux",
+                "explanation": "Nouns ending in -AL change to -AUX in the plural: cheval → chevaux.",
+                "sectionRef": "section_007_03"
+              },
+              {
+                "id": "q_007_02",
+                "type": "true_false",
+                "question": "The plural S added to French nouns is almost always silent in pronunciation.",
+                "correctAnswer": true,
+                "explanation": "'chat' and 'chats' sound identical. The plural is signalled by the article (le vs les), not the noun sound.",
+                "sectionRef": "section_007_04"
+              },
+              {
+                "id": "q_007_03",
+                "type": "multiple_choice",
+                "question": "Nouns already ending in S, X, or Z in the singular:",
+                "options": ["Add -es for plural", "Double the final consonant", "Remain unchanged in plural", "Add an accent"],
+                "correctAnswer": "Remain unchanged in plural",
+                "explanation": "Words ending in S, X, Z do not change: un bras → des bras, une voix → des voix.",
+                "sectionRef": "section_007_02"
+              },
+              {
+                "id": "q_007_04",
+                "type": "multiple_choice",
+                "question": "What is the plural of 'un jeu' (a game)?",
+                "options": ["des jeus", "des jeux", "des jeaux", "des jeuils"],
+                "correctAnswer": "des jeux",
+                "explanation": "Nouns ending in -EU add X: un jeu → des jeux, un feu → des feux.",
+                "sectionRef": "section_007_03"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_008",
+          "order": 8,
+          "level": "A1",
+          "title": "Subject Pronouns",
+          "slug": "subject-pronouns",
+          "summary": "Learn all nine French subject pronouns, the difference between tu and vous, how on replaces nous in speech, and agreement with ils.",
+          "tags": ["pronouns", "subject", "tu", "vous", "on", "ils"],
+          "difficulty": null,
+          "dependsOn": [5],
+          "unlocks": [9, 10, 14, 15, 16, 17],
+          "isFree": false,
+          "sections": [
+            {
+              "id": "section_008_01",
+              "sectionNumber": 1,
+              "title": "The Nine Subject Pronouns",
+              "content": "French has nine subject pronouns: je (I), tu (you — informal singular), il (he/it), elle (she/it), on (one/we — informal), nous (we — formal), vous (you — formal or plural), ils (they — masculine or mixed), elles (they — feminine only). Unlike English, French verbs change form for each pronoun."
+            },
+            {
+              "id": "section_008_02",
+              "sectionNumber": 2,
+              "title": "Tu vs Vous — Formal and Informal",
+              "content": "French has two words for 'you'. Tu is the informal singular, used with friends, family, children, and peers. Vous is used in two situations: (1) as a formal/polite singular when addressing strangers, professionals, elders, or anyone you want to show respect to; (2) as the ordinary plural for two or more people regardless of formality. Using tu when vous is expected is a social mistake. When in doubt, start with vous."
+            },
+            {
+              "id": "section_008_03",
+              "sectionNumber": 3,
+              "title": "On — The Informal 'We'",
+              "content": "On is technically an impersonal pronoun meaning 'one' or 'people in general', but in everyday spoken French it is the standard way to say 'we'. 'On mange à midi' means 'We eat at noon.' On always takes a third-person singular verb form, even when it means 'we'. This is one of the most important features of spoken French."
+            },
+            {
+              "id": "section_008_04",
+              "sectionNumber": 4,
+              "title": "Ils for Mixed Gender Groups",
+              "content": "When referring to a group of people or things that includes at least one masculine element, French uses ils (masculine plural). Elles is only used when ALL members of the group are feminine. A group of ten women and one man = ils. This is called the 'masculine generic' rule in French grammar."
+            }
+          ],
+          "examples": [
+            {
+              "id": "example_008_01",
+              "french": "Tu parles français ? vs Vous parlez français ?",
+              "english": "Do you speak French? (informal) vs Do you speak French? (formal/plural)",
+              "phonetics": "ty paʁl fʁɑ̃sɛ vs vu paʁle fʁɑ̃sɛ",
+              "chapterId": "chapter_008",
+              "sectionId": "section_008_02"
+            },
+            {
+              "id": "example_008_02",
+              "french": "On va au restaurant ce soir.",
+              "english": "We're going to the restaurant tonight. (casual speech)",
+              "phonetics": "ɔ̃ va o ʁɛstɔʁɑ̃ sə swaʁ",
+              "chapterId": "chapter_008",
+              "sectionId": "section_008_03"
+            },
+            {
+              "id": "example_008_03",
+              "french": "Marc et Marie ? Ils sont au café.",
+              "english": "Marc and Marie? They're at the café. — mixed group uses ils",
+              "phonetics": "maʁk e maʁi ? il sɔ̃t‿o kafe",
+              "chapterId": "chapter_008",
+              "sectionId": "section_008_04"
+            }
+          ],
+          "quiz": {
+            "id": "quiz_008",
+            "chapterId": "chapter_008",
+            "questions": [
+              {
+                "id": "q_008_01",
+                "type": "multiple_choice",
+                "question": "You are meeting your doctor for the first time. Which pronoun do you use to address them?",
+                "options": ["tu", "il", "vous", "on"],
+                "correctAnswer": "vous",
+                "explanation": "Use 'vous' with strangers, professionals, and anyone you want to show respect. Tu is for people you know well.",
+                "sectionRef": "section_008_02"
+              },
+              {
+                "id": "q_008_02",
+                "type": "true_false",
+                "question": "In casual French, 'on' is commonly used to mean 'we'.",
+                "correctAnswer": true,
+                "explanation": "'On mange ensemble ?' (Shall we eat together?) — using 'on' for 'we' is standard in everyday spoken French.",
+                "sectionRef": "section_008_03"
+              },
+              {
+                "id": "q_008_03",
+                "type": "multiple_choice",
+                "question": "A group of 8 women and 2 men is referred to in French as:",
+                "options": ["elles", "ils", "on", "vous"],
+                "correctAnswer": "ils",
+                "explanation": "Any mixed-gender group (even one man among many women) uses 'ils' — the masculine plural form.",
+                "sectionRef": "section_008_04"
+              },
+              {
+                "id": "q_008_04",
+                "type": "multiple_choice",
+                "question": "How many subject pronouns does French have?",
+                "options": ["6", "7", "8", "9"],
+                "correctAnswer": "9",
+                "explanation": "French has 9 subject pronouns: je, tu, il, elle, on, nous, vous, ils, elles.",
+                "sectionRef": "section_008_01"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_009",
+          "order": 9,
+          "level": "A1",
+          "title": "On as Informal We — Spoken French Track",
+          "slug": "on-as-informal-we-spoken-french",
+          "summary": "Deep dive into using 'on' as casual 'we' in spoken French, verb agreement, fixed expressions, and register awareness.",
+          "tags": ["on", "spoken french", "register", "informal", "pronouns"],
+          "difficulty": null,
+          "dependsOn": [8],
+          "unlocks": [14, 15],
+          "isFree": false,
+          "isSpokenTrack": true,
+          "sections": [
+            {
+              "id": "section_009_01",
+              "sectionNumber": 1,
+              "title": "On Replacing Nous in Casual Speech",
+              "content": "In everyday conversational French, 'on' has almost completely replaced 'nous' as the pronoun for 'we'. 'Nous allons' is still correct and used in writing, but natives say 'on va'. This shift is so complete that using 'nous' in casual speech can sound unnatural or overly formal."
+            },
+            {
+              "id": "section_009_02",
+              "sectionNumber": 2,
+              "title": "Verb Agreement with On",
+              "content": "When 'on' means 'we', the verb still takes the 3rd person singular form — the same form as 'il/elle'. 'On mange' (we eat), 'on est allés' (we went). In the passé composé with être, adjective agreement can optionally reflect the actual subjects: 'On est contents' (we, masculine plural, are happy) is acceptable in informal writing."
+            },
+            {
+              "id": "section_009_03",
+              "sectionNumber": 3,
+              "title": "Fixed Expressions with On",
+              "content": "Several important fixed expressions use 'on': On y va! (Let's go!), On verra (We'll see), On dirait que (It looks as if / You'd think), On sait jamais (You never know — informal), Comme on dit (As they say)."
+            }
+          ],
+          "examples": [
+            {
+              "id": "example_009_01",
+              "french": "On mange ensemble ce soir ?",
+              "english": "Are we eating together tonight? — on = we in casual speech",
+              "phonetics": "ɔ̃ mɑ̃ʒ‿ɑ̃sɑ̃bl sə swaʁ",
+              "chapterId": "chapter_009",
+              "sectionId": "section_009_01"
+            },
+            {
+              "id": "example_009_02",
+              "french": "On y va !",
+              "english": "Let's go! — fixed expression with on",
+              "phonetics": "ɔ̃ ni va",
+              "chapterId": "chapter_009",
+              "sectionId": "section_009_03"
+            }
+          ],
+          "quiz": {
+            "id": "quiz_009",
+            "chapterId": "chapter_009",
+            "questions": [
+              {
+                "id": "q_009_01",
+                "type": "multiple_choice",
+                "question": "In casual French, which sentence sounds more natural?",
+                "options": ["Nous allons au cinéma.", "On va au cinéma.", "Both sound equally natural", "Neither is acceptable"],
+                "correctAnswer": "On va au cinéma.",
+                "explanation": "In casual spoken French, 'on va' (we're going) is far more natural than 'nous allons', which sounds formal.",
+                "sectionRef": "section_009_01"
+              },
+              {
+                "id": "q_009_02",
+                "type": "multiple_choice",
+                "question": "What verb form does 'on' always take?",
+                "options": ["1st person plural (like nous)", "2nd person singular (like tu)", "3rd person singular (like il/elle)", "3rd person plural (like ils)"],
+                "correctAnswer": "3rd person singular (like il/elle)",
+                "explanation": "Even when 'on' means 'we', it always uses the 3rd person singular verb form: on mange, on est, on fait.",
+                "sectionRef": "section_009_02"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_010",
+          "order": 10,
+          "level": "A1",
+          "title": "Definite Articles",
+          "slug": "definite-articles",
+          "summary": "Master le, la, l', and les — the French definite articles — including contractions with à and de.",
+          "tags": ["articles", "definite", "le", "la", "les", "contractions"],
+          "difficulty": null,
+          "dependsOn": [6, 7],
+          "unlocks": [11, 13, 23, 24],
+          "isFree": false,
+          "sections": [
+            {
+              "id": "section_010_01",
+              "sectionNumber": 1,
+              "title": "Le, La, L', Les",
+              "content": "French has four forms of the definite article: le (masculine singular), la (feminine singular), l' (before vowel or silent H, any gender), les (plural, any gender). They are used for specific or known nouns and for general categories — more broadly than English 'the'."
+            },
+            {
+              "id": "section_010_02",
+              "sectionNumber": 2,
+              "title": "Specific vs General Use",
+              "content": "Unlike English, French uses the definite article for general preferences and universal truths: 'J'aime le chocolat' (I love chocolate — in general, not a specific piece), 'Les chats sont indépendants' (Cats are independent — as a species). English drops the article in these cases; French requires it."
+            },
+            {
+              "id": "section_010_03",
+              "sectionNumber": 3,
+              "title": "Contraction with À — Au and Aux",
+              "content": "When 'à' (to/at) is followed by a masculine singular article (le), they contract to 'au'. When followed by les, they contract to 'aux'. There is no contraction with la or l'. Examples: à + le = au (Je vais au marché), à + les = aux (Je parle aux étudiants), à + la = à la (Je vais à la boulangerie), à + l' = à l' (Je vais à l'hôpital)."
+            },
+            {
+              "id": "section_010_04",
+              "sectionNumber": 4,
+              "title": "Contraction with De — Du and Des",
+              "content": "When 'de' (of/from) is followed by a masculine singular article (le), they contract to 'du'. When followed by les, they contract to 'des'. There is no contraction with la or l'. Examples: de + le = du (le livre du professeur), de + les = des (le livre des étudiants), de + la = de la (la porte de la maison), de + l' = de l' (la porte de l'école)."
+            }
+          ],
+          "examples": [
+            {
+              "id": "example_010_01",
+              "french": "J'aime le café et la musique.",
+              "english": "I like coffee and music. (general preference — definite article used)",
+              "phonetics": "ʒɛm lə kafe e la myzik",
+              "chapterId": "chapter_010",
+              "sectionId": "section_010_02"
+            },
+            {
+              "id": "example_010_02",
+              "french": "Je vais au marché. / Je parle aux enfants.",
+              "english": "I'm going to the market. / I'm talking to the children.",
+              "phonetics": "ʒə vɛ o maʁʃe / ʒə paʁl oz‿ɑ̃fɑ̃",
+              "chapterId": "chapter_010",
+              "sectionId": "section_010_03"
+            },
+            {
+              "id": "example_010_03",
+              "french": "le livre du professeur",
+              "english": "the teacher's book (book of the teacher)",
+              "phonetics": "lə livʁ dy pʁɔfɛsœʁ",
+              "chapterId": "chapter_010",
+              "sectionId": "section_010_04"
+            }
+          ],
+          "quiz": {
+            "id": "quiz_010",
+            "chapterId": "chapter_010",
+            "questions": [
+              {
+                "id": "q_010_01",
+                "type": "multiple_choice",
+                "question": "Which article is used before a masculine singular noun starting with a vowel?",
+                "options": ["le", "la", "l'", "les"],
+                "correctAnswer": "l'",
+                "explanation": "Before any vowel or silent H (masculine or feminine), 'le' and 'la' both become 'l'': l'ami, l'amie, l'hôtel.",
+                "sectionRef": "section_010_01"
+              },
+              {
+                "id": "q_010_02",
+                "type": "multiple_choice",
+                "question": "How do you say 'I'm going to the cinema' in French? (le cinéma)",
+                "options": ["Je vais à le cinéma.", "Je vais au cinéma.", "Je vais du cinéma.", "Je vais aux cinéma."],
+                "correctAnswer": "Je vais au cinéma.",
+                "explanation": "à + le contracts to 'au': je vais au cinéma. You cannot say 'à le' in French.",
+                "sectionRef": "section_010_03"
+              },
+              {
+                "id": "q_010_03",
+                "type": "true_false",
+                "question": "In French, 'J'aime le chocolat' means 'I like the (specific) chocolate.'",
+                "correctAnswer": false,
+                "explanation": "In French, the definite article is used for general preferences. 'J'aime le chocolat' means 'I like chocolate' in general.",
+                "sectionRef": "section_010_02"
+              },
+              {
+                "id": "q_010_04",
+                "type": "multiple_choice",
+                "question": "Complete: 'le livre ___ étudiants' (the students' book)",
+                "options": ["de les", "du", "des", "de"],
+                "correctAnswer": "des",
+                "explanation": "de + les contracts to 'des': le livre des étudiants. You cannot say 'de les' in French.",
+                "sectionRef": "section_010_04"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "spacedRepetitionSchedule": {
+    "description": "Grammar revision reminders sent after chapter completion",
+    "intervals": [
+      { "day": 1, "questionCount": 5, "description": "Short revision quiz — next day" },
+      { "day": 3, "questionCount": 5, "description": "Second revision — day 3" },
+      { "day": 7, "questionCount": 5, "description": "One-week revision" },
+      { "day": 14, "questionCount": 5, "description": "Two-week revision" },
+      { "day": 30, "questionCount": 5, "description": "One-month final revision" }
+    ]
+  },
+  "grammarReferenceIndex": {
+    "description": "Searchable A-Z index entries pointing to chapter sections",
+    "entries": [
+      { "term": "Accent marks", "chapterId": "chapter_001", "sectionId": "section_001_02" },
+      { "term": "Adjective agreement", "chapterId": "chapter_012", "sectionId": null },
+      { "term": "Alphabet", "chapterId": "chapter_001", "sectionId": "section_001_01" },
+      { "term": "Articles — definite", "chapterId": "chapter_010", "sectionId": "section_010_01" },
+      { "term": "Articles — indefinite", "chapterId": "chapter_011", "sectionId": null },
+      { "term": "Articles — partitive", "chapterId": "chapter_013", "sectionId": null },
+      { "term": "Au/aux — contractions", "chapterId": "chapter_010", "sectionId": "section_010_03" },
+      { "term": "CH sound", "chapterId": "chapter_003", "sectionId": "section_003_04" },
+      { "term": "Du/des — contractions", "chapterId": "chapter_010", "sectionId": "section_010_04" },
+      { "term": "Elision", "chapterId": "chapter_005", "sectionId": "section_005_04" },
+      { "term": "Gender of nouns", "chapterId": "chapter_006", "sectionId": "section_006_01" },
+      { "term": "Liaison", "chapterId": "chapter_005", "sectionId": "section_005_01" },
+      { "term": "Nasal vowels", "chapterId": "chapter_002", "sectionId": "section_002_04" },
+      { "term": "On — informal we", "chapterId": "chapter_009", "sectionId": "section_009_01" },
+      { "term": "Plural nouns", "chapterId": "chapter_007", "sectionId": "section_007_01" },
+      { "term": "Pronunciation — R", "chapterId": "chapter_002", "sectionId": "section_002_05" },
+      { "term": "Silent letters", "chapterId": "chapter_002", "sectionId": "section_002_03" },
+      { "term": "Subject pronouns", "chapterId": "chapter_008", "sectionId": "section_008_01" },
+      { "term": "Tu vs vous", "chapterId": "chapter_008", "sectionId": "section_008_02" }
+    ]
+  }
+}
