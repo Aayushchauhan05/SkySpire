@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { CaretLeft, CaretRight, User, Fire, Sparkle, Gear, BellRinging, Question, BookmarkSimple, TrendUp } from 'phosphor-react-native';
 import { useAppStore } from '../../store/useAppStore';

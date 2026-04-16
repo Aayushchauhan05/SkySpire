@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { ThemedText } from '../../components/themed-text';
 
 const { width } = Dimensions.get('window');
 
 // Restored Premium Matte Colors
 const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66',     // Warm coral
-  secondaryAccent: '#9B8AF4', // Soft purple
-  amber: '#FFB800',
+  mainBg: '#121212',
+  cardBg: '#1A1A1A',
+  elevatedSurface: '#1A1A1A',
+  primaryAccent: '#FF8660',
+  secondaryAccent: '#9A98FF',
+  amber: '#ECFF4D',
   white: '#FFFFFF',
   textHeader: '#FFFFFF',
-  textDark: '#110E1A',
-  textMuted: '#8E88B0',
+  textDark: '#000000',
+  textMuted: '#A0A0A0',
 };
 
 const DUMMY_LECTURES = [
@@ -76,7 +78,7 @@ export default function ChapterDetailScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} bounces={true} decelerationRate="fast">
         
         {/* Simple Header */}
         <View style={styles.header}>
@@ -132,7 +134,10 @@ export default function ChapterDetailScreen() {
           <TouchableOpacity 
             key={item.id} 
             style={[styles.lectureCard, item.completed && styles.lectureCardCompleted]}
-            onPress={() => toggleComplete(item.id)}
+            onPress={() => {
+               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+               toggleComplete(item.id);
+            }}
             activeOpacity={0.8}
           >
             <View style={[styles.lectureIconBox, item.completed && { backgroundColor: Colors.secondaryAccent }]}>
@@ -166,7 +171,10 @@ export default function ChapterDetailScreen() {
         {/* Grand Quiz Action */}
         <TouchableOpacity 
           style={styles.quizCard}
-          onPress={() => router.push(`/quiz/${chapter?.id || id}` as any)}
+          onPress={() => {
+             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+             router.push(`/quiz/${chapter?.id || id}` as any);
+          }}
           activeOpacity={0.9}
         >
           <View style={styles.quizContent}>

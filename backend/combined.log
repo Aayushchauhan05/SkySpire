@@ -160,3 +160,4 @@
 {"level":"info","message":"\u001b[0mGET /api/grammar/parts?bookId=eng_grammar_book \u001b[32m200\u001b[0m 112.295 ms - 180\u001b[0m","service":"backend-service","timestamp":"2026-04-15 22:43:57"}
 {"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 55.719 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-15 22:44:27"}
 {"level":"info","message":"\u001b[0mGET /api/grammar/parts/eng_grammar_part_01/chapters? \u001b[32m200\u001b[0m 66.845 ms - 7539\u001b[0m","service":"backend-service","timestamp":"2026-04-15 22:44:28"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-15 22:48:30"}

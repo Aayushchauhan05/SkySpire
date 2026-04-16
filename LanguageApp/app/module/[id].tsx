@@ -1,18 +1,20 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import * as Haptics from 'expo-haptics';
 import { CaretLeft, PlayCircle, MapTrifold, LockKey } from 'phosphor-react-native';
 
 const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66', // Warm Coral
-  secondaryAccent: '#9B8AF4', // Soft Purple
-  amber: '#FFB800',
+  mainBg: '#121212',
+  cardBg: '#1A1A1A',
+  elevatedSurface: '#1A1A1A',
+  primaryAccent: '#FF8660',
+  secondaryAccent: '#9A98FF',
+  amber: '#ECFF4D',
   error: '#FF5C7A',
-  primaryText: '#F0EEF8',
-  secondaryText: '#8E88B0',
+  primaryText: '#FFFFFF',
+  secondaryText: '#A0A0A0',
 };
 
 const MODULE_DATA: Record<string, any> = {
@@ -74,7 +76,7 @@ export default function ModuleDetailScreen() {
         <View style={{ width: 44 }} />
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} bounces={true} decelerationRate="fast">
         {/* Hero Section */}
         <View style={[styles.heroBanner, { borderColor: PathColor }]}>
           <View style={[styles.heroIconWrapper, { backgroundColor: PathColor + '20' }]}>
@@ -102,7 +104,10 @@ export default function ModuleDetailScreen() {
               key={idx} 
               style={[styles.lessonCard, isLocked && styles.lessonCardLocked]}
               disabled={isLocked}
-              onPress={() => router.push(`/module-lesson/${idx}` as any)}
+              onPress={() => { 
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                router.push(`/module-lesson/${idx}` as any);
+              }}
             >
               <View style={styles.lessonNumber}>
                 <Text style={styles.numberText}>{idx + 1}</Text>

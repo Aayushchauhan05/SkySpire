@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { useAppStore } from '../../store/useAppStore';
 import { useGrammarStore } from '../../store/useGrammarStore';
 
@@ -50,6 +51,8 @@ export default function HomeScreen() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 32 }}
+        bounces={true}
+        decelerationRate="fast"
       >
         {/* ── HEADER ── */}
         <View className="flex-row items-center justify-between px-5 pt-3 pb-5">
@@ -113,7 +116,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               className="flex-row items-center gap-1.5 rounded-2xl px-5 py-3"
               style={{ backgroundColor: 'rgba(255,255,255,0.25)' }}
-              onPress={() => router.push('/chapter/1_2' as any)}
+              onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); router.push('/chapter/1_2' as any); }}
             >
               <Text className="text-white text-base font-extrabold">Resume</Text>
             </TouchableOpacity>
@@ -128,7 +131,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               className="bg-purple-accent rounded-[36px] p-7 justify-between"
               style={{ height: 380 }}
-              onPress={() => router.push('/module/SURVIVAL' as any)}
+              onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); router.push('/module/SURVIVAL' as any); }}
             >
               <View>
                 <Text className="text-white font-extrabold leading-8" style={{ fontSize: 24 }}>
@@ -181,6 +184,7 @@ export default function HomeScreen() {
                 }`}
                 style={{ height: 160 }}
                 onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                   setFilter({ bookId: book._id });
                   router.push('/grammar');
                 }}

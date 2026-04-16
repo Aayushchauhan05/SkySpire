@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { ThemedText } from '../../components/themed-text';
 import { useAppStore } from '../../store/useAppStore';
 
@@ -9,17 +11,17 @@ const { width } = Dimensions.get('window');
 
 // Restored Premium Matte Colors
 const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66',     
-  secondaryAccent: '#9B8AF4', 
-  amber: '#FFB800',
+  mainBg: '#121212',
+  cardBg: '#1A1A1A',
+  elevatedSurface: '#1A1A1A',
+  primaryAccent: '#FF8660',     
+  secondaryAccent: '#9A98FF', 
+  amber: '#ECFF4D',
   error: '#FF5C7A',
   white: '#FFFFFF',
   textHeader: '#FFFFFF',
-  textDark: '#110E1A',
-  textMuted: '#8E88B0',
+  textDark: '#000000',
+  textMuted: '#A0A0A0',
 };
 
 const DUMMY_QUESTIONS = [
@@ -95,12 +97,16 @@ export default function QuizScreen() {
     setSelectedOption(index);
     if (index === question.correctAnswer) {
       setScore(prev => prev + 1);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } else {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     }
     proceedToNext();
   };
 
   const handleWordSelect = (word: string) => {
     if (isWordFinished) return;
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedWords(prev => [...prev, word]);
   };
 
@@ -108,7 +114,12 @@ export default function QuizScreen() {
     if (isWordFinished) return;
     setIsWordFinished(true);
     const isCorrect = JSON.stringify(selectedWords) === JSON.stringify(question.correctAnswerArr);
-    if (isCorrect) setScore(prev => prev + 1);
+    if (isCorrect) {
+      setScore(prev => prev + 1);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } else {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    }
     setWordCorrect(isCorrect);
     proceedToNext();
   };

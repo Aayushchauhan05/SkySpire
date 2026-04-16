@@ -10,33 +10,36 @@ const tintColorDark = '#818CF8'; // Indigo 400
 
 export const Colors = {
   light: {
-    text: '#110E1A',
-    background: '#F0EEF8',
-    tint: '#9B8AF4',
-    icon: '#8E88B0',
-    tabIconDefault: '#8E88B0',
-    tabIconSelected: '#9B8AF4',
-    primary: '#FF8A66', // Warm Coral
-    secondary: '#9B8AF4', // Soft Purple
-    accent: '#FFB800',
+    text: '#000000',
+    background: '#F5F5F5',
+    tint: '#9A98FF',
+    icon: '#A0A0A0',
+    tabIconDefault: '#A0A0A0',
+    tabIconSelected: '#9A98FF',
+    primary: '#9A98FF',
+    secondary: '#FF8660',
+    accent: '#4FDBF0',
+    highlight: '#ECFF4D',
     card: '#FFFFFF',
     border: '#E5E7EB',
+    secondaryText: '#A0A0A0',
   },
   dark: {
-    text: '#F0EEF8', // Pale Purple White
-    background: '#110E1A', // Deep Purple Black
-    tint: '#FF8A66', // Warm Coral
-    icon: '#8E88B0', // Muted Purple
-    tabIconDefault: '#8E88B0',
-    tabIconSelected: '#FF8A66',
-    primary: '#FF8A66', // Warm Coral
-    secondary: '#9B8AF4', // Soft Purple
-    accent: '#FFB800', // Warm Amber
-    card: '#1C1830', // Deep Purple
-    elevated: '#252040', // Medium Purple
-    border: '#252040',
-    error: '#FF5C7A', // Coral Pink
-    secondaryText: '#8E88B0',
+    text: '#FFFFFF',
+    background: '#121212',
+    tint: '#9A98FF',
+    icon: '#A0A0A0',
+    tabIconDefault: '#A0A0A0',
+    tabIconSelected: '#9A98FF',
+    primary: '#9A98FF',
+    secondary: '#FF8660',
+    accent: '#4FDBF0',
+    highlight: '#ECFF4D',
+    card: '#1A1A1A',
+    elevated: '#252040',
+    border: '#1A1A1A',
+    error: '#FF5C7A',
+    secondaryText: '#A0A0A0',
   },
 };
 

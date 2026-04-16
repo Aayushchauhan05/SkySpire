@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
 import { ThemedText } from '../../components/themed-text';
 
 const { width } = Dimensions.get('window');
 
 const Colors = {
-  mainBg: '#110E1A',
-  cardBg: '#1C1830',
-  elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66',     // Warm coral
-  secondaryAccent: '#9B8AF4', // Soft purple
-  amber: '#FFB800',
+  mainBg: '#121212',
+  cardBg: '#1A1A1A',
+  elevatedSurface: '#1A1A1A',
+  primaryAccent: '#FF8660',
+  secondaryAccent: '#9A98FF',
+  amber: '#ECFF4D',
   error: '#FF5C7A',
-  cyan: '#00E5FF',
+  cyan: '#4FDBF0',
   white: '#FFFFFF',
   textHeader: '#FFFFFF',
-  textDark: '#110E1A',
-  textMuted: '#8E88B0',
+  textDark: '#000000',
+  textMuted: '#A0A0A0',
 };
 
 const TABS = ['READ', 'LISTEN', 'SPEAK', 'WRITE'];
@@ -160,7 +162,10 @@ export default function ModuleLessonScreen() {
              <TouchableOpacity 
                 key={tab}
                 style={[styles.tabBtn, activeTab === tab && styles.tabBtnActive]}
-                onPress={() => setActiveTab(tab)}
+                onPress={() => {
+                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                   setActiveTab(tab);
+                }}
              >
                 <ThemedText style={[styles.tabText, activeTab === tab && styles.tabTextActive]}>{tab}</ThemedText>
              </TouchableOpacity>
@@ -168,7 +173,7 @@ export default function ModuleLessonScreen() {
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView contentContainerStyle={styles.scroll} bounces={true} decelerationRate="fast">
          {activeTab === 'READ' && renderRead()}
          {activeTab === 'LISTEN' && renderListen()}
          {activeTab === 'SPEAK' && renderSpeak()}
@@ -178,7 +183,10 @@ export default function ModuleLessonScreen() {
          {isAllCompleted && (
             <TouchableOpacity 
                style={styles.endQuizCard}
-               onPress={() => router.push(`/quiz/${id}` as any)}
+               onPress={() => {
+                  Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+                  router.push(`/quiz/${id}` as any);
+               }}
             >
                <Ionicons name="trophy" size={32} color={Colors.white} />
                <View style={{flex: 1, marginLeft: 16}}>

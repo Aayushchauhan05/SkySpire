@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, ScrollView, TouchableOpacity, Dimensions, Modal, TextInput, Alert, Platform } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions, Modal, TextInput, Alert, Platform } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text as ThemedText } from 'react-native';
