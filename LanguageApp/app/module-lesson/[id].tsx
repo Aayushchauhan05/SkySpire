@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { ThemedText } from '../../components/themed-text';
+import { useCourseStore } from '../../store/useCourseStore';
 
 const { width } = Dimensions.get('window');
 
 const Colors = {
   mainBg: '#121212',
   cardBg: '#1A1A1A',
-  elevatedSurface: '#1A1A1A',
+  elevatedSurface: '#252040',
   primaryAccent: '#FF8660',
   secondaryAccent: '#9A98FF',
   amber: '#ECFF4D',
@@ -26,130 +27,192 @@ const Colors = {
 const TABS = ['READ', 'LISTEN', 'SPEAK', 'WRITE'];
 
 export default function ModuleLessonScreen() {
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  
+  const { currentChapter, isLoading, error, fetchChapter, markTabComplete } = useCourseStore();
+  const userId = 'demo_user';
+
   const [activeTab, setActiveTab] = useState('READ');
   const [listenSpeed, setListenSpeed] = useState('1.0x');
   const [listenMode, setListenMode] = useState('Read & Listen');
   const [showSpeakAnswer, setShowSpeakAnswer] = useState(false);
   const [writeAnswered, setWriteAnswered] = useState<string | null>(null);
 
-  const isAllCompleted = true; // Hardcoded for demo to show quiz
+  useEffect(() => {
+    if (id) fetchChapter(id, userId);
+  }, [id]);
 
-  const renderRead = () => (
-    <View style={styles.tabContent}>
-      <ThemedText style={styles.contentTitle}>Ordering Coffee in Madrid</ThemedText>
-      <View style={styles.readCard}>
-        <ThemedText style={styles.readingText}>
-          Ayer fui a una cafetería en Madrid. El camarero me preguntó: "¿Qué vas a tomar?" Yo le respondí: "Quiero un <ThemedText style={{color: Colors.primaryAccent, fontWeight: '800'}}>café con leche</ThemedText>, por favor." El ambiente era muy diferente al de mi país. Las personas estaban de pie junto a la barra, hablando muy alto y rápido.
-        </ThemedText>
-      </View>
-      <ThemedText style={styles.hintText}>💡 Tap any highlighted word for instant definition.</ThemedText>
-      
-      <ThemedText style={styles.contentSubtitle}>Comprehension check</ThemedText>
-      <TouchableOpacity style={styles.quizOptionBtn}>
-         <ThemedText style={styles.quizOptionText}>Where did the person go?</ThemedText>
-      </TouchableOpacity>
-    </View>
-  );
+  useEffect(() => {
+    // Automatically mark tab as completed when visited, or we could add specific actions
+    if (id && currentChapter && !currentChapter.completedTabs?.includes(activeTab.toLowerCase())) {
+       markTabComplete(id, activeTab.toLowerCase(), userId);
+    }
+  }, [activeTab, currentChapter]);
 
-  const renderListen = () => (
-    <View style={styles.tabContent}>
-      <View style={styles.listenHeader}>
-        <TouchableOpacity style={styles.modeDropdownBtn} onPress={() => setListenMode(listenMode === 'Read & Listen' ? 'Dictation' : 'Read & Listen')}>
-           <ThemedText style={styles.modeBtnText}>{listenMode}</ThemedText>
-           <Ionicons name="chevron-down" size={16} color={Colors.white} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.speedBtn} onPress={() => setListenSpeed(listenSpeed === '1.0x' ? '0.75x' : '1.0x')}>
-           <ThemedText style={styles.speedBtnText}>{listenSpeed}</ThemedText>
-        </TouchableOpacity>
-      </View>
+  if (isLoading || !currentChapter) {
+    return (
+      <SafeAreaView style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={Colors.primaryAccent} />
+      </SafeAreaView>
+    );
+  }
 
-      <View style={styles.audioPlayerCard}>
-         <TouchableOpacity style={styles.playBigCircle}>
-           <Ionicons name="play" size={48} color={Colors.white} style={{marginLeft: 6}} />
-         </TouchableOpacity>
-         <View style={styles.wavePlaceholder} />
-      </View>
+  // Check if all 4 tabs are done (or if backend provided isCompleted)
+  const tabsDoneCount = currentChapter.completedTabs?.length || 0;
+  const isAllCompleted = tabsDoneCount === 4 || currentChapter.isCompleted;
 
-      {listenMode === 'Read & Listen' && (
-        <View style={styles.karaokeCard}>
-          <ThemedText style={styles.karaokeTextActive}>¿Qué vas a tomar?</ThemedText>
-          <ThemedText style={styles.karaokeText}>Quiero un café con leche.</ThemedText>
-          <ThemedText style={{color: Colors.textMuted, marginTop: 8}}>Tap any sentence to replay.</ThemedText>
+  const renderRead = () => {
+    const readData = currentChapter.tabs?.read || {};
+    return (
+      <View style={styles.tabContent}>
+        <ThemedText style={styles.contentTitle}>{currentChapter.title}</ThemedText>
+        <View style={styles.readCard}>
+          <ThemedText style={styles.readingText}>
+            {readData.passage || 'Read passage not available...'}
+          </ThemedText>
         </View>
-      )}
-
-      {/* Native Speaker Box */}
-      <View style={styles.speakerProfile}>
-         <View style={styles.speakerAvatar}><ThemedText style={{fontSize: 24}}>🇪🇸</ThemedText></View>
-         <View>
-            <ThemedText style={styles.speakerName}>Carlos V.</ThemedText>
-            <ThemedText style={styles.speakerRegion}>Madrid, Spain</ThemedText>
-         </View>
+        <ThemedText style={styles.hintText}>💡 Notice the context and sentence structure.</ThemedText>
+        
+        {readData.comprehensionQuestions && readData.comprehensionQuestions.length > 0 && (
+          <>
+            <ThemedText style={styles.contentSubtitle}>Comprehension check</ThemedText>
+            {readData.comprehensionQuestions.map((q: any, idx: number) => (
+               <View key={idx} style={{ marginBottom: 16 }}>
+                 <ThemedText style={{ color: Colors.white, marginBottom: 12, fontSize: 16 }}>{q.question}</ThemedText>
+                 {q.options.map((opt: string, oIdx: number) => (
+                   <TouchableOpacity key={oIdx} style={styles.quizOptionBtn}>
+                      <ThemedText style={styles.quizOptionText}>{opt}</ThemedText>
+                   </TouchableOpacity>
+                 ))}
+               </View>
+            ))}
+          </>
+        )}
       </View>
-    </View>
-  );
+    );
+  };
 
-  const renderSpeak = () => (
-    <View style={styles.tabContent}>
-      <View style={styles.phoneticsCard}>
-         <ThemedText style={styles.targetLang}>Quiero un café con leche.</ThemedText>
-         <ThemedText style={styles.englishLang}>I want a coffee with milk.</ThemedText>
-         <ThemedText style={styles.phoneticsLang}>[kee-EH-roh oon kah-FEH kohn LEH-cheh]</ThemedText>
+  const renderListen = () => {
+    const listenData = currentChapter.tabs?.listen || {};
+    return (
+      <View style={styles.tabContent}>
+        <View style={styles.listenHeader}>
+          <TouchableOpacity style={styles.modeDropdownBtn} onPress={() => setListenMode(listenMode === 'Read & Listen' ? 'Dictation' : 'Read & Listen')}>
+             <ThemedText style={styles.modeBtnText}>{listenMode}</ThemedText>
+             <Ionicons name="chevron-down" size={16} color={Colors.white} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.speedBtn} onPress={() => setListenSpeed(listenSpeed === '1.0x' ? '0.75x' : '1.0x')}>
+             <ThemedText style={styles.speedBtnText}>{listenSpeed}</ThemedText>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.audioPlayerCard}>
+           <TouchableOpacity style={styles.playBigCircle}>
+             <Ionicons name="play" size={48} color={Colors.white} style={{marginLeft: 6}} />
+           </TouchableOpacity>
+           <View style={styles.wavePlaceholder} />
+        </View>
+
+        {listenMode === 'Read & Listen' && listenData.transcript && (
+          <View style={styles.karaokeCard}>
+            <ThemedText style={styles.karaokeTextActive}>{listenData.transcript}</ThemedText>
+            <ThemedText style={{color: Colors.textMuted, marginTop: 8}}>Tap any sentence to replay.</ThemedText>
+          </View>
+        )}
       </View>
+    );
+  };
 
-      <View style={styles.contextBox}>
-         <Ionicons name="bulb" size={20} color={Colors.amber} />
-         <ThemedText style={styles.contextText}><ThemedText style={{fontWeight: '800'}}>Tip:</ThemedText> In Spain, it's common to just say "Un café, por favor" rather than "Me gustaría...".</ThemedText>
-      </View>
+  const renderSpeak = () => {
+    const speakData = currentChapter.tabs?.speak || {};
+    return (
+      <View style={styles.tabContent}>
+        <ThemedText style={styles.contentSubtitle}>Dialogue</ThemedText>
+        {speakData.dialogue?.map((line: any, idx: number) => (
+          <View key={idx} style={styles.phoneticsCard}>
+             <ThemedText style={{ color: Colors.textMuted, fontSize: 12, fontWeight: '800', marginBottom: 4 }}>{line.speaker}</ThemedText>
+             <ThemedText style={styles.targetLang}>{line.target}</ThemedText>
+             <ThemedText style={styles.englishLang}>{line.translation}</ThemedText>
+             <ThemedText style={styles.phoneticsLang}>[{line.phonetics}]</ThemedText>
+          </View>
+        ))}
 
-      <ThemedText style={styles.contentSubtitle}>Role Play: Your Turn</ThemedText>
-      <View style={styles.rolePlayCard}>
-         <ThemedText style={styles.rolePlayPrompt}>The waiter asks: "¿Algo para comer?"</ThemedText>
-         <ThemedText style={styles.rolePlayInstruction}>Reply that you want a croissant.</ThemedText>
-         
-         {!showSpeakAnswer ? (
-            <TouchableOpacity style={styles.revealBtn} onPress={() => setShowSpeakAnswer(true)}>
-               <ThemedText style={styles.revealBtnText}>Reveal Correct Answer</ThemedText>
-            </TouchableOpacity>
-         ) : (
-            <View style={styles.revealedAnswer}>
-               <ThemedText style={styles.targetLang}>Sí, un cruasán por favor.</ThemedText>
+        {speakData.culturalNote && (
+          <View style={styles.contextBox}>
+             <Ionicons name="bulb" size={20} color={Colors.amber} />
+             <ThemedText style={styles.contextText}><ThemedText style={{fontWeight: '800'}}>Cultural Note:</ThemedText> {speakData.culturalNote}</ThemedText>
+          </View>
+        )}
+
+        {speakData.rolePlayPrompt && (
+          <>
+            <ThemedText style={styles.contentSubtitle}>Role Play: Your Turn</ThemedText>
+            <View style={styles.rolePlayCard}>
+               <ThemedText style={styles.rolePlayPrompt}>{speakData.rolePlayPrompt}</ThemedText>
+               
+               {!showSpeakAnswer ? (
+                  <TouchableOpacity style={styles.revealBtn} onPress={() => setShowSpeakAnswer(true)}>
+                     <ThemedText style={styles.revealBtnText}>Reveal Model Answer</ThemedText>
+                  </TouchableOpacity>
+               ) : (
+                  <View style={styles.revealedAnswer}>
+                     <ThemedText style={styles.targetLang}>{speakData.rolePlayModelAnswer}</ThemedText>
+                  </View>
+               )}
             </View>
-         )}
+          </>
+        )}
       </View>
-    </View>
-  );
+    );
+  };
 
-  const renderWrite = () => (
-    <View style={styles.tabContent}>
-      <View style={styles.writeInstructionCard}>
-         <ThemedText style={styles.writeInstruction}>Choose the formally correct written response to an email booking request.</ThemedText>
-         <View style={styles.exampleBox}>
-            <ThemedText style={{color: Colors.textMuted, fontSize: 13, marginBottom: 4}}>EXAMPLE</ThemedText>
-            <ThemedText style={{color: Colors.white, fontSize: 16}}>Estimado señor, le confirmo su reserva.</ThemedText>
-         </View>
+  const renderWrite = () => {
+    const writeData = currentChapter.tabs?.write || {};
+    return (
+      <View style={styles.tabContent}>
+        <View style={styles.writeInstructionCard}>
+           <ThemedText style={styles.writeInstruction}>{writeData.task || 'Construct the correct response.'}</ThemedText>
+           {writeData.exampleResponse && (
+             <View style={styles.exampleBox}>
+                <ThemedText style={{color: Colors.textMuted, fontSize: 13, marginBottom: 4}}>EXAMPLE</ThemedText>
+                <ThemedText style={{color: Colors.white, fontSize: 16}}>{writeData.exampleResponse}</ThemedText>
+             </View>
+           )}
+        </View>
+
+        {writeData.options && writeData.options.length > 0 && (
+          <>
+             <ThemedText style={styles.contentSubtitle}>Select correct structure:</ThemedText>
+             {writeData.options.map((optGroup: any, gIdx: number) => (
+                <View key={gIdx} style={{ marginBottom: 24 }}>
+                   <ThemedText style={{ color: Colors.textMuted, marginBottom: 12 }}>{optGroup.prompt}</ThemedText>
+                   
+                   {/* We assume distractors and correctAnswer are mixed in a real scenario. Here we just map them simply. */}
+                   <TouchableOpacity 
+                      style={[styles.quizOptionBtn, writeAnswered === 'correct' && {backgroundColor: 'rgba(74, 222, 128, 0.2)', borderColor: '#4ADE80'}]}
+                      onPress={() => setWriteAnswered('correct')}
+                   >
+                      <ThemedText style={styles.quizOptionText}>{optGroup.correctAnswer}</ThemedText>
+                      {writeAnswered === 'correct' && <Ionicons name="checkmark-circle" size={24} color="#4ADE80" />}
+                   </TouchableOpacity>
+
+                   {optGroup.distractors?.map((dist: string, dIdx: number) => (
+                      <TouchableOpacity 
+                         key={dIdx}
+                         style={[styles.quizOptionBtn, writeAnswered === `dist_${dIdx}` && {borderColor: Colors.error}]}
+                         onPress={() => setWriteAnswered(`dist_${dIdx}`)}
+                      >
+                         <ThemedText style={styles.quizOptionText}>{dist}</ThemedText>
+                      </TouchableOpacity>
+                   ))}
+                </View>
+             ))}
+          </>
+        )}
       </View>
-
-      <ThemedText style={styles.contentSubtitle}>Select correct structure:</ThemedText>
-      
-      <TouchableOpacity 
-         style={[styles.quizOptionBtn, writeAnswered === 'A' && {borderColor: Colors.error}]}
-         onPress={() => setWriteAnswered('A')}
-      >
-         <ThemedText style={styles.quizOptionText}>Hola señor, su mesa está lista.</ThemedText>
-      </TouchableOpacity>
-
-      <TouchableOpacity 
-         style={[styles.quizOptionBtn, writeAnswered === 'B' && {backgroundColor: 'rgba(74, 222, 128, 0.2)', borderColor: '#4ADE80'}]}
-         onPress={() => setWriteAnswered('B')}
-      >
-         <ThemedText style={styles.quizOptionText}>Estimado cliente, su mesa está reservada.</ThemedText>
-         {writeAnswered === 'B' && <Ionicons name="checkmark-circle" size={24} color="#4ADE80" />}
-      </TouchableOpacity>
-    </View>
-  );
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -158,7 +221,7 @@ export default function ModuleLessonScreen() {
           <Ionicons name="close" size={28} color={Colors.white} />
         </TouchableOpacity>
         <View style={styles.timelineTabs}>
-           {TABS.map((tab, idx) => (
+           {TABS.map((tab) => (
              <TouchableOpacity 
                 key={tab}
                 style={[styles.tabBtn, activeTab === tab && styles.tabBtnActive]}
@@ -179,13 +242,13 @@ export default function ModuleLessonScreen() {
          {activeTab === 'SPEAK' && renderSpeak()}
          {activeTab === 'WRITE' && renderWrite()}
 
-         {/* End of Chapter Quiz Prompt */}
+         {/* End of Chapter Quiz Prompt - Shows up strictly when 4 tabs are reported completed from backend mapping */}
          {isAllCompleted && (
             <TouchableOpacity 
                style={styles.endQuizCard}
                onPress={() => {
                   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-                  router.push(`/quiz/${id}` as any);
+                  router.push(`/quiz/${id}?type=module` as any);
                }}
             >
                <Ionicons name="trophy" size={32} color={Colors.white} />
@@ -301,7 +364,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: Colors.white,
   },
-  // Listen tab
   listenHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -368,36 +430,6 @@ const styles = StyleSheet.create({
     color: Colors.cyan,
     marginBottom: 12,
   },
-  karaokeText: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: Colors.textMuted,
-  },
-  speakerProfile: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.cardBg,
-    borderRadius: 20,
-    padding: 16,
-  },
-  speakerAvatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: Colors.elevatedSurface,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  speakerName: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: Colors.white,
-  },
-  speakerRegion: {
-    fontSize: 14,
-    color: Colors.textMuted,
-  },
   // Speak Tab
   phoneticsCard: {
     backgroundColor: Colors.cardBg,
@@ -428,6 +460,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     gap: 12,
+    marginBottom: 16,
   },
   contextText: {
     flex: 1,
@@ -446,12 +479,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.white,
     fontStyle: 'italic',
-    marginBottom: 12,
-  },
-  rolePlayInstruction: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: Colors.secondaryAccent,
     marginBottom: 24,
   },
   revealBtn: {

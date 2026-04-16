@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'rea
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 
 export default function ChapterDetailScreen() {
   const { chapterId } = useLocalSearchParams<{ chapterId: string }>();
@@ -10,21 +11,21 @@ export default function ChapterDetailScreen() {
   const [chapter, setChapter] = useState<any>(null);
   const [sections, setSections] = useState<any[]>([]);
 
-  // Assume API is available locally for DEV via the same domain store uses.
-  const API_URL = 'https://sky-spire.vercel.app/api/grammar';
+  const LOCAL_API = (process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.9:3000/api') + '/grammar';
 
   useEffect(() => {
-    if (chapterId) {
-      fetch(`${API_URL}/chapters/${chapterId}`)
-        .then(res => res.json())
-        .then(data => setChapter(data))
-        .catch(console.error);
+    if (!chapterId) return;
 
-      fetch(`${API_URL}/chapters/${chapterId}/sections`)
-        .then(res => res.json())
-        .then(data => setSections(data))
-        .catch(console.error);
-    }
+    axios.get(`${LOCAL_API}/chapters/${chapterId}`)
+      .then(res => setChapter(res.data))
+      .catch(err => console.error('[ChapterDetail] fetch chapter error:', err));
+
+    axios.get(`${LOCAL_API}/chapters/${chapterId}/sections`)
+      .then(res => {
+        const data = res.data;
+        setSections(Array.isArray(data) ? data : data.sections || []);
+      })
+      .catch(err => console.error('[ChapterDetail] fetch sections error:', err));
   }, [chapterId]);
 
   if (!chapter) {

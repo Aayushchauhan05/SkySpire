@@ -6,6 +6,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useAppStore } from '../../store/useAppStore';
 import { useGrammarStore } from '../../store/useGrammarStore';
+import { useCourseStore } from '../../store/useCourseStore';
 
 const { width } = Dimensions.get('window');
 
@@ -28,6 +29,8 @@ function getGreeting() {
 export default function HomeScreen() {
   const router = useRouter();
 
+  const userId = 'demo_user';
+
   const name = useAppStore(s => s.name);
   const targetLanguage = useAppStore(s => s.targetLanguage);
   const streakDays = useAppStore(s => s.streakDays);
@@ -35,16 +38,25 @@ export default function HomeScreen() {
   const dailyGoalMinutes = useAppStore(s => s.dailyGoalMinutes);
   const savedWords = useAppStore(s => s.savedWords);
   const { books, fetchBooks, fetchParts, fetchProgress, setFilter } = useGrammarStore();
+  
+  const { paths, fetchPaths } = useCourseStore();
 
   useEffect(() => {
     fetchBooks();
     fetchParts();
     fetchProgress();
-  }, []);
+    fetchPaths(targetLanguage.toLowerCase(), userId);
+  }, [targetLanguage]);
 
   const progressPercent = Math.min((minutesStudiedToday / dailyGoalMinutes) * 100, 100);
   const firstName = name.split(' ')[0];
   const flag = LANG_FLAGS[targetLanguage] ?? '🌐';
+  
+  // Find current active course path
+  const activePath = paths.find(p => !p.isLocked) || paths[0];
+  const totalChapters = activePath?.chapters?.length || 1;
+  const completedChapters = activePath?.chapters?.filter(c => c.isCompleted).length || 0;
+  const pathPercentComplete = Math.round((completedChapters / totalChapters) * 100);
 
   return (
     <SafeAreaView className="flex-1 bg-main-bg">
@@ -102,21 +114,24 @@ export default function HomeScreen() {
             className="text-xs font-black tracking-widest mb-2 uppercase"
             style={{ color: 'rgba(0,0,0,0.4)' }}
           >
-            Continue where you left off
+            Continue your sequence
           </Text>
           <View className="flex-row justify-between items-center">
             <View className="flex-1 mr-4">
               <Text className="text-white/90 text-sm font-bold mb-0.5">
-                Unit 2: Intermediates
+                 {activePath ? `Path ${activePath.order}: ${activePath.level}` : 'Loading...'}
               </Text>
               <Text className="text-white text-[22px] font-black leading-7">
-                Definite Articles: Part 2
+                {activePath ? activePath.title : 'Loading curriculum...'}
               </Text>
             </View>
             <TouchableOpacity
               className="flex-row items-center gap-1.5 rounded-2xl px-5 py-3"
               style={{ backgroundColor: 'rgba(255,255,255,0.25)' }}
-              onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); router.push('/chapter/1_2' as any); }}
+              onPress={() => { 
+                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); 
+                 router.push('/course'); 
+              }}
             >
               <Text className="text-white text-base font-extrabold">Resume</Text>
             </TouchableOpacity>
@@ -127,119 +142,91 @@ export default function HomeScreen() {
         <View className="flex-row gap-3 px-5 mb-7">
           {/* Left column */}
           <View style={{ flex: 1.1, gap: 14 }}>
-            {/* Large chapter card */}
+            {/* CURRENT LEARNING PATH (MODULES) */}
             <TouchableOpacity
               className="bg-purple-accent rounded-[36px] p-7 justify-between"
-              style={{ height: 380 }}
-              onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); router.push('/module/SURVIVAL' as any); }}
+              style={{ height: 260 }}
+              onPress={() => { Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); router.push('/course'); }}
             >
               <View>
                 <Text className="text-white font-extrabold leading-8" style={{ fontSize: 24 }}>
-                  Chapter 2:{'\n'}Essential{'\n'}Greetings
+                  Curriculum{'\n'}Modules
                 </Text>
                 <Text className="text-white/80 mt-2 font-semibold text-sm">
-                  Lv. 2 • 45% Complete
+                  {activePath ? `${totalChapters} Chapters` : 'Loading...'}
                 </Text>
               </View>
 
-              {/* View Modules button */}
               <TouchableOpacity
-                className="bg-white self-start px-6 py-3 rounded-full"
-                onPress={() => router.push('/module/SURVIVAL' as any)}
+                className="bg-white self-start px-6 py-3 rounded-full mt-4"
+                onPress={() => router.push('/course')}
               >
                 <Text className="text-main-bg font-extrabold text-base">View Modules</Text>
               </TouchableOpacity>
             </TouchableOpacity>
-          </View>
 
-          {/* Right column */}
-          <View style={{ flex: 1, gap: 14 }}>
             {/* Badges card */}
             <TouchableOpacity
               className="bg-white rounded-[32px] p-5 justify-between"
-              style={{ height: 178 }}
+              style={{ height: 160 }}
               onPress={() => router.push('/profile' as any)}
             >
               <View className="flex-row items-center gap-1.5">
                 <Ionicons name="medal" size={22} color="#FFB800" />
-                <Text className="text-main-bg text-base font-extrabold">4 Badges</Text>
+                <Text className="text-main-bg text-base font-extrabold">Achievements</Text>
               </View>
               <View className="flex-row gap-1 mt-1">
                 <Text style={{ fontSize: 22 }}>⭐</Text>
                 <Text style={{ fontSize: 22 }}>👑</Text>
                 <Text style={{ fontSize: 22 }}>🥇</Text>
-                <Text style={{ fontSize: 22 }}>🥈</Text>
               </View>
-              <Text className="text-[#777] text-xs font-bold mt-1">
-                View Achievement{'\n'}Progress
+            </TouchableOpacity>
+          </View>
+
+          {/* Right column */}
+          <View style={{ flex: 1, gap: 14 }}>
+             
+            {/* LEXICON CARD */}
+            <TouchableOpacity
+              className="bg-coral rounded-[32px] p-6 justify-between"
+              style={{ height: 190 }}
+              onPress={() => router.push('/lexicon')}
+            >
+              <View>
+                <View className="w-12 h-12 bg-white/20 rounded-2xl items-center justify-center mb-3">
+                   <Ionicons name="library" size={24} color="#FFF" />
+                </View>
+                <Text className="text-white font-extrabold leading-6" style={{ fontSize: 20 }}>
+                  Lexicon{'\n'}Dictionary
+                </Text>
+              </View>
+              <Text className="text-white/90 font-bold text-sm mt-2">
+                Browse words & phrases
               </Text>
             </TouchableOpacity>
 
-            {/* Multi-Book Grammar Cards */}
-            {books.map((book, idx) => (
-              <TouchableOpacity
-                key={book._id}
-                className={`rounded-[32px] p-5 justify-between mb-4 ${
-                  book.language === 'es' ? 'bg-[#9B8AF4]' : 'bg-amber'
-                }`}
-                style={{ height: 160 }}
-                onPress={() => {
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                  setFilter({ bookId: book._id });
-                  router.push('/grammar');
-                }}
-              >
-                <View className="flex-row items-center gap-1.5">
-                  <Ionicons 
-                    name="book" 
-                    size={22} 
-                    color={book.language === 'es' ? 'white' : '#110E1A'} 
-                  />
-                  <Text className={`text-base font-extrabold ${
-                    book.language === 'es' ? 'text-white' : 'text-main-bg'
-                  }`}>
-                    {book.language === 'es' ? '🇪🇸 Spanish' : '🇺🇸 English'}
-                  </Text>
-                </View>
-                <Text className={`text-lg font-black leading-6 ${
-                  book.language === 'es' ? 'text-white' : 'text-main-bg'
-                }`}>
-                  {book.title.length > 30 ? book.title.substring(0, 27) + '...' : book.title}
-                </Text>
-                <View className={`${
-                  book.language === 'es' ? 'bg-white/20' : 'bg-white/30'
-                } self-start px-3 py-1 rounded-full`}>
-                  <Text className={`text-[10px] font-black uppercase ${
-                    book.language === 'es' ? 'text-white' : 'text-main-bg'
-                  }`}>
-                    {book.total_chapters} Chapters
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-
-            {/* Unit 1 card */}
+            {/* active path progress */}
             <TouchableOpacity
-              className="bg-coral rounded-[32px] p-5 justify-between"
-              style={{ height: 192 }}
+              className="bg-card-bg border border-elevated rounded-[32px] p-5 justify-between"
+              style={{ height: 230 }}
               onPress={() => router.push('/course' as any)}
             >
               <View>
                 <Text className="text-white font-extrabold leading-6" style={{ fontSize: 18 }}>
-                  Unit 1:{'\n'}Foundations
+                  Active Unit:{'\n'}{activePath?.title || 'Not Started'}
                 </Text>
-                <Text className="text-white/90 mt-1 font-semibold text-sm">
-                  3/5 Ch. • 60%{'\n'}Complete
+                <Text className="text-muted mt-2 font-semibold text-sm">
+                  {completedChapters} of {totalChapters} Ch.{'\n'}{pathPercentComplete}% Complete
                 </Text>
               </View>
               {/* Progress bar */}
               <View
-                className="rounded-full overflow-hidden"
-                style={{ height: 6, backgroundColor: 'rgba(0,0,0,0.2)' }}
+                className="rounded-full overflow-hidden mt-4"
+                style={{ height: 8, backgroundColor: '#110E1A' }}
               >
                 <View
-                  className="bg-white rounded-full h-full"
-                  style={{ width: '60%' }}
+                  className="bg-cyan rounded-full h-full"
+                  style={{ width: `${pathPercentComplete}%` }}
                 />
               </View>
             </TouchableOpacity>
@@ -256,35 +243,45 @@ export default function HomeScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ gap: 14, paddingHorizontal: 20, paddingRight: 28 }}
           >
-            {/* Daily Word */}
-            <TouchableOpacity
-              className="bg-card-bg rounded-[28px] p-6"
-              style={{ width: width * 0.72 }}
-            >
-              <View className="flex-row items-center gap-2 mb-3">
-                <Text className="text-amber text-xs font-black tracking-widest uppercase">
-                  Daily Word
+            {/* Grammar Library Overview */}
+            {books.map(book => (
+              <TouchableOpacity
+                key={book._id}
+                className="bg-card-bg rounded-[28px] p-6"
+                style={{ width: width * 0.72 }}
+                onPress={() => {
+                  setFilter({ bookId: book._id });
+                  router.push('/grammar');
+                }}
+              >
+                <View className="flex-row items-center gap-2 mb-3">
+                  <Text className="text-amber text-xs font-black tracking-widest uppercase">
+                    Grammar Library
+                  </Text>
+                  <Ionicons name="book" size={18} color="#FFB800" />
+                </View>
+                <Text className="text-white text-2xl font-extrabold mb-1" numberOfLines={1}>{book.title}</Text>
+                <Text className="text-muted text-base leading-6">
+                  {book.language === 'es' ? '🇪🇸' : book.language === 'fr' ? '🇫🇷' : '🇺🇸'} {book.total_chapters} Chapters
                 </Text>
-                <Ionicons name="sparkles" size={18} color="#FFB800" />
-              </View>
-              <Text className="text-white text-2xl font-extrabold mb-1">Desarrollar</Text>
-              <Text className="text-muted text-base leading-6">"To develop, to grow."</Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            ))}
 
             {/* Grammar Tip */}
             <TouchableOpacity
               className="bg-elevated rounded-[28px] p-6"
               style={{ width: width * 0.72 }}
+              onPress={() => router.push('/grammar/reference-index')}
             >
               <View className="flex-row items-center gap-2 mb-3">
                 <Text className="text-cyan text-xs font-black tracking-widest uppercase">
-                  Grammar Tip
+                  Grammar Shortcut
                 </Text>
                 <Ionicons name="bulb" size={18} color="#00E5FF" />
               </View>
-              <Text className="text-white text-2xl font-extrabold mb-1">El vs. La</Text>
+              <Text className="text-white text-2xl font-extrabold mb-1">Le vs. La</Text>
               <Text className="text-muted text-base leading-6">
-                Nouns ending in -o are typically masculine (el), and in -a are feminine (la).
+                Most words ending in 'e' are feminine, but wait for 'le livre' (book)!
               </Text>
             </TouchableOpacity>
 

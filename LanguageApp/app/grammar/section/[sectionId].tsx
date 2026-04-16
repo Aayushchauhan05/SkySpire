@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useGrammarStore } from '../../../store/useGrammarStore';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 
 export default function SectionReaderScreen() {
   const { sectionId } = useLocalSearchParams<{ sectionId: string }>();
@@ -12,13 +13,12 @@ export default function SectionReaderScreen() {
 
   const [data, setData] = useState<{ section: any; examples: any[] } | null>(null);
 
-  const API_URL = 'https://sky-spire.vercel.app/api/grammar';
+  const API_URL = (process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.9:3000/api') + '/grammar';
 
   useEffect(() => {
     if (sectionId) {
-      fetch(`${API_URL}/sections/${sectionId}`)
-        .then(res => res.json())
-        .then(setData)
+      axios.get(`${API_URL}/sections/${sectionId}`)
+        .then(res => setData(res.data))
         .catch(console.error);
     }
   }, [sectionId]);
@@ -48,8 +48,28 @@ export default function SectionReaderScreen() {
       <ScrollView className="flex-1 px-6 pt-6">
         <Text className="text-3xl font-black text-white mb-6 leading-tight">{data.section.title}</Text>
 
-        <View className="bg-[#1C1830] p-6 rounded-3xl mb-8">
-          <Text className="text-[#fef9f0] text-lg leading-relaxed">{data.section.content}</Text>
+        <View className="bg-[#1C1830] p-6 rounded-3xl mb-8 gap-4">
+          {data.section.content.split('\n').filter((p: string) => p.trim() !== '').map((para: string, idx: number) => {
+            const trimmed = para.trim();
+            const isExerciseLine = /^\d+\.\s*(_{2,}|[A-Za-z]+)/.test(trimmed);
+            const isHeader = (trimmed.length < 50 && !trimmed.includes('.') && !isExerciseLine && trimmed === trimmed.toUpperCase()) || trimmed.toLowerCase() === 'answers';
+            
+            if (isHeader) {
+              return <Text key={idx} className="text-[#FFB800] font-bold text-xl mt-6 mb-2 uppercase">{trimmed}</Text>;
+            }
+            if (isExerciseLine) {
+              return (
+                <View key={idx} className="bg-[#252040] py-2 px-3 rounded-lg ml-2 mb-2 border border-[#3A335B]">
+                  <Text className="text-[#9B8AF4] text-base font-semibold">{trimmed}</Text>
+                </View>
+              );
+            }
+            return (
+              <Text key={idx} className="text-[#fef9f0] text-lg leading-relaxed mb-3">
+                {trimmed}
+              </Text>
+            );
+          })}
         </View>
 
         {data.examples.length > 0 && (
@@ -69,6 +89,16 @@ export default function SectionReaderScreen() {
             ))}
           </View>
         )}
+
+        {/* Global A-Z Reference Link */}
+        <TouchableOpacity 
+          className="bg-[#1C1830] border border-[#252040] p-4 rounded-2xl flex-row items-center justify-center mb-8"
+          onPress={() => router.push('/grammar/reference-index')}
+        >
+          <Ionicons name="library" size={20} color="#9B8AF4" />
+          <Text className="text-[#9B8AF4] font-bold ml-2">Browse the A-Z Grammar Index</Text>
+        </TouchableOpacity>
+        
       </ScrollView>
 
       <View className="p-6 border-t border-[#252040] bg-[#110E1A]">

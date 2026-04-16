@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const grammarController = require('../controllers/grammarController');
 
+// Get A-Z reference index
+router.get('/index', grammarController.getIndex);
+
 // Get all grammar books
 router.get('/books', grammarController.getBooks);
 

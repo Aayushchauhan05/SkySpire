@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 
 export default function PracticeFlashcardsScreen() {
   const router = useRouter();
@@ -11,15 +12,14 @@ export default function PracticeFlashcardsScreen() {
   const [currIdx, setCurrIdx] = useState(0);
   const [revealed, setRevealed] = useState(false);
 
-  const API_URL = 'https://sky-spire.vercel.app/api/grammar';
+  const API_URL = (process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.9:3000/api') + '/grammar';
 
   useEffect(() => {
     let url = `${API_URL}/examples/random?count=10`;
     if (tags) url += `&tags=${tags}`;
 
-    fetch(url)
-      .then(res => res.json())
-      .then(data => setExamples(data))
+    axios.get(url)
+      .then(res => setExamples(res.data))
       .catch(console.error);
   }, [tags]);
 

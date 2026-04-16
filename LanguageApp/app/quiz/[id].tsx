@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Dimensions, TextInput, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { ThemedText } from '../../components/themed-text';
 import { useAppStore } from '../../store/useAppStore';
+import axios from 'axios';
 
 const { width } = Dimensions.get('window');
 
@@ -56,7 +57,7 @@ const DUMMY_QUESTIONS = [
 ];
 
 export default function QuizScreen() {
-  const { id } = useLocalSearchParams();
+  const { id, type } = useLocalSearchParams<{ id: string; type?: string }>();
   const router = useRouter();
   
   // Gamification Hooks
@@ -72,6 +73,11 @@ export default function QuizScreen() {
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
+  const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState('');
+  const [isSubmittingRating, setIsSubmittingRating] = useState(false);
+
+  // Use dummy questions for now, since quiz generation is out of scope for this specific UI change if it isn't dynamic yet
   const question = DUMMY_QUESTIONS[currentQuestion];
 
   const proceedToNext = () => {
@@ -124,6 +130,27 @@ export default function QuizScreen() {
     proceedToNext();
   };
 
+  const submitRating = async () => {
+    if (rating === 0) {
+      router.push('/course');
+      return;
+    }
+    setIsSubmittingRating(true);
+    try {
+      const apiURL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.9:3000/api';
+      await axios.post(`${apiURL}/chapters/${id}/rate`, {
+        userId: 'demo_user',
+        rating,
+        feedback
+      });
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch (err) {
+      console.error('Failed to submit rating:', err);
+    }
+    setIsSubmittingRating(false);
+    router.push('/course');
+  };
+
   if (isFinished) {
     return (
       <SafeAreaView style={styles.container}>
@@ -134,11 +161,38 @@ export default function QuizScreen() {
           <ThemedText style={styles.resultTitle}>Quiz Completed!</ThemedText>
           <ThemedText style={styles.resultScore}>You scored {score}/{DUMMY_QUESTIONS.length}</ThemedText>
           
+          {type === 'module' && (
+             <View style={styles.ratingBox}>
+               <ThemedText style={styles.ratingTitle}>How was this chapter?</ThemedText>
+               <View style={styles.starsRow}>
+                 {[1, 2, 3, 4, 5].map((star) => (
+                   <TouchableOpacity key={star} onPress={() => setRating(star)}>
+                     <Ionicons 
+                       name={star <= rating ? "star" : "star-outline"} 
+                       size={40} 
+                       color={Colors.amber} 
+                     />
+                   </TouchableOpacity>
+                 ))}
+               </View>
+               {rating > 0 && (
+                 <TextInput
+                   style={styles.feedbackInput}
+                   placeholder="Any feedback? (Optional)"
+                   placeholderTextColor={Colors.textMuted}
+                   value={feedback}
+                   onChangeText={setFeedback}
+                 />
+               )}
+             </View>
+          )}
+
           <TouchableOpacity 
-            style={styles.finishBtn}
-            onPress={() => router.push('/course')}
+            style={[styles.finishBtn, isSubmittingRating && { opacity: 0.7 }]}
+            onPress={type === 'module' ? submitRating : () => router.push('/course')}
+            disabled={isSubmittingRating}
           >
-            <ThemedText style={styles.finishBtnText}>Back to Curriculum</ThemedText>
+            {isSubmittingRating ? <ActivityIndicator color={Colors.white} /> : <ThemedText style={styles.finishBtnText}>{type === 'module' && rating > 0 ? 'Submit & ' : ''}Back to Curriculum</ThemedText>}
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -396,8 +450,40 @@ const styles = StyleSheet.create({
   },
   finishBtnText: {
     color: Colors.white,
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '900',
+  },
+  ratingBox: {
+    width: '100%',
+    backgroundColor: Colors.cardBg,
+    borderRadius: 24,
+    padding: 24,
+    alignItems: 'center',
+    marginBottom: 32,
+    borderWidth: 1,
+    borderColor: Colors.elevatedSurface,
+  },
+  ratingTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: Colors.white,
+    marginBottom: 16,
+  },
+  starsRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 16,
+  },
+  feedbackInput: {
+    width: '100%',
+    height: 50,
+    backgroundColor: Colors.mainBg,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    color: Colors.white,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: Colors.elevatedSurface,
   },
   questionTitle: {
     fontSize: 14,

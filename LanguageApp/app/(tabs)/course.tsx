@@ -1,46 +1,39 @@
-import React from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { CaretLeft, BookOpenText, CheckCircle, LockKey } from 'phosphor-react-native';
+import { useCourseStore } from '../../store/useCourseStore';
 
 const Colors = {
   mainBg: '#110E1A',
   cardBg: '#1C1830',
   elevatedSurface: '#252040',
-  primaryAccent: '#FF8A66', // Warm Coral
-  secondaryAccent: '#9B8AF4', // Soft Purple
+  primaryAccent: '#FF8A66',
+  secondaryAccent: '#9B8AF4',
   amber: '#FFB800',
   error: '#FF5C7A',
   primaryText: '#F0EEF8',
   secondaryText: '#8E88B0',
 };
 
-const GRAMMAR_UNITS = [
-  {
-    id: 1,
-    title: 'Foundations',
-    description: 'Nouns, Gender & Basic Greetings',
-    chapters: [
-      { id: '1_1', title: 'Nouns & Gender', isFree: true, completed: true },
-      { id: '1_2', title: 'Definite Articles', isFree: true, completed: false },
-      { id: '1_3', title: 'Subject Pronouns', isFree: false, completed: false },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Present Tense Core',
-    description: 'Regular Verbs & Sentence Structure',
-    chapters: [
-      { id: '2_1', title: 'AR Verbs', isFree: false, completed: false },
-      { id: '2_2', title: 'ER & IR Verbs', isFree: false, completed: false },
-      { id: '2_3', title: 'Question Words', isFree: false, completed: false },
-    ],
-  },
-];
-
-export default function GrammarScreen() {
+export default function CourseScreen() {
   const router = useRouter();
+  const { paths, isLoading, error, fetchPaths } = useCourseStore();
+  const userId = 'demo_user';
+
+  useEffect(() => {
+    // Assuming language 'fr'
+    fetchPaths('fr', userId);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={Colors.primaryAccent} />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -49,42 +42,46 @@ export default function GrammarScreen() {
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <CaretLeft size={24} color={Colors.primaryText} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Grammar</Text>
+        <Text style={styles.headerTitle}>Course Path</Text>
         <View style={{ width: 44 }} />
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {GRAMMAR_UNITS.map((unit) => (
-          <View key={unit.id} style={styles.unitContainer}>
+        {paths.map((unit) => (
+          <View key={unit._id} style={[styles.unitContainer, unit.isLocked && { opacity: 0.5 }]}>
             <View style={styles.unitHeader}>
-              <View>
-                <Text style={styles.unitTitle}>Unit {unit.id}</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.unitTitle}>Level {unit.order}</Text>
                 <Text style={styles.unitDesc}>{unit.title}</Text>
+                <Text style={[styles.unitTitle, { fontSize: 12, marginTop: 4, textTransform: 'none', color: Colors.secondaryText }]}>{unit.description}</Text>
               </View>
               <View style={styles.unitIconContainer}>
-                <BookOpenText size={24} color={Colors.primaryAccent} weight="duotone" />
+                {unit.isLocked ? 
+                  <LockKey size={24} color={Colors.secondaryText} weight="bold" /> :
+                  <BookOpenText size={24} color={Colors.primaryAccent} weight="duotone" />
+                }
               </View>
             </View>
 
-            {unit.chapters.map((chapter) => {
-              const isLocked = !chapter.isFree && !chapter.completed;
+            {unit.chapters && unit.chapters.map((chapter: any) => {
+              const isLocked = unit.isLocked; 
               return (
                 <TouchableOpacity
-                  key={chapter.id}
+                  key={chapter._id}
                   style={[
                     styles.chapterCard,
                     isLocked && styles.chapterCardLocked
                   ]}
                   disabled={isLocked}
-                  onPress={() => router.push(`/grammar/${chapter.id}` as any)}
+                  onPress={() => router.push(`/module-lesson/${chapter._id}` as any)}
                 >
                   <View style={styles.chapterLeft}>
                     <View style={[
                       styles.statusIndicator,
-                      chapter.completed && { backgroundColor: 'rgba(155, 138, 244, 0.1)' },
+                      chapter.isCompleted && { backgroundColor: 'rgba(155, 138, 244, 0.1)' },
                       isLocked && { backgroundColor: Colors.mainBg }
                     ]}>
-                      {chapter.completed ? (
+                      {chapter.isCompleted ? (
                         <CheckCircle size={20} color={Colors.secondaryAccent} weight="fill" />
                       ) : isLocked ? (
                         <LockKey size={20} color={Colors.secondaryText} weight="bold" />
@@ -92,12 +89,12 @@ export default function GrammarScreen() {
                         <View style={styles.statusDot} />
                       )}
                     </View>
-                    <View>
+                    <View style={{ flex: 1 }}>
                       <Text style={[styles.chapterTitle, isLocked && { color: Colors.secondaryText }]}>
                         {chapter.title}
                       </Text>
-                      {chapter.isFree && !chapter.completed && (
-                        <Text style={styles.freeBadge}>FREE LESSON</Text>
+                      {chapter.topic && (
+                        <Text style={styles.freeBadge}>{chapter.topic.toUpperCase()}</Text>
                       )}
                     </View>
                   </View>
@@ -110,8 +107,6 @@ export default function GrammarScreen() {
     </SafeAreaView>
   );
 }
-
-import { Text } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -135,7 +130,6 @@ const styles = StyleSheet.create({
     borderRadius: 14,
   },
   headerTitle: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 20,
     fontWeight: '700',
     color: Colors.primaryText,
@@ -154,7 +148,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   unitTitle: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 14,
     fontWeight: '700',
     color: Colors.primaryAccent,
@@ -163,7 +156,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   unitDesc: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 22,
     fontWeight: '700',
     color: Colors.primaryText,
@@ -172,6 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 138, 102, 0.1)',
     padding: 12,
     borderRadius: 16,
+    marginLeft: 16,
   },
   chapterCard: {
     backgroundColor: Colors.cardBg,
@@ -204,13 +197,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryText,
   },
   chapterTitle: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 16,
     fontWeight: '600',
     color: Colors.primaryText,
   },
   freeBadge: {
-    fontFamily: 'Plus Jakarta Sans',
     fontSize: 11,
     fontWeight: '700',
     color: Colors.primaryAccent,

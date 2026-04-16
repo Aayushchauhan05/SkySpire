@@ -5,6 +5,44 @@ const GrammarSection = require('../models/GrammarSection');
 const GrammarExample = require('../models/GrammarExample');
 const UserProgress = require('../models/UserProgress');
 
+// GET /api/grammar/index
+exports.getIndex = async (req, res) => {
+  try {
+    // Fetch all sections
+    const sections = await GrammarSection.find().lean();
+    // Fetch chapters and parts to join names
+    const chapters = await GrammarChapter.find().lean();
+    const parts = await GrammarPart.find().lean();
+
+    const chapterMap = {};
+    const partMap = {};
+    chapters.forEach(c => chapterMap[c._id] = c);
+    parts.forEach(p => partMap[p._id] = p);
+
+    const indexEntries = sections.map(sec => {
+       const chapter = chapterMap[sec.chapter_id];
+       const part = chapter ? partMap[chapter.part_id] : null;
+       const keyword = sec.title.replace(/^(The |A |An |Les |Le |La |L'|Un |Une |De |Du |Des )/i, '').trim();
+       const letter = keyword.charAt(0).toUpperCase();
+
+       return {
+         letter,
+         keyword: keyword,
+         topicTitle: sec.title,
+         sectionId: sec._id,
+         chapterTitle: chapter ? chapter.title : 'Unknown Chapter',
+         partTitle: part ? part.title : 'Unknown Part'
+       };
+    });
+
+    indexEntries.sort((a, b) => a.keyword.localeCompare(b.keyword));
+
+    res.json(indexEntries);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // GET /api/grammar/books
 exports.getBooks = async (req, res) => {
   try {
@@ -125,7 +163,7 @@ exports.search = async (req, res) => {
 
     const regex = new RegExp(q, 'i');
     
-    const chapters = await GrammarChapter.find({
+    let chapters = await GrammarChapter.find({
       $or: [
         { title: regex },
         { summary: regex },
@@ -133,12 +171,26 @@ exports.search = async (req, res) => {
       ]
     }).limit(10).lean();
     
-    const sections = await GrammarSection.find({
+    let sections = await GrammarSection.find({
       $or: [
         { title: regex },
         { content: regex }
       ]
     }).limit(10).lean();
+
+    // Add snippet to sections
+    sections = sections.map(sec => {
+      const matchIndex = sec.content ? sec.content.toLowerCase().indexOf(q.toLowerCase()) : -1;
+      let snippet = sec.content;
+      if (matchIndex > -1 && sec.content) {
+         const start = Math.max(0, matchIndex - 40);
+         const end = Math.min(sec.content.length, matchIndex + q.length + 40);
+         snippet = (start > 0 ? '...' : '') + sec.content.substring(start, end) + (end < sec.content.length ? '...' : '');
+      } else if (sec.content && sec.content.length > 100) {
+         snippet = sec.content.substring(0, 100) + '...';
+      }
+      return { ...sec, snippet, chapterTitle: chapters.find(c => c._id === sec.chapter_id)?.title };
+    });
 
     res.json({ chapters, sections });
   } catch (error) {

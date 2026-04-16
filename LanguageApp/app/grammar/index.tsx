@@ -37,10 +37,10 @@ export default function GrammarHomeScreen() {
 
         <TouchableOpacity 
           className="bg-[#252040] p-4 rounded-full flex-row items-center mb-8"
-          onPress={() => router.push('/grammar/topics')}
+          onPress={() => router.push('/grammar/reference-index')}
         >
           <Ionicons name="search" size={20} color="#8E88B0" />
-          <Text className="text-[#8E88B0] ml-3 text-base">Search topics or browse tags...</Text>
+          <Text className="text-[#8E88B0] ml-3 text-base">Search grammar A-Z index...</Text>
         </TouchableOpacity>
 
         <View className="mb-8">
@@ -77,10 +77,10 @@ export default function GrammarHomeScreen() {
         </View>
 
         <View className="bg-[#1C1830] p-6 rounded-3xl mb-8 border border-[#252040]">
-          <Text className="text-white font-bold text-lg mb-4">Daily Practice</Text>
+          <Text className="text-white font-bold text-lg mb-4">Daily Vocabulary Review</Text>
           <TouchableOpacity 
             className="bg-[#9B8AF4] p-4 rounded-2xl flex-row justify-center items-center"
-            onPress={() => router.push('/grammar/practice')}
+            onPress={() => router.push('/lexicon/flashcards')}
           >
             <Ionicons name="albums-outline" size={24} color="#110E1A" />
             <Text className="text-[#110E1A] font-black text-lg ml-2">Start Flashcards</Text>

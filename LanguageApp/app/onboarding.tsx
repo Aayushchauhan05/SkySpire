@@ -92,7 +92,8 @@ export default function OnboardingScreen() {
         cefrLevel: 'A1' // Default, placement test might override this
       });
 
-      const response = await fetch('http://192.168.1.9:3000/api/auth/register', {
+      const apiUrl = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.9:3000/api';
+      const response = await fetch(`${apiUrl}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
