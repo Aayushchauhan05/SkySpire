@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -7,6 +7,8 @@ import * as Haptics from 'expo-haptics';
 import { useAppStore } from '../../store/useAppStore';
 import { useGrammarStore } from '../../store/useGrammarStore';
 import { useCourseStore } from '../../store/useCourseStore';
+import { useProgressStore } from '../../store/useProgressStore';
+import { useProfileStore } from '../../store/useProfileStore';
 
 const { width } = Dimensions.get('window');
 
@@ -28,8 +30,7 @@ function getGreeting() {
 
 export default function HomeScreen() {
   const router = useRouter();
-
-  const userId = 'demo_user';
+  const [userId, setUserId] = useState('demo_user');
 
   const name = useAppStore(s => s.name);
   const targetLanguage = useAppStore(s => s.targetLanguage);
@@ -37,8 +38,12 @@ export default function HomeScreen() {
   const minutesStudiedToday = useAppStore(s => s.minutesStudiedToday);
   const dailyGoalMinutes = useAppStore(s => s.dailyGoalMinutes);
   const savedWords = useAppStore(s => s.savedWords);
+
+  // Progress and profile stores
+  const { userStats, nextLesson, isLoading: statsLoading, fetchUserStats, fetchNextLesson } = useProgressStore();
+  const { profile, isLoading: profileLoading, fetchProfile } = useProfileStore();
+
   const { books, fetchBooks, fetchParts, fetchProgress, setFilter } = useGrammarStore();
-  
   const { paths, fetchPaths } = useCourseStore();
 
   useEffect(() => {
@@ -46,17 +51,27 @@ export default function HomeScreen() {
     fetchParts();
     fetchProgress();
     fetchPaths(targetLanguage.toLowerCase(), userId);
-  }, [targetLanguage]);
+
+    // Fetch progress and profile from API
+    fetchUserStats(userId);
+    fetchNextLesson(userId);
+    fetchProfile(userId);
+  }, [targetLanguage, userId]);
 
   const progressPercent = Math.min((minutesStudiedToday / dailyGoalMinutes) * 100, 100);
   const firstName = name.split(' ')[0];
   const flag = LANG_FLAGS[targetLanguage] ?? '🌐';
-  
+
   // Find current active course path
   const activePath = paths.find(p => !p.isLocked) || paths[0];
   const totalChapters = activePath?.chapters?.length || 1;
   const completedChapters = activePath?.chapters?.filter(c => c.isCompleted).length || 0;
   const pathPercentComplete = Math.round((completedChapters / totalChapters) * 100);
+
+  // Use API stats if available, otherwise fall back to local
+  const completionPercent = userStats?.completionPercentage ?? pathPercentComplete ?? 0;
+  const streakCount = userStats?.streakCount ?? streakDays ?? 0;
+  const totalXP = userStats?.totalXP ?? 0;
 
   return (
     <SafeAreaView className="flex-1 bg-main-bg">
@@ -89,7 +104,7 @@ export default function HomeScreen() {
           >
             <MaterialCommunityIcons name="fire" size={20} color="#FFB800" />
             <Text className="text-amber font-extrabold text-base">
-              Streak: {streakDays}
+              Streak: {streakCount}
             </Text>
             <Text className="text-lg">🔥</Text>
           </View>

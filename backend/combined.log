@@ -414,3 +414,8 @@
 {"level":"info","message":"\u001b[0mGET /api/lexicon/entries?language=fr&category=words&level=A1&topic=Greetings \u001b[36m304\u001b[0m 63.009 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-17 00:15:19"}
 {"level":"info","message":"\u001b[0mGET /api/lexicon/entries?language=fr&category=words&level=A1&topic=index \u001b[36m304\u001b[0m 41.057 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-17 00:15:20"}
 {"level":"info","message":"\u001b[0mGET /api/lexicon/entries?language=fr&category=words&level=A1&topic=Numbers \u001b[36m304\u001b[0m 100.824 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-17 00:15:22"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-17 20:48:35"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 118.759 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-17 21:10:23"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/parts \u001b[36m304\u001b[0m 123.986 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-17 21:10:23"}
+{"level":"info","message":"\u001b[0mGET /api/grammar/books \u001b[36m304\u001b[0m 121.768 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-17 21:10:23"}
+{"level":"info","message":"\u001b[0mGET /api/paths?language=es&userId=demo_user \u001b[36m304\u001b[0m 115.669 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-17 21:10:23"}

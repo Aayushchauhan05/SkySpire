@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { ThemedText } from '../../components/themed-text';
+import { useProgressStore } from '../../store/useProgressStore';
 
 const { width } = Dimensions.get('window');
 
@@ -36,13 +37,26 @@ export default function ChapterDetailScreen() {
   const [lectures, setLectures] = useState<any[]>(DUMMY_LECTURES);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [userId] = useState('demo_user');
+  const [completedTabs, setCompletedTabs] = useState<string[]>([]);
 
+  const { updateChapterProgress, markItemComplete, isLoading: progressLoading } = useProgressStore();
   const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.9:3000/api').replace('/api', '');
 
-  const toggleComplete = (lectureId: number) => {
-    setLectures(prev => prev.map(l => 
+  const toggleComplete = async (lectureId: number) => {
+    const tabName = `lecture_${lectureId}`;
+
+    // Update local state
+    setLectures(prev => prev.map(l =>
       l.id === lectureId ? { ...l, completed: !l.completed } : l
     ));
+
+    // Update backend
+    try {
+      await updateChapterProgress(userId, id as string, tabName);
+    } catch (err) {
+      console.error('Failed to update progress:', err);
+    }
   };
 
   useEffect(() => {
@@ -169,7 +183,7 @@ export default function ChapterDetailScreen() {
         </View>
 
         {/* Grand Quiz Action */}
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.quizCard}
           onPress={() => {
              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -184,6 +198,28 @@ export default function ChapterDetailScreen() {
           <View style={styles.quizIconCircle}>
             <Ionicons name="arrow-forward" size={32} color={Colors.primaryAccent} />
           </View>
+        </TouchableOpacity>
+
+        {/* Mark Chapter Complete Button */}
+        <TouchableOpacity
+          style={[styles.completeBtn, progressLoading && { opacity: 0.6 }]}
+          onPress={async () => {
+            if (progressLoading) return;
+            try {
+              await markItemComplete(userId, 'chapter', id as string);
+              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+              Alert.alert('Success', 'Chapter marked as complete!');
+              router.back();
+            } catch (err) {
+              Alert.alert('Error', 'Failed to mark chapter complete');
+            }
+          }}
+          disabled={progressLoading}
+        >
+          <MaterialCommunityIcons name="check-circle" size={24} color={Colors.white} />
+          <ThemedText style={styles.completeBtnText}>
+            {progressLoading ? 'Saving...' : 'Mark Chapter Complete'}
+          </ThemedText>
         </TouchableOpacity>
 
       </ScrollView>
@@ -398,5 +434,22 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  completeBtn: {
+    backgroundColor: Colors.secondaryAccent,
+    borderRadius: 32,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+    marginTop: 24,
+    marginBottom: 40,
+  },
+  completeBtnText: {
+    color: Colors.white,
+    fontSize: 18,
+    fontWeight: '700',
   },
 });

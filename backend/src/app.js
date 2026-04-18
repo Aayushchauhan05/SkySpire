@@ -61,6 +61,8 @@ app.use('/api/quizzes', require('./routes/quizRoutes'));
 app.use('/api/grammar', require('./routes/grammarRoutes'));
 app.use('/api/lexicon', require('./routes/lexiconRoutes'));
 app.use('/api/revision', require('./routes/revisionRoutes'));
+app.use('/api/progress', require('./routes/progressRoutes'));
+app.use('/api/profile', require('./routes/profileRoutes'));
 // Error Handling Middleware (Custom error handler will be added later)
 app.use((err, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
