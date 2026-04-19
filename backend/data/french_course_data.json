@@ -1,0 +1,121 @@
+[
+  {
+    "level": "survival",
+    "order": 1,
+    "title": "Survival French",
+    "description": "Master the absolute basics for traveling and surviving in a French-speaking environment.",
+    "chapters": [
+      {
+        "order": 1, "title": "Introducing Yourself", "topic": "Basics",
+        "tabs": {
+          "read": {
+            "passage": "Marie est arrivée à Paris ce matin. Elle va au café. Elle dit bonjour et se présente au serveur. 'Bonjour, je m'appelle Marie. Je suis étudiante.'",
+            "vocabulary": [{ "word": "arrivée", "definition": "arrived" }, { "word": "étudiante", "definition": "student (female)" }],
+            "comprehensionQuestions": [{ "question": "Où est Marie ?", "options": ["À Londres", "À Paris", "À Lyon"], "correctAnswer": "À Paris", "explanation": "Le texte dit 'Marie est arrivée à Paris'." }]
+          },
+          "listen": { "audioUrl": "", "transcript": "Bonjour ! Je m'appelle Marie. Et vous, comment vous appelez-vous ?", "mode": "dialogue" },
+          "speak": {
+            "dialogue": [
+              { "speaker": "A", "target": "Bonjour !", "translation": "Hello!", "phonetics": "[bɔ̃.ʒuʁ]" },
+              { "speaker": "B", "target": "Bonjour, comment vous appelez-vous ?", "translation": "Hello, what is your name?", "phonetics": "[kɔ.mɑ̃ vu.za.ple.vu]" },
+              { "speaker": "A", "target": "Je m'appelle Marie.", "translation": "My name is Marie.", "phonetics": "[ʒə ma.pɛl ma.ʁi]" }
+            ],
+            "keyPhrases": [{ "phrase": "Je m'appelle", "phonetics": "[ʒə ma.pɛl]", "translation": "My name is" }, { "phrase": "Et vous ?", "phonetics": "[e vu]", "translation": "And you?" }],
+            "commonMistakes": [{ "mistake": "Je suis de nom est", "correction": "Je m'appelle", "explanation": "In French, use the verb 's'appeler' to introduce yourself." }],
+            "culturalNote": "In France, it is essential to say 'Bonjour' before asking for anything in a shop or cafe.",
+            "rolePlayPrompt": "Introduce yourself to a new friend at the cafe.",
+            "rolePlayModelAnswer": "Bonjour, je m'appelle [Nom]. Enchanté !"
+          },
+          "write": {
+            "task": "Translate: 'Hello, my name is Marie.'",
+            "exampleResponse": "Bonjour, je m'appelle Marie.",
+            "options": [{ "prompt": "My name is", "correctAnswer": "Je m'appelle", "distractors": ["Je suis", "Mon nom"] }]
+          }
+        },
+        "quizQuestions": [
+          { "question": "How do you say 'Hello' in French?", "type": "multiple_choice", "options": ["Bonjour", "Salut", "Au revoir"], "correctAnswer": "Bonjour", "explanation": "Bonjour is the standard greeting." }
+        ]
+      },
+      {
+        "order": 2, "title": "Numbers & Counting", "topic": "Numbers",
+        "tabs": {
+          "read": {
+            "passage": "J'ai trois pommes rouges et deux oranges. En tout, j'ai cinq fruits. Le prix est de quatre euros.",
+            "vocabulary": [{ "word": "pommes", "definition": "apples" }, { "word": "prix", "definition": "price" }],
+            "comprehensionQuestions": [{ "question": "Combien de fruits y a-t-il ?", "options": ["Trois", "Deux", "Cinq"], "correctAnswer": "Cinq", "explanation": "Trois pommes + deux oranges = cinq fruits." }]
+          },
+          "listen": { "audioUrl": "", "transcript": "Un, deux, trois, quatre, cinq. C'est facile !", "mode": "monologue" },
+          "speak": {
+            "keyPhrases": [{ "phrase": "Un", "phonetics": "[œ̃]", "translation": "One" }, { "phrase": "Deux", "phonetics": "[dø]", "translation": "Two" }, { "phrase": "Trois", "phonetics": "[tʁwa]", "translation": "Three" }, { "phrase": "Quatre", "phonetics": "[katʁ]", "translation": "Four" }, { "phrase": "Cinq", "phonetics": "[sɛ̃k]", "translation": "Five" }],
+            "commonMistakes": [{ "mistake": "Pronouncing 's' in 'trois' always", "correction": "Silent 's'", "explanation": "Final 's' is silent unless liaison occurs." }],
+            "culturalNote": "Start counting with your thumb for '1' in France.",
+            "rolePlayPrompt": "Count to five.",
+            "rolePlayModelAnswer": "Un, deux, trois, quatre, cinq."
+          },
+          "write": { "task": "Write 'three' in French.", "exampleResponse": "Trois", "options": [{ "prompt": "3", "correctAnswer": "Trois", "distractors": ["Deux", "Quatre"] }] }
+        },
+        "quizQuestions": [{ "question": "What is 'four' in French?", "type": "multiple_choice", "options": ["Quatre", "Cinq", "Trois"], "correctAnswer": "Quatre", "explanation": "" }]
+      },
+      {
+        "order": 3, "title": "At the Restaurant", "topic": "Food",
+        "tabs": {
+          "read": {
+            "passage": "Au restaurant, je commande un steak-frites et un verre de vin rouge. Comme dessert, je prends du fromage.",
+            "vocabulary": [{ "word": "commande", "definition": "order" }, { "word": "dessert", "definition": "dessert" }],
+            "comprehensionQuestions": [{ "question": "Que prend-il comme dessert ?", "options": ["Un steak", "Du fromage", "Du vin"], "correctAnswer": "Du fromage", "explanation": "Le texte dit 'Comme dessert, je prends du fromage'." }]
+          },
+          "listen": { "audioUrl": "", "transcript": "S'il vous plaît, je voudrais l'addition.", "mode": "dialogue" },
+          "speak": {
+            "keyPhrases": [{ "phrase": "Je voudrais", "phonetics": "[ʒə vu.dʁɛ]", "translation": "I would like" }, { "phrase": "L'addition", "phonetics": "[la.di.sjɔ̃]", "translation": "The bill" }],
+            "commonMistakes": [{ "mistake": "Je veux", "correction": "Je voudrais", "explanation": "'Je veux' is impolite for ordering." }],
+            "culturalNote": "Water and bread are free in French restaurants.",
+            "rolePlayPrompt": "Order the bill.",
+            "rolePlayModelAnswer": "L'addition, s'il vous plaît."
+          },
+          "write": { "task": "Translate: 'The bill, please.'", "exampleResponse": "L'addition, s'il vous plaît.", "options": [{ "prompt": "The bill", "correctAnswer": "L'addition", "distractors": ["Le prix", "Le ticket"] }] }
+        },
+        "quizQuestions": [{ "question": "How do you ask for the bill?", "type": "multiple_choice", "options": ["L'addition", "Le menu", "Le dessert"], "correctAnswer": "L'addition", "explanation": "" }]
+      },
+      {
+        "order": 4, "title": "Asking for Help", "topic": "Travel",
+        "tabs": {
+          "read": {
+            "passage": "Je suis perdu. Je cherche la gare de Lyon. Je demande à une dame : 'Excusez-moi, où est la gare ?'",
+            "vocabulary": [{ "word": "perdu", "definition": "lost" }, { "word": "cherche", "definition": "search / look for" }],
+            "comprehensionQuestions": [{ "question": "Où veut aller le narrateur ?", "options": ["À la gare", "À l'hôtel", "Au musée"], "correctAnswer": "À la gare", "explanation": "" }]
+          },
+          "listen": { "audioUrl": "", "transcript": "La gare est tout droit, puis à gauche.", "mode": "monologue" },
+          "speak": {
+            "keyPhrases": [{ "phrase": "Où est... ?", "phonetics": "[u ɛ]", "translation": "Where is... ?" }, { "phrase": "À gauche", "phonetics": "[a ɡoʃ]", "translation": "To the left" }, { "phrase": "À droite", "phonetics": "[a dʁwat]", "translation": "To the right" }],
+            "commonMistakes": [{ "mistake": "Using 'Tu' with strangers", "correction": "Use 'Vous'", "explanation": "Politeness is key in French culture." }],
+            "culturalNote": "Always start with 'Pardon' or 'Excusez-moi' when asking for directions.",
+            "rolePlayPrompt": "Ask for the train station.",
+            "rolePlayModelAnswer": "Excusez-moi, où est la gare ?"
+          },
+          "write": { "task": "Write 'Where is?'", "exampleResponse": "Où est ?", "options": [] }
+        },
+        "quizQuestions": [{ "question": "How to say 'To the left'?", "type": "multiple_choice", "options": ["À gauche", "À droite", "Tout droit"], "correctAnswer": "À gauche", "explanation": "" }]
+      },
+      {
+        "order": 5, "title": "Daily Routine", "topic": "Home",
+        "tabs": {
+          "read": {
+            "passage": "Le matin, je me lève à sept heures. Je prends une douche et je bois un café. Je vais au travail à huit heures.",
+            "vocabulary": [{ "word": "lève", "definition": "get up / wake up" }, { "word": "travail", "definition": "work / job" }],
+            "comprehensionQuestions": [{ "question": "À quelle heure part-il au travail ?", "options": ["Sept heures", "Huit heures", "Neuf heures"], "correctAnswer": "Huit heures", "explanation": "" }]
+          },
+          "listen": { "audioUrl": "", "transcript": "Je finis ma journée à dix-huit heures.", "mode": "monologue" },
+          "speak": {
+            "keyPhrases": [{ "phrase": "Je me lève", "phonetics": "[ʒə mə lɛv]", "translation": "I get up" }, { "phrase": "À quelle heure ?", "phonetics": "[a kɛl œʁ]", "translation": "At what time ?" }],
+            "commonMistakes": [{ "mistake": "Je lève", "correction": "Je me lève", "explanation": "Reflexive verbs need 'se/me/te'." }],
+            "culturalNote": "The 24-hour clock (military time) is commonly used in France.",
+            "rolePlayPrompt": "Say what time you wake up.",
+            "rolePlayModelAnswer": "Je me lève à sept heures."
+          },
+          "write": { "task": "Translate: 'I work.'", "exampleResponse": "Je travaille.", "options": [] }
+        },
+        "quizQuestions": [{ "question": "What is 'work' in French?", "type": "multiple_choice", "options": ["Travail", "Bureau", "Maison"], "correctAnswer": "Travail", "explanation": "" }]
+      }
+    ]
+  }
+]

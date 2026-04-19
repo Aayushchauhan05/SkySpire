@@ -1,0 +1,358 @@
+{
+  "book": {
+    "id": "grammar_french_master_001",
+    "title": "French Grammar Master Syllabus",
+    "language": "fr",
+    "targetLanguage": "French",
+    "nativeLanguage": "English",
+    "version": "1.0",
+    "totalTopics": 151
+  },
+  "units": [
+    {
+      "id": "unit_pre_a1",
+      "unitNumber": 1,
+      "level": "Pre-A1",
+      "levelName": "Foundation — Zero to First Word",
+      "totalTopics": 10,
+      "chapters": [
+        {
+          "id": "chapter_001",
+          "order": 1,
+          "level": "Pre-A1",
+          "title": "The French Alphabet",
+          "slug": "french-alphabet",
+          "summary": "Learn the 26 letters of the French alphabet and the 5 critical accent marks.",
+          "tags": ["alphabet", "accents", "basics"],
+          "dependsOn": [],
+          "unlocks": [2, 3],
+          "sections": [
+            {
+              "id": "section_001_01",
+              "sectionNumber": 1,
+              "title": "The 26 Letters",
+              "content": "The French alphabet uses the same Latin letters as English, but the names of the letters differ. For example, 'A' is 'ah', 'E' is 'euh', and 'G' is 'zhay'."
+            },
+            {
+              "id": "section_001_02",
+              "sectionNumber": 2,
+              "title": "The Five Accents",
+              "content": "French uses: l'accent aigu (é), grave (è), circonflexe (ê), tréma (ë), and the cédille (ç)."
+            }
+          ],
+          "examples": [
+            { "french": "École", "english": "School", "phonetics": "[e.kɔl]" },
+            { "french": "Garçon", "english": "Boy", "phonetics": "[ɡaʁ.sɔ̃]" }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "type": "multiple_choice",
+                "question": "Which accent mark is used in 'ç'?",
+                "options": ["Aigu", "Grave", "Cédille"],
+                "correctAnswer": "Cédille"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_002",
+          "order": 2,
+          "level": "Pre-A1",
+          "title": "Pure Vowel Sounds",
+          "slug": "pure-vowels",
+          "summary": "French vowels are 'pure'—they don't glide like English ones.",
+          "dependsOn": [1],
+          "unlocks": [5],
+          "sections": [
+            { "id": "sec_002_1", "title": "Vowel Purity", "content": "French vowels are short and clipped. The 'O' in 'Rose' should not sound like 'Rows'." }
+          ]
+        },
+        { "id": "chapter_003", "order": 3, "level": "Pre-A1", "title": "Silent Final Consonants", "slug": "silent-consonants", "dependsOn": [1], "unlocks": [5] },
+        { "id": "chapter_004", "order": 4, "level": "Pre-A1", "title": "Nasal Vowels", "slug": "nasal-vowels", "dependsOn": [2], "unlocks": [10] },
+        { "id": "chapter_005", "order": 5, "level": "Pre-A1", "title": "Liaison & Elision", "slug": "liaison-elision", "dependsOn": [2, 3], "unlocks": [12] },
+        { "id": "chapter_006", "order": 6, "level": "Pre-A1", "title": "Noun Gender Basics", "slug": "noun-gender-basics", "unlocks": [11, 13] },
+        { "id": "chapter_007", "order": 7, "level": "Pre-A1", "title": "Plural Nouns", "slug": "plural-nouns", "dependsOn": [6], "unlocks": [13] },
+        { "id": "chapter_008", "order": 8, "level": "Pre-A1", "title": "Subject Pronouns", "slug": "subject-pronouns", "unlocks": [14, 15] },
+        { "id": "chapter_009", "order": 9, "level": "Pre-A1", "title": "Tu vs Vous", "slug": "tu-vs-vous", "dependsOn": [8], "unlocks": [16] },
+        { "id": "chapter_010", "order": 10, "level": "Pre-A1", "title": "Unit 1 Checkpoint", "slug": "pre-a1-checkpoint", "dependsOn": [1, 9] }
+      ]
+    },
+    {
+      "id": "unit_a1",
+      "unitNumber": 2,
+      "level": "A1",
+      "levelName": "Beginner — Building Sentences",
+      "totalTopics": 30,
+      "chapters": [
+        { "id": "chapter_011", "order": 11, "level": "A1", "title": "Definite Articles", "slug": "definite-articles", "dependsOn": [6, 10] },
+        { "id": "chapter_012", "order": 12, "level": "A1", "title": "Indefinite Articles", "slug": "indefinite-articles", "dependsOn": [6] },
+        { "id": "chapter_013", "order": 13, "level": "A1", "title": "Partitive Articles", "slug": "partitive-articles", "dependsOn": [11, 12] },
+        { "id": "chapter_014", "order": 14, "level": "A1", "title": "Verb: Être", "slug": "verb-etre", "dependsOn": [8] },
+        { "id": "chapter_015", "order": 15, "level": "A1", "title": "Verb: Avoir", "slug": "verb-avoir", "dependsOn": [8] },
+        { "id": "chapter_016", "order": 16, "level": "A1", "title": "Regular -ER Verbs", "slug": "er-verbs", "dependsOn": [8] },
+        { "id": "chapter_017", "order": 17, "level": "A1", "title": "Regular -IR/-RE Verbs", "slug": "ir-re-verbs", "dependsOn": [16] },
+        { "id": "chapter_018", "order": 18, "level": "A1", "title": "Adjective Agreement", "slug": "adjective-agreement", "dependsOn": [11, 12] },
+        { "id": "chapter_019", "order": 19, "level": "A1", "title": "Adjective Placement", "slug": "adjective-placement", "dependsOn": [18] },
+        { "id": "chapter_020", "order": 20, "level": "A1", "title": "C'est vs Il est", "slug": "cest-vs-il-est", "dependsOn": [14] },
+        { "id": "chapter_021", "order": 21, "level": "A1", "title": "Prepositions of Place", "slug": "prepositions-place", "dependsOn": [14] },
+        { "id": "chapter_022", "order": 22, "level": "A1", "title": "Negation: Ne... Pas", "slug": "negation-pas", "dependsOn": [15, 16] },
+        { "id": "chapter_023", "order": 23, "level": "A1", "title": "Asking Questions I", "slug": "questions-1", "dependsOn": [22] },
+        { "id": "chapter_024", "order": 24, "level": "A1", "title": "Interrogative Adverbs", "slug": "interrogative-adverbs", "dependsOn": [23] },
+        { "id": "chapter_025", "order": 25, "level": "A1", "title": "Numbers 0-100", "slug": "numbers-100", "dependsOn": [13] },
+        { "id": "chapter_026", "order": 26, "level": "A1", "title": "Possessive Adjectives", "slug": "possessive-adjectives", "dependsOn": [19, 20] },
+        { "id": "chapter_027", "order": 27, "level": "A1", "title": "Demonstrative Adjectives", "slug": "demonstrative-adjectives", "dependsOn": [19] },
+        { "id": "chapter_028", "order": 28, "level": "A1", "title": "Time and Dates", "slug": "time-dates", "dependsOn": [21, 25] },
+        { "id": "chapter_029", "order": 29, "level": "A1", "title": "Verb: Aller", "slug": "verb-aller", "dependsOn": [21] },
+        { "id": "chapter_030", "order": 30, "level": "A1", "title": "Futur Proche", "slug": "futur-proche", "dependsOn": [29] },
+        { "id": "chapter_031", "order": 31, "level": "A1", "title": "Passé Récent", "slug": "passe-recent", "dependsOn": [15] },
+        { "id": "chapter_032", "order": 32, "level": "A1", "title": "Verb: Faire", "slug": "verb-faire", "dependsOn": [15] },
+        { "id": "chapter_033", "order": 33, "level": "A1", "title": "Common Irregular Verbs", "slug": "irregular-verbs", "dependsOn": [16] },
+        { "id": "chapter_034", "order": 34, "level": "A1", "title": "Prepositions of Origin", "slug": "prepositions-origin", "dependsOn": [21] },
+        { "id": "chapter_035", "order": 35, "level": "A1", "title": "Expressing Needs", "slug": "expressing-needs", "dependsOn": [22, 23] },
+        { "id": "chapter_036", "order": 36, "level": "A1", "title": "Colors & Material", "slug": "colors-material", "dependsOn": [18] },
+        { "id": "chapter_037", "order": 37, "level": "A1", "title": "Comparing: Plus/Moins", "slug": "comparing-1", "dependsOn": [18] },
+        { "id": "chapter_038", "order": 38, "level": "A1", "title": "Quel Adjectives", "slug": "quel-adjectives", "dependsOn": [32] },
+        { "id": "chapter_039", "order": 39, "level": "A1", "title": "Stress Pronouns", "slug": "stress-pronouns", "dependsOn": [8] },
+        { "id": "chapter_040", "order": 40, "level": "A1", "title": "Unit 2 Checkpoint", "slug": "a1-checkpoint", "dependsOn": [11, 39] }
+      ]
+    },
+    {
+      "id": "unit_a2",
+      "unitNumber": 3,
+      "level": "A2",
+      "levelName": "Elementary — Expressing the Past and Future",
+      "totalTopics": 20,
+      "chapters": [
+        {
+          "id": "chapter_041",
+          "order": 41,
+          "level": "A2",
+          "title": "Passé Composé with Avoir",
+          "slug": "pc-avoir",
+          "summary": "The standard past tense for completed actions using the auxiliary 'avoir'.",
+          "dependsOn": [15, 30],
+          "unlocks": [42, 46],
+          "sections": [
+            {
+              "id": "sec_041_1",
+              "sectionNumber": 1,
+              "title": "Formation",
+              "content": "Formed by using the present tense of 'avoir' + the past participle. For -ER verbs, replace -er with -é. For -IR, use -i. For -RE, use -u."
+            }
+          ],
+          "examples": [
+            { "french": "J'ai mangé une pomme.", "english": "I ate an apple.", "phonetics": "[ʒe mɑ̃.ʒe yn pɔm]" },
+            { "french": "Il a fini ses devoirs.", "english": "He finished his homework.", "phonetics": "[il a fi.ni se də.vwaʁ]" }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "type": "multiple_choice",
+                "question": "What is the past participle of 'Vendre'?",
+                "options": ["Vendu", "Vendi", "Vende"],
+                "correctAnswer": "Vendu"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_042",
+          "order": 42,
+          "level": "A2",
+          "title": "Passé Composé with Être",
+          "slug": "pc-etre",
+          "summary": "Motion and change-of-state verbs that use 'être' as an auxiliary.",
+          "dependsOn": [14, 41],
+          "unlocks": [43, 46],
+          "sections": [
+            {
+              "id": "sec_042_1",
+              "sectionNumber": 1,
+              "title": "House of Être",
+              "content": "Verbs like Aller, Venir, Entrer, Sortir, Rester, and Tomber use 'être'. Remember the acronym DR MRS VANDERTRAMP."
+            }
+          ],
+          "examples": [
+            { "french": "Elle est allée au cinéma.", "english": "She went to the cinema.", "phonetics": "[ɛ.lɛ ta.le o si.ne.ma]" }
+          ],
+          "quiz": {
+            "questions": [
+              {
+                "type": "multiple_choice",
+                "question": "Which auxiliary does 'Partir' use?",
+                "options": ["Avoir", "Être"],
+                "correctAnswer": "Être"
+              }
+            ]
+          }
+        },
+        {
+          "id": "chapter_044",
+          "order": 44,
+          "level": "A2",
+          "title": "Reflexive Verbs in the Past",
+          "slug": "reflexive-past",
+          "summary": "How to conjugate pronominal verbs like 'se lever' in the past tense.",
+          "dependsOn": [42],
+          "sections": [
+            { "id": "sec_044_1", "title": "Pronoun Placement", "content": "The reflexive pronoun goes before the auxiliary 'être'. Example: Je ME suis lavé." }
+          ],
+          "examples": [
+            { "french": "Nous nous sommes réveillés.", "english": "We woke up.", "phonetics": "[nu nu sɔm ʁe.ve.je]" }
+          ]
+        },
+        {
+          "id": "chapter_045",
+          "order": 45,
+          "level": "A2",
+          "title": "L'Imparfait",
+          "slug": "imparfait",
+          "summary": "The descriptive past used for habits, weather, and states of being.",
+          "dependsOn": [16],
+          "unlocks": [46],
+          "sections": [
+            { "id": "sec_045_1", "title": "Formation", "content": "Take the 'nous' form of the present tense, drop -ons, and add: -ais, -ais, -ait, -ions, -iez, -aient." }
+          ],
+          "examples": [
+            { "french": "Quand j'étais petit...", "english": "When I was little...", "phonetics": "[kɑ̃ ʒe.tɛ pə.ti]" }
+          ]
+        },
+        {
+          "id": "chapter_046",
+          "order": 46,
+          "level": "A2",
+          "title": "PC vs Imparfait",
+          "slug": "pc-vs-imparfait",
+          "summary": "The ultimate guide to choosing between the two main past tenses.",
+          "dependsOn": [41, 45],
+          "sections": [
+            { "id": "sec_046_1", "title": "The Rule", "content": "Passé Composé is for specific, finished actions. Imparfait is for background, ongoing actions, or descriptions." }
+          ]
+        },
+        {
+          "id": "chapter_047",
+          "order": 47,
+          "level": "A2",
+          "title": "Direct Object Pronouns (COD)",
+          "slug": "cod-pronouns",
+          "summary": "Me, Te, Le, La, Nous, Vous, Les.",
+          "sections": [
+            { "id": "sec_047_1", "title": "Usage", "content": "They replace a direct object noun to avoid repetition. 'Je mange la pomme' -> 'Je la mange'." }
+          ]
+        },
+        {
+          "id": "chapter_049",
+          "order": 49,
+          "level": "A2",
+          "title": "Pronoun Y",
+          "slug": "pronoun-y",
+          "summary": "Replacing 'à' + place or 'à' + thing.",
+          "sections": [
+            { "id": "sec_049_1", "title": "Usage", "content": "Y typically means 'there'. 'Tu vas à Paris?' -> 'J'y vais'." }
+          ]
+        },
+        {
+          "id": "chapter_050",
+          "order": 50,
+          "level": "A2",
+          "title": "Pronoun EN",
+          "slug": "pronoun-en",
+          "summary": "Replacing 'de' + noun or quantities.",
+          "sections": [
+            { "id": "sec_050_1", "title": "Usage", "content": "EN typically means 'some' or 'of it'. 'Tu veux du café?' -> 'J'en veux'." }
+          ]
+        },
+        {
+          "id": "chapter_052",
+          "order": 52,
+          "level": "A2",
+          "title": "Le Futur Simple",
+          "slug": "futur-simple",
+          "summary": "The formal future tense (I will).",
+          "dependsOn": [30],
+          "sections": [
+            { "id": "sec_052_1", "title": "Formation", "content": "Usually the full infinitive + endings: -ai, -as, -a, -ons, -ez, -ont." }
+          ],
+          "examples": [
+            { "french": "Je partirai demain.", "english": "I will leave tomorrow.", "phonetics": "[ʒə paʁ.ti.ʁe də.mɛ̃]" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_b1",
+      "unitNumber": 4,
+      "level": "B1",
+      "levelName": "Intermediate — Nuance and Mood",
+      "totalTopics": 25,
+      "chapters": [
+        {
+          "id": "chapter_076",
+          "order": 76,
+          "level": "B1",
+          "title": "Conditionnel Présent",
+          "slug": "conditional-present",
+          "summary": "The 'would' mood for polite requests and hypotheticals.",
+          "dependsOn": [52, 45],
+          "sections": [
+            { "id": "sec_076_1", "title": "Formation", "content": "Future stem + Imparfait endings." }
+          ],
+          "examples": [
+            { "french": "Je voudrais un café.", "english": "I would like a coffee.", "phonetics": "[ʒə vu.dʁɛ œ̃ ka.fe]" }
+          ]
+        },
+        {
+          "id": "chapter_077",
+          "order": 77,
+          "level": "B1",
+          "title": "Le Subjonctif Présent",
+          "slug": "subjunctive-present",
+          "summary": "Expressing necessity, doubt, or subjective feelings.",
+          "dependsOn": [16, 47],
+          "sections": [
+            { "id": "sec_077_1", "title": "When to use Subjunctive", "content": "Requires a 'trigger' like 'Il faut que' or 'Je souhaite que'." }
+          ],
+          "examples": [
+            { "french": "Il faut que je fasse mes devoirs.", "english": "I must do my homework.", "phonetics": "[il fo kə ʒə fas me də.vwaʁ]" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_b2",
+      "unitNumber": 5,
+      "level": "B2",
+      "levelName": "Upper-Intermediate — Professional Precision",
+      "totalTopics": 25,
+      "chapters": [
+        {
+          "id": "chapter_100",
+          "order": 100,
+          "level": "B2",
+          "title": "Plus-que-parfait",
+          "slug": "plus-que-parfait",
+          "summary": "The 'past of the past' for narrative sequence.",
+          "dependsOn": [41, 45],
+          "sections": [
+            { "id": "sec_100_1", "title": "Formation", "content": "Auxiliary in Imparfait + Past Participle." }
+          ],
+          "examples": [
+            { "french": "J'avais déjà fini quand je suis arrivé.", "english": "I had already finished when I arrived.", "phonetics": "[il a.vɛ de.ʒa fi.ni kɑ̃ ʒə sɥi za.ʁi.ve]" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit_c1_c2",
+      "unitNumber": 6,
+      "level": "C1-C2",
+      "levelName": "Expert — Literary and Stylistic Mastery",
+      "totalTopics": 21,
+      "chapters": [
+        { "id": "chapter_136", "order": 136, "level": "C1", "title": "Le Passé Simple", "slug": "passe-simple", "summary": "The literary past tense used in novels." },
+        { "id": "chapter_151", "order": 151, "level": "C2", "title": "Stylistic Inversion", "slug": "stylistic-inversion", "summary": "Advanced formal word order." }
+      ]
+    }
+  ]
+}
