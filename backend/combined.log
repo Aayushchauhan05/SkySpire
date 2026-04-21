@@ -487,3 +487,20 @@
 {"level":"info","message":"\u001b[0mGET /api/grammar/sections/eng_grammar_chapter_26_sec_6 \u001b[32m200\u001b[0m 72.429 ms - 1753\u001b[0m","service":"backend-service","timestamp":"2026-04-19 23:50:33"}
 {"level":"info","message":"\u001b[0mGET /api/grammar/progress/dev_user_123 \u001b[36m304\u001b[0m 36.317 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-19 23:51:41"}
 {"level":"info","message":"\u001b[0mGET /api/grammar/parts/unit_pre_a1/chapters? \u001b[36m304\u001b[0m 35.473 ms - -\u001b[0m","service":"backend-service","timestamp":"2026-04-19 23:51:44"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:02:50"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:05:44"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:06:34"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:06:52"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:10:03"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:11:14"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:13:39"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:15:25"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:16:28"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:17:34"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:20:07"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:23:26"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:27:52"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:30:59"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:32:04"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:34:01"}
+{"level":"info","message":"Server running in development mode on port 3000","service":"backend-service","timestamp":"2026-04-20 00:35:36"}
